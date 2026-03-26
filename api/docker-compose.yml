@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: buyme-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: buyme_db
+      POSTGRES_USER: buyme_app
+      POSTGRES_PASSWORD: bingo123
+    ports:
+      - "55432:5432"
+    volumes:
+      - buyme_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U buyme_app -d buyme_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  buyme_postgres_data:

@@ -1,0 +1,394 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  CREATOR
+  ADMIN
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum WithdrawalStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  REJECTED
+}
+
+enum WithdrawalMethod {
+  TELEBIRR
+  CBE_BIRR
+  BANK_TRANSFER
+  AWASH_BANK
+  DASHEN_BANK
+}
+
+enum FinancialAccountType {
+  MOBILE_MONEY
+  BANK_ACCOUNT
+}
+
+enum TransactionType {
+  CREDIT
+  DEBIT
+}
+
+enum TransactionReason {
+  SUPPORT_RECEIVED
+  WITHDRAWAL
+  WITHDRAWAL_FAILED
+  REFUND
+  ADJUSTMENT
+}
+
+enum NotificationType {
+  SUPPORT_RECEIVED
+  WITHDRAWAL_PROCESSED
+  WITHDRAWAL_REJECTED
+  GOAL_REACHED
+  SYSTEM
+}
+
+enum OtpPurpose {
+  EMAIL_VERIFICATION
+  PHONE_VERIFICATION
+  PASSWORD_RESET
+  WITHDRAWAL_CONFIRM
+}
+
+enum WebhookSource {
+  CHAPA
+}
+
+enum PayoutBatchStatus {
+  OPEN
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum AuditAction {
+  WITHDRAWAL_STATUS_CHANGED
+  USER_BANNED
+  USER_UNBANNED
+  CREATOR_UNPUBLISHED
+  PAYOUT_BATCH_PROCESSED
+  ADJUSTMENT_MADE
+}
+
+model User {
+  id               String    @id @default(cuid())
+  username         String    @unique
+  email            String    @unique
+  password         String
+  firstName        String
+  lastName         String
+  phone            String?   @unique
+  avatar           String?
+  bio              String?   @db.Text
+  telegramId       String?   @unique
+  telegramUsername String?
+  telegramPhotoUrl String?
+  role             Role      @default(USER)
+  isVerified       Boolean   @default(false)
+  onboardingDone   Boolean   @default(false)
+  deletedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  sessions          Session[]
+  wallet            Wallet?
+  creatorProfile    CreatorProfile?
+  financialAccounts FinancialAccount[]
+  withdrawals       Withdrawal[]
+  notifications     Notification[]
+  otpCodes          OtpVerification[]
+  supports          Support[]          @relation("SupporterSupports")
+  auditLogsActed    AuditLog[]         @relation("AuditActor")
+  auditLogsTargeted AuditLog[]         @relation("AuditTarget")
+
+  @@index([email])
+  @@index([username])
+  @@index([telegramId])
+  @@index([deletedAt])
+  @@index([role])
+  @@map("users")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshToken String   @unique
+  userAgent    String?
+  ipAddress    String?
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+model OtpVerification {
+  id        String     @id @default(cuid())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose   OtpPurpose
+  code      String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime   @default(now())
+
+  @@index([userId, purpose])
+  @@index([expiresAt])
+  @@map("otp_verifications")
+}
+
+model Wallet {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  availableBalance Decimal  @default(0) @db.Decimal(18, 2)
+  lockedBalance    Decimal  @default(0) @db.Decimal(18, 2)
+  pendingBalance   Decimal  @default(0) @db.Decimal(18, 2)
+  totalEarned      Decimal  @default(0) @db.Decimal(18, 2)
+  currency         String   @default("ETB")
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  transactions WalletTransaction[]
+
+  @@index([userId])
+  @@map("wallets")
+}
+
+model WalletTransaction {
+  id            String            @id @default(cuid())
+  walletId      String
+  wallet        Wallet            @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  type          TransactionType
+  reason        TransactionReason
+  amount        Decimal           @db.Decimal(18, 2)
+  balanceAfter  Decimal           @db.Decimal(18, 2)
+  referenceId   String?
+  referenceType String?
+  note          String?
+  createdAt     DateTime          @default(now())
+
+  @@index([walletId])
+  @@index([referenceId])
+  @@index([createdAt])
+  @@map("wallet_transactions")
+}
+
+model FinancialAccount {
+  id            String               @id @default(cuid())
+  userId        String
+  user          User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type          FinancialAccountType
+  provider      String
+  accountName   String
+  accountNumber String
+  label         String?
+  isDefault     Boolean              @default(false)
+  isActive      Boolean              @default(true)
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
+  withdrawals Withdrawal[]
+
+  @@index([userId])
+  @@map("financial_accounts")
+}
+
+model CreatorProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  slug            String   @unique
+  pageTitle       String   @default("Buy me a coffee ☕")
+  thankYouMessage String?  @db.Text
+  coverImage      String?
+  coffeePrice     Decimal  @default(50) @db.Decimal(18, 2)
+  socialLinks     Json?
+  isPublished     Boolean  @default(true)
+
+  totalSupporters Int      @default(0)
+  totalSupports   Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  supports Support[]
+  goals    CreatorGoal[]
+
+  @@index([userId])
+  @@index([slug])
+  @@index([isPublished])
+  @@map("creator_profiles")
+}
+
+model CreatorGoal {
+  id               String         @id @default(cuid())
+  creatorProfileId String
+  creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  title            String
+  description      String?        @db.Text
+  targetAmount     Decimal        @db.Decimal(18, 2)
+
+  raisedAmount     Decimal        @default(0) @db.Decimal(18, 2)
+  currency         String         @default("ETB")
+  isActive         Boolean        @default(true)
+  reachedAt        DateTime?
+  deadline         DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  supports Support[]
+
+  @@index([creatorProfileId])
+  @@index([isActive])
+  @@map("creator_goals")
+}
+
+model Support {
+  id               String       @id @default(cuid())
+  creatorProfileId String
+  creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id])
+  goalId           String?
+  goal             CreatorGoal? @relation(fields: [goalId], references: [id], onDelete: SetNull)
+  supporterId      String?
+  supporter        User?        @relation("SupporterSupports", fields: [supporterId], references: [id], onDelete: SetNull)
+  supporterName    String
+  supporterEmail   String?
+  message          String?      @db.Text
+  coffeeCount      Int          @default(1)
+  amount           Decimal      @db.Decimal(18, 2)
+  customAmount     Decimal?     @db.Decimal(18, 2)
+  platformFee      Decimal      @default(0) @db.Decimal(18, 2)
+  netAmount        Decimal      @db.Decimal(18, 2)
+  currency         String       @default("ETB")
+  chapaRef         String       @unique
+  chapaCheckoutUrl String?
+  status           PaymentStatus @default(PENDING)
+  paidAt           DateTime?
+  walletCredited   Boolean      @default(false)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@index([creatorProfileId])
+  @@index([goalId])
+  @@index([supporterId])
+  @@index([chapaRef])
+  @@index([status])
+  @@index([createdAt])
+  @@index([creatorProfileId, status])
+  @@map("supports")
+}
+
+model PayoutBatch {
+  id          String            @id @default(cuid())
+  status      PayoutBatchStatus @default(OPEN)
+  totalAmount Decimal           @db.Decimal(18, 2)
+  currency    String            @default("ETB")
+  processedAt DateTime?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  withdrawals Withdrawal[]
+
+  @@index([status])
+  @@map("payout_batches")
+}
+
+model Withdrawal {
+  id                 String           @id @default(cuid())
+  userId             String
+  user               User             @relation(fields: [userId], references: [id], onDelete: Restrict)
+  financialAccountId String
+  financialAccount   FinancialAccount @relation(fields: [financialAccountId], references: [id], onDelete: Restrict)
+  payoutBatchId      String?
+  payoutBatch        PayoutBatch?     @relation(fields: [payoutBatchId], references: [id])
+  amount             Decimal          @db.Decimal(18, 2)
+  currency           String           @default("ETB")
+  method             WithdrawalMethod
+  status             WithdrawalStatus @default(PENDING)
+  referenceId        String?
+  note               String?
+  adminNote          String?
+  processedAt        DateTime?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([payoutBatchId])
+  @@index([userId, status])
+  @@map("withdrawals")
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        NotificationType
+  title       String
+  body        String
+  referenceId String?
+  isRead      Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+model WebhookEvent {
+  id          String        @id @default(cuid())
+  source      WebhookSource
+  externalId  String        @unique
+  eventType   String
+  payload     Json
+  processedAt DateTime?
+  error       String?
+  createdAt   DateTime      @default(now())
+
+  @@index([externalId])
+  @@index([processedAt])
+  @@map("webhook_events")
+}
+
+model AuditLog {
+  id           String      @id @default(cuid())
+  actorId      String
+  actor        User        @relation("AuditActor", fields: [actorId], references: [id], onDelete: Restrict)
+  targetUserId String?
+  targetUser   User?       @relation("AuditTarget", fields: [targetUserId], references: [id], onDelete: SetNull)
+  action       AuditAction
+  entityType   String
+  entityId     String
+  before       Json?
+  after        Json?
+  ipAddress    String?
+  createdAt    DateTime    @default(now())
+
+  @@index([actorId])
+  @@index([targetUserId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
