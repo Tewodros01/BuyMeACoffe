@@ -13,7 +13,6 @@ import { PrismaService } from '../prisma/prisma.service';
 import { TelegramService } from '../telegram/telegram.service';
 import { InitiateSupportDto } from './dto/initiate-support.dto';
 
-// Platform fee: 5% of net amount
 const PLATFORM_FEE_RATE = 0.05;
 
 @Injectable()
@@ -30,10 +29,7 @@ export class SupportService {
   async initiate(slug: string, dto: InitiateSupportDto, supporterId?: string) {
     const profile = await this.prisma.creatorProfile.findFirst({
       where: { slug, isPublished: true, user: { deletedAt: null } },
-      select: {
-        id: true,
-        coffeePrice: true,
-        pageTitle: true,
+      include: {
         user: { select: { id: true, firstName: true } },
       },
     });
@@ -83,14 +79,7 @@ export class SupportService {
       },
     });
 
-    return {
-      checkoutUrl: chapaRes.data.checkout_url,
-      txRef,
-      amount,
-      platformFee,
-      netAmount,
-      currency: 'ETB',
-    };
+    return { checkoutUrl: chapaRes.data.checkout_url, txRef, amount, platformFee, netAmount, currency: 'ETB' };
   }
 
   async handleWebhook(rawBody: string, signature: string) {
@@ -108,7 +97,7 @@ export class SupportService {
     const txRef = payload.trx_ref ?? payload.tx_ref;
     if (!txRef) throw new BadRequestException('Missing tx_ref');
 
-    // Idempotency: store the raw webhook event — reject duplicates
+    // Idempotency: reject duplicate webhook events
     try {
       await this.prisma.webhookEvent.create({
         data: {
@@ -119,12 +108,8 @@ export class SupportService {
         },
       });
     } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2002'
-      ) {
-        // Already processed — idempotent response
-        this.logger.warn(`Duplicate webhook received for txRef: ${txRef}`);
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        this.logger.warn(`Duplicate webhook for txRef: ${txRef}`);
         return { status: 'already_processed' };
       }
       throw error;
@@ -132,7 +117,6 @@ export class SupportService {
 
     const result = await this.processPayment(txRef);
 
-    // Mark webhook as processed
     await this.prisma.webhookEvent.update({
       where: { externalId: txRef },
       data: { processedAt: new Date() },
@@ -142,42 +126,26 @@ export class SupportService {
   }
 
   async verifyAndComplete(txRef: string) {
-    // This is the return_url fallback — verify with Chapa directly
     const support = await this.prisma.support.findUnique({
       where: { chapaRef: txRef },
       select: { status: true },
     });
     if (!support) throw new NotFoundException('Support record not found');
     if (support.status === 'COMPLETED') return { status: 'completed' };
-
     return this.processPayment(txRef);
   }
 
   private async processPayment(txRef: string) {
     const support = await this.prisma.support.findUnique({
       where: { chapaRef: txRef },
-      select: {
-        id: true,
-        status: true,
-        walletCredited: true,
-        netAmount: true,
-        amount: true,
-        coffeeCount: true,
-        supporterName: true,
-        message: true,
-        supporterId: true,
+      include: {
         creatorProfile: {
-          select: {
-            id: true,
-            user: { select: { id: true } },
-          },
+          select: { id: true, user: { select: { id: true } } },
         },
       },
     });
 
     if (!support) throw new NotFoundException('Support record not found');
-
-    // Guard: already fully processed
     if (support.status === 'COMPLETED' && support.walletCredited) {
       return { status: 'already_completed' };
     }
@@ -196,13 +164,11 @@ export class SupportService {
     const netAmount = support.netAmount;
 
     await this.prisma.$transaction(async (tx) => {
-      // 1. Mark support as completed
       await tx.support.update({
         where: { chapaRef: txRef },
         data: { status: 'COMPLETED', paidAt: new Date(), walletCredited: true },
       });
 
-      // 2. Credit wallet — move from pendingBalance to availableBalance
       const wallet = await tx.wallet.update({
         where: { userId: creatorUserId },
         data: {
@@ -212,7 +178,6 @@ export class SupportService {
         select: { availableBalance: true },
       });
 
-      // 3. Record wallet transaction for the ledger
       await tx.walletTransaction.create({
         data: {
           wallet: { connect: { userId: creatorUserId } },
@@ -225,7 +190,6 @@ export class SupportService {
         },
       });
 
-      // 4. Create notification for creator
       await tx.notification.create({
         data: {
           userId: creatorUserId,
@@ -237,7 +201,6 @@ export class SupportService {
       });
     });
 
-    // 5. Telegram notification (outside tx — non-critical, failure is acceptable)
     this.telegram
       .notifyCreatorOfSupport({
         creatorUserId,

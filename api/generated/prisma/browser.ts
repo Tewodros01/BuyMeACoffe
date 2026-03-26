@@ -28,10 +28,20 @@ export type User = Prisma.UserModel
  */
 export type Session = Prisma.SessionModel
 /**
+ * Model OtpVerification
+ * 
+ */
+export type OtpVerification = Prisma.OtpVerificationModel
+/**
  * Model Wallet
  * 
  */
 export type Wallet = Prisma.WalletModel
+/**
+ * Model WalletTransaction
+ * 
+ */
+export type WalletTransaction = Prisma.WalletTransactionModel
 /**
  * Model FinancialAccount
  * 
@@ -43,12 +53,37 @@ export type FinancialAccount = Prisma.FinancialAccountModel
  */
 export type CreatorProfile = Prisma.CreatorProfileModel
 /**
+ * Model CreatorGoal
+ * 
+ */
+export type CreatorGoal = Prisma.CreatorGoalModel
+/**
  * Model Support
  * 
  */
 export type Support = Prisma.SupportModel
 /**
+ * Model PayoutBatch
+ * 
+ */
+export type PayoutBatch = Prisma.PayoutBatchModel
+/**
  * Model Withdrawal
  * 
  */
 export type Withdrawal = Prisma.WithdrawalModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
+ * Model WebhookEvent
+ * 
+ */
+export type WebhookEvent = Prisma.WebhookEventModel
+/**
+ * Model AuditLog
+ * 
+ */
+export type AuditLog = Prisma.AuditLogModel

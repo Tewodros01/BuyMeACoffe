@@ -28,27 +28,39 @@ export type AggregateSupport = {
 
 export type SupportAvgAggregateOutputType = {
   coffeeCount: number | null
-  amount: number | null
+  amount: runtime.Decimal | null
+  customAmount: runtime.Decimal | null
+  platformFee: runtime.Decimal | null
+  netAmount: runtime.Decimal | null
 }
 
 export type SupportSumAggregateOutputType = {
   coffeeCount: number | null
-  amount: number | null
+  amount: runtime.Decimal | null
+  customAmount: runtime.Decimal | null
+  platformFee: runtime.Decimal | null
+  netAmount: runtime.Decimal | null
 }
 
 export type SupportMinAggregateOutputType = {
   id: string | null
   creatorProfileId: string | null
+  goalId: string | null
+  supporterId: string | null
   supporterName: string | null
   supporterEmail: string | null
   message: string | null
   coffeeCount: number | null
-  amount: number | null
+  amount: runtime.Decimal | null
+  customAmount: runtime.Decimal | null
+  platformFee: runtime.Decimal | null
+  netAmount: runtime.Decimal | null
   currency: string | null
   chapaRef: string | null
   chapaCheckoutUrl: string | null
   status: $Enums.PaymentStatus | null
   paidAt: Date | null
+  walletCredited: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,16 +68,22 @@ export type SupportMinAggregateOutputType = {
 export type SupportMaxAggregateOutputType = {
   id: string | null
   creatorProfileId: string | null
+  goalId: string | null
+  supporterId: string | null
   supporterName: string | null
   supporterEmail: string | null
   message: string | null
   coffeeCount: number | null
-  amount: number | null
+  amount: runtime.Decimal | null
+  customAmount: runtime.Decimal | null
+  platformFee: runtime.Decimal | null
+  netAmount: runtime.Decimal | null
   currency: string | null
   chapaRef: string | null
   chapaCheckoutUrl: string | null
   status: $Enums.PaymentStatus | null
   paidAt: Date | null
+  walletCredited: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -73,16 +91,22 @@ export type SupportMaxAggregateOutputType = {
 export type SupportCountAggregateOutputType = {
   id: number
   creatorProfileId: number
+  goalId: number
+  supporterId: number
   supporterName: number
   supporterEmail: number
   message: number
   coffeeCount: number
   amount: number
+  customAmount: number
+  platformFee: number
+  netAmount: number
   currency: number
   chapaRef: number
   chapaCheckoutUrl: number
   status: number
   paidAt: number
+  walletCredited: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -92,26 +116,38 @@ export type SupportCountAggregateOutputType = {
 export type SupportAvgAggregateInputType = {
   coffeeCount?: true
   amount?: true
+  customAmount?: true
+  platformFee?: true
+  netAmount?: true
 }
 
 export type SupportSumAggregateInputType = {
   coffeeCount?: true
   amount?: true
+  customAmount?: true
+  platformFee?: true
+  netAmount?: true
 }
 
 export type SupportMinAggregateInputType = {
   id?: true
   creatorProfileId?: true
+  goalId?: true
+  supporterId?: true
   supporterName?: true
   supporterEmail?: true
   message?: true
   coffeeCount?: true
   amount?: true
+  customAmount?: true
+  platformFee?: true
+  netAmount?: true
   currency?: true
   chapaRef?: true
   chapaCheckoutUrl?: true
   status?: true
   paidAt?: true
+  walletCredited?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -119,16 +155,22 @@ export type SupportMinAggregateInputType = {
 export type SupportMaxAggregateInputType = {
   id?: true
   creatorProfileId?: true
+  goalId?: true
+  supporterId?: true
   supporterName?: true
   supporterEmail?: true
   message?: true
   coffeeCount?: true
   amount?: true
+  customAmount?: true
+  platformFee?: true
+  netAmount?: true
   currency?: true
   chapaRef?: true
   chapaCheckoutUrl?: true
   status?: true
   paidAt?: true
+  walletCredited?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -136,16 +178,22 @@ export type SupportMaxAggregateInputType = {
 export type SupportCountAggregateInputType = {
   id?: true
   creatorProfileId?: true
+  goalId?: true
+  supporterId?: true
   supporterName?: true
   supporterEmail?: true
   message?: true
   coffeeCount?: true
   amount?: true
+  customAmount?: true
+  platformFee?: true
+  netAmount?: true
   currency?: true
   chapaRef?: true
   chapaCheckoutUrl?: true
   status?: true
   paidAt?: true
+  walletCredited?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -240,16 +288,22 @@ export type SupportGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type SupportGroupByOutputType = {
   id: string
   creatorProfileId: string
+  goalId: string | null
+  supporterId: string | null
   supporterName: string
   supporterEmail: string | null
   message: string | null
   coffeeCount: number
-  amount: number
+  amount: runtime.Decimal
+  customAmount: runtime.Decimal | null
+  platformFee: runtime.Decimal
+  netAmount: runtime.Decimal
   currency: string
   chapaRef: string
   chapaCheckoutUrl: string | null
   status: $Enums.PaymentStatus
   paidAt: Date | null
+  walletCredited: boolean
   createdAt: Date
   updatedAt: Date
   _count: SupportCountAggregateOutputType | null
@@ -280,37 +334,53 @@ export type SupportWhereInput = {
   NOT?: Prisma.SupportWhereInput | Prisma.SupportWhereInput[]
   id?: Prisma.StringFilter<"Support"> | string
   creatorProfileId?: Prisma.StringFilter<"Support"> | string
+  goalId?: Prisma.StringNullableFilter<"Support"> | string | null
+  supporterId?: Prisma.StringNullableFilter<"Support"> | string | null
   supporterName?: Prisma.StringFilter<"Support"> | string
   supporterEmail?: Prisma.StringNullableFilter<"Support"> | string | null
   message?: Prisma.StringNullableFilter<"Support"> | string | null
   coffeeCount?: Prisma.IntFilter<"Support"> | number
-  amount?: Prisma.FloatFilter<"Support"> | number
+  amount?: Prisma.DecimalFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.DecimalNullableFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Support"> | string
   chapaRef?: Prisma.StringFilter<"Support"> | string
   chapaCheckoutUrl?: Prisma.StringNullableFilter<"Support"> | string | null
   status?: Prisma.EnumPaymentStatusFilter<"Support"> | $Enums.PaymentStatus
   paidAt?: Prisma.DateTimeNullableFilter<"Support"> | Date | string | null
+  walletCredited?: Prisma.BoolFilter<"Support"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Support"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Support"> | Date | string
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileScalarRelationFilter, Prisma.CreatorProfileWhereInput>
+  goal?: Prisma.XOR<Prisma.CreatorGoalNullableScalarRelationFilter, Prisma.CreatorGoalWhereInput> | null
+  supporter?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type SupportOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
+  goalId?: Prisma.SortOrderInput | Prisma.SortOrder
+  supporterId?: Prisma.SortOrderInput | Prisma.SortOrder
   supporterName?: Prisma.SortOrder
   supporterEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
   coffeeCount?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  customAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  platformFee?: Prisma.SortOrder
+  netAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   chapaRef?: Prisma.SortOrder
   chapaCheckoutUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  walletCredited?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   creatorProfile?: Prisma.CreatorProfileOrderByWithRelationInput
+  goal?: Prisma.CreatorGoalOrderByWithRelationInput
+  supporter?: Prisma.UserOrderByWithRelationInput
 }
 
 export type SupportWhereUniqueInput = Prisma.AtLeast<{
@@ -320,33 +390,47 @@ export type SupportWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.SupportWhereInput[]
   NOT?: Prisma.SupportWhereInput | Prisma.SupportWhereInput[]
   creatorProfileId?: Prisma.StringFilter<"Support"> | string
+  goalId?: Prisma.StringNullableFilter<"Support"> | string | null
+  supporterId?: Prisma.StringNullableFilter<"Support"> | string | null
   supporterName?: Prisma.StringFilter<"Support"> | string
   supporterEmail?: Prisma.StringNullableFilter<"Support"> | string | null
   message?: Prisma.StringNullableFilter<"Support"> | string | null
   coffeeCount?: Prisma.IntFilter<"Support"> | number
-  amount?: Prisma.FloatFilter<"Support"> | number
+  amount?: Prisma.DecimalFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.DecimalNullableFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"Support"> | string
   chapaCheckoutUrl?: Prisma.StringNullableFilter<"Support"> | string | null
   status?: Prisma.EnumPaymentStatusFilter<"Support"> | $Enums.PaymentStatus
   paidAt?: Prisma.DateTimeNullableFilter<"Support"> | Date | string | null
+  walletCredited?: Prisma.BoolFilter<"Support"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Support"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Support"> | Date | string
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileScalarRelationFilter, Prisma.CreatorProfileWhereInput>
+  goal?: Prisma.XOR<Prisma.CreatorGoalNullableScalarRelationFilter, Prisma.CreatorGoalWhereInput> | null
+  supporter?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id" | "chapaRef">
 
 export type SupportOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
+  goalId?: Prisma.SortOrderInput | Prisma.SortOrder
+  supporterId?: Prisma.SortOrderInput | Prisma.SortOrder
   supporterName?: Prisma.SortOrder
   supporterEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
   coffeeCount?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  customAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  platformFee?: Prisma.SortOrder
+  netAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   chapaRef?: Prisma.SortOrder
   chapaCheckoutUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  walletCredited?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SupportCountOrderByAggregateInput
@@ -362,16 +446,22 @@ export type SupportScalarWhereWithAggregatesInput = {
   NOT?: Prisma.SupportScalarWhereWithAggregatesInput | Prisma.SupportScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Support"> | string
   creatorProfileId?: Prisma.StringWithAggregatesFilter<"Support"> | string
+  goalId?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
+  supporterId?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
   supporterName?: Prisma.StringWithAggregatesFilter<"Support"> | string
   supporterEmail?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
   message?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
   coffeeCount?: Prisma.IntWithAggregatesFilter<"Support"> | number
-  amount?: Prisma.FloatWithAggregatesFilter<"Support"> | number
+  amount?: Prisma.DecimalWithAggregatesFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.DecimalNullableWithAggregatesFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalWithAggregatesFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalWithAggregatesFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringWithAggregatesFilter<"Support"> | string
   chapaRef?: Prisma.StringWithAggregatesFilter<"Support"> | string
   chapaCheckoutUrl?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
   status?: Prisma.EnumPaymentStatusWithAggregatesFilter<"Support"> | $Enums.PaymentStatus
   paidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Support"> | Date | string | null
+  walletCredited?: Prisma.BoolWithAggregatesFilter<"Support"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Support"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Support"> | Date | string
 }
@@ -382,30 +472,42 @@ export type SupportCreateInput = {
   supporterEmail?: string | null
   message?: string | null
   coffeeCount?: number
-  amount: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   chapaRef: string
   chapaCheckoutUrl?: string | null
   status?: $Enums.PaymentStatus
   paidAt?: Date | string | null
+  walletCredited?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
+  goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
 }
 
 export type SupportUncheckedCreateInput = {
   id?: string
   creatorProfileId: string
+  goalId?: string | null
+  supporterId?: string | null
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
   coffeeCount?: number
-  amount: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   chapaRef: string
   chapaCheckoutUrl?: string | null
   status?: $Enums.PaymentStatus
   paidAt?: Date | string | null
+  walletCredited?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -416,30 +518,42 @@ export type SupportUpdateInput = {
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
   chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
+  goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
 }
 
 export type SupportUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
   chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -447,16 +561,22 @@ export type SupportUncheckedUpdateInput = {
 export type SupportCreateManyInput = {
   id?: string
   creatorProfileId: string
+  goalId?: string | null
+  supporterId?: string | null
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
   coffeeCount?: number
-  amount: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   chapaRef: string
   chapaCheckoutUrl?: string | null
   status?: $Enums.PaymentStatus
   paidAt?: Date | string | null
+  walletCredited?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -467,12 +587,16 @@ export type SupportUpdateManyMutationInput = {
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
   chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -480,16 +604,22 @@ export type SupportUpdateManyMutationInput = {
 export type SupportUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
   chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -507,16 +637,22 @@ export type SupportOrderByRelationAggregateInput = {
 export type SupportCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
+  goalId?: Prisma.SortOrder
+  supporterId?: Prisma.SortOrder
   supporterName?: Prisma.SortOrder
   supporterEmail?: Prisma.SortOrder
   message?: Prisma.SortOrder
   coffeeCount?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  customAmount?: Prisma.SortOrder
+  platformFee?: Prisma.SortOrder
+  netAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   chapaRef?: Prisma.SortOrder
   chapaCheckoutUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
+  walletCredited?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -524,21 +660,30 @@ export type SupportCountOrderByAggregateInput = {
 export type SupportAvgOrderByAggregateInput = {
   coffeeCount?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  customAmount?: Prisma.SortOrder
+  platformFee?: Prisma.SortOrder
+  netAmount?: Prisma.SortOrder
 }
 
 export type SupportMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
+  goalId?: Prisma.SortOrder
+  supporterId?: Prisma.SortOrder
   supporterName?: Prisma.SortOrder
   supporterEmail?: Prisma.SortOrder
   message?: Prisma.SortOrder
   coffeeCount?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  customAmount?: Prisma.SortOrder
+  platformFee?: Prisma.SortOrder
+  netAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   chapaRef?: Prisma.SortOrder
   chapaCheckoutUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
+  walletCredited?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -546,16 +691,22 @@ export type SupportMaxOrderByAggregateInput = {
 export type SupportMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
+  goalId?: Prisma.SortOrder
+  supporterId?: Prisma.SortOrder
   supporterName?: Prisma.SortOrder
   supporterEmail?: Prisma.SortOrder
   message?: Prisma.SortOrder
   coffeeCount?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  customAmount?: Prisma.SortOrder
+  platformFee?: Prisma.SortOrder
+  netAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   chapaRef?: Prisma.SortOrder
   chapaCheckoutUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
+  walletCredited?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -563,6 +714,51 @@ export type SupportMinOrderByAggregateInput = {
 export type SupportSumOrderByAggregateInput = {
   coffeeCount?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  customAmount?: Prisma.SortOrder
+  platformFee?: Prisma.SortOrder
+  netAmount?: Prisma.SortOrder
+}
+
+export type SupportCreateNestedManyWithoutSupporterInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutSupporterInput, Prisma.SupportUncheckedCreateWithoutSupporterInput> | Prisma.SupportCreateWithoutSupporterInput[] | Prisma.SupportUncheckedCreateWithoutSupporterInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutSupporterInput | Prisma.SupportCreateOrConnectWithoutSupporterInput[]
+  createMany?: Prisma.SupportCreateManySupporterInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUncheckedCreateNestedManyWithoutSupporterInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutSupporterInput, Prisma.SupportUncheckedCreateWithoutSupporterInput> | Prisma.SupportCreateWithoutSupporterInput[] | Prisma.SupportUncheckedCreateWithoutSupporterInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutSupporterInput | Prisma.SupportCreateOrConnectWithoutSupporterInput[]
+  createMany?: Prisma.SupportCreateManySupporterInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUpdateManyWithoutSupporterNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutSupporterInput, Prisma.SupportUncheckedCreateWithoutSupporterInput> | Prisma.SupportCreateWithoutSupporterInput[] | Prisma.SupportUncheckedCreateWithoutSupporterInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutSupporterInput | Prisma.SupportCreateOrConnectWithoutSupporterInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutSupporterInput | Prisma.SupportUpsertWithWhereUniqueWithoutSupporterInput[]
+  createMany?: Prisma.SupportCreateManySupporterInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutSupporterInput | Prisma.SupportUpdateWithWhereUniqueWithoutSupporterInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutSupporterInput | Prisma.SupportUpdateManyWithWhereWithoutSupporterInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
+export type SupportUncheckedUpdateManyWithoutSupporterNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutSupporterInput, Prisma.SupportUncheckedCreateWithoutSupporterInput> | Prisma.SupportCreateWithoutSupporterInput[] | Prisma.SupportUncheckedCreateWithoutSupporterInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutSupporterInput | Prisma.SupportCreateOrConnectWithoutSupporterInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutSupporterInput | Prisma.SupportUpsertWithWhereUniqueWithoutSupporterInput[]
+  createMany?: Prisma.SupportCreateManySupporterInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutSupporterInput | Prisma.SupportUpdateWithWhereUniqueWithoutSupporterInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutSupporterInput | Prisma.SupportUpdateManyWithWhereWithoutSupporterInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
 }
 
 export type SupportCreateNestedManyWithoutCreatorProfileInput = {
@@ -607,8 +803,154 @@ export type SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput = {
   deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
 }
 
+export type SupportCreateNestedManyWithoutGoalInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutGoalInput, Prisma.SupportUncheckedCreateWithoutGoalInput> | Prisma.SupportCreateWithoutGoalInput[] | Prisma.SupportUncheckedCreateWithoutGoalInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutGoalInput | Prisma.SupportCreateOrConnectWithoutGoalInput[]
+  createMany?: Prisma.SupportCreateManyGoalInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUncheckedCreateNestedManyWithoutGoalInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutGoalInput, Prisma.SupportUncheckedCreateWithoutGoalInput> | Prisma.SupportCreateWithoutGoalInput[] | Prisma.SupportUncheckedCreateWithoutGoalInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutGoalInput | Prisma.SupportCreateOrConnectWithoutGoalInput[]
+  createMany?: Prisma.SupportCreateManyGoalInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUpdateManyWithoutGoalNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutGoalInput, Prisma.SupportUncheckedCreateWithoutGoalInput> | Prisma.SupportCreateWithoutGoalInput[] | Prisma.SupportUncheckedCreateWithoutGoalInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutGoalInput | Prisma.SupportCreateOrConnectWithoutGoalInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutGoalInput | Prisma.SupportUpsertWithWhereUniqueWithoutGoalInput[]
+  createMany?: Prisma.SupportCreateManyGoalInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutGoalInput | Prisma.SupportUpdateWithWhereUniqueWithoutGoalInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutGoalInput | Prisma.SupportUpdateManyWithWhereWithoutGoalInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
+export type SupportUncheckedUpdateManyWithoutGoalNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutGoalInput, Prisma.SupportUncheckedCreateWithoutGoalInput> | Prisma.SupportCreateWithoutGoalInput[] | Prisma.SupportUncheckedCreateWithoutGoalInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutGoalInput | Prisma.SupportCreateOrConnectWithoutGoalInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutGoalInput | Prisma.SupportUpsertWithWhereUniqueWithoutGoalInput[]
+  createMany?: Prisma.SupportCreateManyGoalInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutGoalInput | Prisma.SupportUpdateWithWhereUniqueWithoutGoalInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutGoalInput | Prisma.SupportUpdateManyWithWhereWithoutGoalInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
+export type NullableDecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
 export type EnumPaymentStatusFieldUpdateOperationsInput = {
   set?: $Enums.PaymentStatus
+}
+
+export type SupportCreateWithoutSupporterInput = {
+  id?: string
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
+  goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+}
+
+export type SupportUncheckedCreateWithoutSupporterInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SupportCreateOrConnectWithoutSupporterInput = {
+  where: Prisma.SupportWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupportCreateWithoutSupporterInput, Prisma.SupportUncheckedCreateWithoutSupporterInput>
+}
+
+export type SupportCreateManySupporterInputEnvelope = {
+  data: Prisma.SupportCreateManySupporterInput | Prisma.SupportCreateManySupporterInput[]
+  skipDuplicates?: boolean
+}
+
+export type SupportUpsertWithWhereUniqueWithoutSupporterInput = {
+  where: Prisma.SupportWhereUniqueInput
+  update: Prisma.XOR<Prisma.SupportUpdateWithoutSupporterInput, Prisma.SupportUncheckedUpdateWithoutSupporterInput>
+  create: Prisma.XOR<Prisma.SupportCreateWithoutSupporterInput, Prisma.SupportUncheckedCreateWithoutSupporterInput>
+}
+
+export type SupportUpdateWithWhereUniqueWithoutSupporterInput = {
+  where: Prisma.SupportWhereUniqueInput
+  data: Prisma.XOR<Prisma.SupportUpdateWithoutSupporterInput, Prisma.SupportUncheckedUpdateWithoutSupporterInput>
+}
+
+export type SupportUpdateManyWithWhereWithoutSupporterInput = {
+  where: Prisma.SupportScalarWhereInput
+  data: Prisma.XOR<Prisma.SupportUpdateManyMutationInput, Prisma.SupportUncheckedUpdateManyWithoutSupporterInput>
+}
+
+export type SupportScalarWhereInput = {
+  AND?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+  OR?: Prisma.SupportScalarWhereInput[]
+  NOT?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+  id?: Prisma.StringFilter<"Support"> | string
+  creatorProfileId?: Prisma.StringFilter<"Support"> | string
+  goalId?: Prisma.StringNullableFilter<"Support"> | string | null
+  supporterId?: Prisma.StringNullableFilter<"Support"> | string | null
+  supporterName?: Prisma.StringFilter<"Support"> | string
+  supporterEmail?: Prisma.StringNullableFilter<"Support"> | string | null
+  message?: Prisma.StringNullableFilter<"Support"> | string | null
+  coffeeCount?: Prisma.IntFilter<"Support"> | number
+  amount?: Prisma.DecimalFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.DecimalNullableFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFilter<"Support"> | string
+  chapaRef?: Prisma.StringFilter<"Support"> | string
+  chapaCheckoutUrl?: Prisma.StringNullableFilter<"Support"> | string | null
+  status?: Prisma.EnumPaymentStatusFilter<"Support"> | $Enums.PaymentStatus
+  paidAt?: Prisma.DateTimeNullableFilter<"Support"> | Date | string | null
+  walletCredited?: Prisma.BoolFilter<"Support"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Support"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Support"> | Date | string
 }
 
 export type SupportCreateWithoutCreatorProfileInput = {
@@ -617,28 +959,40 @@ export type SupportCreateWithoutCreatorProfileInput = {
   supporterEmail?: string | null
   message?: string | null
   coffeeCount?: number
-  amount: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   chapaRef: string
   chapaCheckoutUrl?: string | null
   status?: $Enums.PaymentStatus
   paidAt?: Date | string | null
+  walletCredited?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
 }
 
 export type SupportUncheckedCreateWithoutCreatorProfileInput = {
   id?: string
+  goalId?: string | null
+  supporterId?: string | null
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
   coffeeCount?: number
-  amount: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   chapaRef: string
   chapaCheckoutUrl?: string | null
   status?: $Enums.PaymentStatus
   paidAt?: Date | string | null
+  walletCredited?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -669,38 +1023,182 @@ export type SupportUpdateManyWithWhereWithoutCreatorProfileInput = {
   data: Prisma.XOR<Prisma.SupportUpdateManyMutationInput, Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileInput>
 }
 
-export type SupportScalarWhereInput = {
-  AND?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
-  OR?: Prisma.SupportScalarWhereInput[]
-  NOT?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
-  id?: Prisma.StringFilter<"Support"> | string
-  creatorProfileId?: Prisma.StringFilter<"Support"> | string
-  supporterName?: Prisma.StringFilter<"Support"> | string
-  supporterEmail?: Prisma.StringNullableFilter<"Support"> | string | null
-  message?: Prisma.StringNullableFilter<"Support"> | string | null
-  coffeeCount?: Prisma.IntFilter<"Support"> | number
-  amount?: Prisma.FloatFilter<"Support"> | number
-  currency?: Prisma.StringFilter<"Support"> | string
-  chapaRef?: Prisma.StringFilter<"Support"> | string
-  chapaCheckoutUrl?: Prisma.StringNullableFilter<"Support"> | string | null
-  status?: Prisma.EnumPaymentStatusFilter<"Support"> | $Enums.PaymentStatus
-  paidAt?: Prisma.DateTimeNullableFilter<"Support"> | Date | string | null
-  createdAt?: Prisma.DateTimeFilter<"Support"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Support"> | Date | string
-}
-
-export type SupportCreateManyCreatorProfileInput = {
+export type SupportCreateWithoutGoalInput = {
   id?: string
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
   coffeeCount?: number
-  amount: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   chapaRef: string
   chapaCheckoutUrl?: string | null
   status?: $Enums.PaymentStatus
   paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
+  supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
+}
+
+export type SupportUncheckedCreateWithoutGoalInput = {
+  id?: string
+  creatorProfileId: string
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SupportCreateOrConnectWithoutGoalInput = {
+  where: Prisma.SupportWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupportCreateWithoutGoalInput, Prisma.SupportUncheckedCreateWithoutGoalInput>
+}
+
+export type SupportCreateManyGoalInputEnvelope = {
+  data: Prisma.SupportCreateManyGoalInput | Prisma.SupportCreateManyGoalInput[]
+  skipDuplicates?: boolean
+}
+
+export type SupportUpsertWithWhereUniqueWithoutGoalInput = {
+  where: Prisma.SupportWhereUniqueInput
+  update: Prisma.XOR<Prisma.SupportUpdateWithoutGoalInput, Prisma.SupportUncheckedUpdateWithoutGoalInput>
+  create: Prisma.XOR<Prisma.SupportCreateWithoutGoalInput, Prisma.SupportUncheckedCreateWithoutGoalInput>
+}
+
+export type SupportUpdateWithWhereUniqueWithoutGoalInput = {
+  where: Prisma.SupportWhereUniqueInput
+  data: Prisma.XOR<Prisma.SupportUpdateWithoutGoalInput, Prisma.SupportUncheckedUpdateWithoutGoalInput>
+}
+
+export type SupportUpdateManyWithWhereWithoutGoalInput = {
+  where: Prisma.SupportScalarWhereInput
+  data: Prisma.XOR<Prisma.SupportUpdateManyMutationInput, Prisma.SupportUncheckedUpdateManyWithoutGoalInput>
+}
+
+export type SupportCreateManySupporterInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SupportUpdateWithoutSupporterInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
+  goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+}
+
+export type SupportUncheckedUpdateWithoutSupporterInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SupportUncheckedUpdateManyWithoutSupporterInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SupportCreateManyCreatorProfileInput = {
+  id?: string
+  goalId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -711,44 +1209,150 @@ export type SupportUpdateWithoutCreatorProfileInput = {
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
   chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
 }
 
 export type SupportUncheckedUpdateWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
   chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SupportUncheckedUpdateManyWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
   chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SupportCreateManyGoalInput = {
+  id?: string
+  creatorProfileId: string
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SupportUpdateWithoutGoalInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
+  supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
+}
+
+export type SupportUncheckedUpdateWithoutGoalInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SupportUncheckedUpdateManyWithoutGoalInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -758,103 +1362,147 @@ export type SupportUncheckedUpdateManyWithoutCreatorProfileInput = {
 export type SupportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   creatorProfileId?: boolean
+  goalId?: boolean
+  supporterId?: boolean
   supporterName?: boolean
   supporterEmail?: boolean
   message?: boolean
   coffeeCount?: boolean
   amount?: boolean
+  customAmount?: boolean
+  platformFee?: boolean
+  netAmount?: boolean
   currency?: boolean
   chapaRef?: boolean
   chapaCheckoutUrl?: boolean
   status?: boolean
   paidAt?: boolean
+  walletCredited?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
+  goal?: boolean | Prisma.Support$goalArgs<ExtArgs>
+  supporter?: boolean | Prisma.Support$supporterArgs<ExtArgs>
 }, ExtArgs["result"]["support"]>
 
 export type SupportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   creatorProfileId?: boolean
+  goalId?: boolean
+  supporterId?: boolean
   supporterName?: boolean
   supporterEmail?: boolean
   message?: boolean
   coffeeCount?: boolean
   amount?: boolean
+  customAmount?: boolean
+  platformFee?: boolean
+  netAmount?: boolean
   currency?: boolean
   chapaRef?: boolean
   chapaCheckoutUrl?: boolean
   status?: boolean
   paidAt?: boolean
+  walletCredited?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
+  goal?: boolean | Prisma.Support$goalArgs<ExtArgs>
+  supporter?: boolean | Prisma.Support$supporterArgs<ExtArgs>
 }, ExtArgs["result"]["support"]>
 
 export type SupportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   creatorProfileId?: boolean
+  goalId?: boolean
+  supporterId?: boolean
   supporterName?: boolean
   supporterEmail?: boolean
   message?: boolean
   coffeeCount?: boolean
   amount?: boolean
+  customAmount?: boolean
+  platformFee?: boolean
+  netAmount?: boolean
   currency?: boolean
   chapaRef?: boolean
   chapaCheckoutUrl?: boolean
   status?: boolean
   paidAt?: boolean
+  walletCredited?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
+  goal?: boolean | Prisma.Support$goalArgs<ExtArgs>
+  supporter?: boolean | Prisma.Support$supporterArgs<ExtArgs>
 }, ExtArgs["result"]["support"]>
 
 export type SupportSelectScalar = {
   id?: boolean
   creatorProfileId?: boolean
+  goalId?: boolean
+  supporterId?: boolean
   supporterName?: boolean
   supporterEmail?: boolean
   message?: boolean
   coffeeCount?: boolean
   amount?: boolean
+  customAmount?: boolean
+  platformFee?: boolean
+  netAmount?: boolean
   currency?: boolean
   chapaRef?: boolean
   chapaCheckoutUrl?: boolean
   status?: boolean
   paidAt?: boolean
+  walletCredited?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SupportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorProfileId" | "supporterName" | "supporterEmail" | "message" | "coffeeCount" | "amount" | "currency" | "chapaRef" | "chapaCheckoutUrl" | "status" | "paidAt" | "createdAt" | "updatedAt", ExtArgs["result"]["support"]>
+export type SupportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorProfileId" | "goalId" | "supporterId" | "supporterName" | "supporterEmail" | "message" | "coffeeCount" | "amount" | "customAmount" | "platformFee" | "netAmount" | "currency" | "chapaRef" | "chapaCheckoutUrl" | "status" | "paidAt" | "walletCredited" | "createdAt" | "updatedAt", ExtArgs["result"]["support"]>
 export type SupportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
+  goal?: boolean | Prisma.Support$goalArgs<ExtArgs>
+  supporter?: boolean | Prisma.Support$supporterArgs<ExtArgs>
 }
 export type SupportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
+  goal?: boolean | Prisma.Support$goalArgs<ExtArgs>
+  supporter?: boolean | Prisma.Support$supporterArgs<ExtArgs>
 }
 export type SupportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
+  goal?: boolean | Prisma.Support$goalArgs<ExtArgs>
+  supporter?: boolean | Prisma.Support$supporterArgs<ExtArgs>
 }
 
 export type $SupportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Support"
   objects: {
     creatorProfile: Prisma.$CreatorProfilePayload<ExtArgs>
+    goal: Prisma.$CreatorGoalPayload<ExtArgs> | null
+    supporter: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     creatorProfileId: string
+    goalId: string | null
+    supporterId: string | null
     supporterName: string
     supporterEmail: string | null
     message: string | null
     coffeeCount: number
-    amount: number
+    amount: runtime.Decimal
+    customAmount: runtime.Decimal | null
+    platformFee: runtime.Decimal
+    netAmount: runtime.Decimal
     currency: string
     chapaRef: string
     chapaCheckoutUrl: string | null
     status: $Enums.PaymentStatus
     paidAt: Date | null
+    walletCredited: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["support"]>
@@ -1252,6 +1900,8 @@ readonly fields: SupportFieldRefs;
 export interface Prisma__SupportClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   creatorProfile<T extends Prisma.CreatorProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__CreatorProfileClient<runtime.Types.Result.GetResult<Prisma.$CreatorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  goal<T extends Prisma.Support$goalArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Support$goalArgs<ExtArgs>>): Prisma.Prisma__CreatorGoalClient<runtime.Types.Result.GetResult<Prisma.$CreatorGoalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  supporter<T extends Prisma.Support$supporterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Support$supporterArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1283,16 +1933,22 @@ export interface Prisma__SupportClient<T, Null = never, ExtArgs extends runtime.
 export interface SupportFieldRefs {
   readonly id: Prisma.FieldRef<"Support", 'String'>
   readonly creatorProfileId: Prisma.FieldRef<"Support", 'String'>
+  readonly goalId: Prisma.FieldRef<"Support", 'String'>
+  readonly supporterId: Prisma.FieldRef<"Support", 'String'>
   readonly supporterName: Prisma.FieldRef<"Support", 'String'>
   readonly supporterEmail: Prisma.FieldRef<"Support", 'String'>
   readonly message: Prisma.FieldRef<"Support", 'String'>
   readonly coffeeCount: Prisma.FieldRef<"Support", 'Int'>
-  readonly amount: Prisma.FieldRef<"Support", 'Float'>
+  readonly amount: Prisma.FieldRef<"Support", 'Decimal'>
+  readonly customAmount: Prisma.FieldRef<"Support", 'Decimal'>
+  readonly platformFee: Prisma.FieldRef<"Support", 'Decimal'>
+  readonly netAmount: Prisma.FieldRef<"Support", 'Decimal'>
   readonly currency: Prisma.FieldRef<"Support", 'String'>
   readonly chapaRef: Prisma.FieldRef<"Support", 'String'>
   readonly chapaCheckoutUrl: Prisma.FieldRef<"Support", 'String'>
   readonly status: Prisma.FieldRef<"Support", 'PaymentStatus'>
   readonly paidAt: Prisma.FieldRef<"Support", 'DateTime'>
+  readonly walletCredited: Prisma.FieldRef<"Support", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Support", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Support", 'DateTime'>
 }
@@ -1693,6 +2349,44 @@ export type SupportDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Supports to delete.
    */
   limit?: number
+}
+
+/**
+ * Support.goal
+ */
+export type Support$goalArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CreatorGoal
+   */
+  select?: Prisma.CreatorGoalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CreatorGoal
+   */
+  omit?: Prisma.CreatorGoalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CreatorGoalInclude<ExtArgs> | null
+  where?: Prisma.CreatorGoalWhereInput
+}
+
+/**
+ * Support.supporter
+ */
+export type Support$supporterArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

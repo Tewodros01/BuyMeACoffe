@@ -31,7 +31,8 @@ const financialAccountSelect = {
   type: true,
   provider: true,
   accountName: true,
-  accountNumber: true,
+  // accountNumber intentionally excluded — never returned in auth responses
+  // use GET /financial-accounts for masked display
   label: true,
   isDefault: true,
   isActive: true,
@@ -85,7 +86,7 @@ export class AuthService {
     private readonly telegramService: TelegramService,
   ) {
     this.refreshTtlDays =
-      this.configService.get<number>('REFRESH_TTL_DAYS') ?? 30;
+      this.configService.get<number>('refreshTtlDays') ?? 30;
   }
 
   async register(
@@ -118,12 +119,7 @@ export class AuthService {
         });
         // auto-create default wallet so all wallet-dependent features work immediately
         await tx.wallet.create({
-          data: {
-            name: 'Main Wallet',
-            userId: created.id,
-            isDefault: true,
-            isActive: true,
-          },
+          data: { userId: created.id },
         });
         return created;
       });
@@ -236,12 +232,7 @@ export class AuthService {
             select: userSelect,
           });
           await tx.wallet.create({
-            data: {
-              name: 'Main Wallet',
-              userId: created.id,
-              isDefault: true,
-              isActive: true,
-            },
+            data: { userId: created.id },
           });
           return created;
         }));

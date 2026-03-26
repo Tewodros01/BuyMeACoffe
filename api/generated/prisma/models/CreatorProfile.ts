@@ -27,13 +27,13 @@ export type AggregateCreatorProfile = {
 }
 
 export type CreatorProfileAvgAggregateOutputType = {
-  coffeePrice: number | null
+  coffeePrice: runtime.Decimal | null
   totalSupporters: number | null
   totalSupports: number | null
 }
 
 export type CreatorProfileSumAggregateOutputType = {
-  coffeePrice: number | null
+  coffeePrice: runtime.Decimal | null
   totalSupporters: number | null
   totalSupports: number | null
 }
@@ -41,9 +41,11 @@ export type CreatorProfileSumAggregateOutputType = {
 export type CreatorProfileMinAggregateOutputType = {
   id: string | null
   userId: string | null
+  slug: string | null
   pageTitle: string | null
   thankYouMessage: string | null
-  coffeePrice: number | null
+  coverImage: string | null
+  coffeePrice: runtime.Decimal | null
   isPublished: boolean | null
   totalSupporters: number | null
   totalSupports: number | null
@@ -54,9 +56,11 @@ export type CreatorProfileMinAggregateOutputType = {
 export type CreatorProfileMaxAggregateOutputType = {
   id: string | null
   userId: string | null
+  slug: string | null
   pageTitle: string | null
   thankYouMessage: string | null
-  coffeePrice: number | null
+  coverImage: string | null
+  coffeePrice: runtime.Decimal | null
   isPublished: boolean | null
   totalSupporters: number | null
   totalSupports: number | null
@@ -67,8 +71,10 @@ export type CreatorProfileMaxAggregateOutputType = {
 export type CreatorProfileCountAggregateOutputType = {
   id: number
   userId: number
+  slug: number
   pageTitle: number
   thankYouMessage: number
+  coverImage: number
   coffeePrice: number
   socialLinks: number
   isPublished: number
@@ -95,8 +101,10 @@ export type CreatorProfileSumAggregateInputType = {
 export type CreatorProfileMinAggregateInputType = {
   id?: true
   userId?: true
+  slug?: true
   pageTitle?: true
   thankYouMessage?: true
+  coverImage?: true
   coffeePrice?: true
   isPublished?: true
   totalSupporters?: true
@@ -108,8 +116,10 @@ export type CreatorProfileMinAggregateInputType = {
 export type CreatorProfileMaxAggregateInputType = {
   id?: true
   userId?: true
+  slug?: true
   pageTitle?: true
   thankYouMessage?: true
+  coverImage?: true
   coffeePrice?: true
   isPublished?: true
   totalSupporters?: true
@@ -121,8 +131,10 @@ export type CreatorProfileMaxAggregateInputType = {
 export type CreatorProfileCountAggregateInputType = {
   id?: true
   userId?: true
+  slug?: true
   pageTitle?: true
   thankYouMessage?: true
+  coverImage?: true
   coffeePrice?: true
   socialLinks?: true
   isPublished?: true
@@ -222,9 +234,11 @@ export type CreatorProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 export type CreatorProfileGroupByOutputType = {
   id: string
   userId: string
+  slug: string
   pageTitle: string
   thankYouMessage: string | null
-  coffeePrice: number
+  coverImage: string | null
+  coffeePrice: runtime.Decimal
   socialLinks: runtime.JsonValue | null
   isPublished: boolean
   totalSupporters: number
@@ -259,9 +273,11 @@ export type CreatorProfileWhereInput = {
   NOT?: Prisma.CreatorProfileWhereInput | Prisma.CreatorProfileWhereInput[]
   id?: Prisma.StringFilter<"CreatorProfile"> | string
   userId?: Prisma.StringFilter<"CreatorProfile"> | string
+  slug?: Prisma.StringFilter<"CreatorProfile"> | string
   pageTitle?: Prisma.StringFilter<"CreatorProfile"> | string
   thankYouMessage?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
-  coffeePrice?: Prisma.FloatFilter<"CreatorProfile"> | number
+  coverImage?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
+  coffeePrice?: Prisma.DecimalFilter<"CreatorProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.JsonNullableFilter<"CreatorProfile">
   isPublished?: Prisma.BoolFilter<"CreatorProfile"> | boolean
   totalSupporters?: Prisma.IntFilter<"CreatorProfile"> | number
@@ -270,13 +286,16 @@ export type CreatorProfileWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"CreatorProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   supports?: Prisma.SupportListRelationFilter
+  goals?: Prisma.CreatorGoalListRelationFilter
 }
 
 export type CreatorProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   pageTitle?: Prisma.SortOrder
   thankYouMessage?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
   coffeePrice?: Prisma.SortOrder
   socialLinks?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublished?: Prisma.SortOrder
@@ -286,17 +305,20 @@ export type CreatorProfileOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   supports?: Prisma.SupportOrderByRelationAggregateInput
+  goals?: Prisma.CreatorGoalOrderByRelationAggregateInput
 }
 
 export type CreatorProfileWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   userId?: string
+  slug?: string
   AND?: Prisma.CreatorProfileWhereInput | Prisma.CreatorProfileWhereInput[]
   OR?: Prisma.CreatorProfileWhereInput[]
   NOT?: Prisma.CreatorProfileWhereInput | Prisma.CreatorProfileWhereInput[]
   pageTitle?: Prisma.StringFilter<"CreatorProfile"> | string
   thankYouMessage?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
-  coffeePrice?: Prisma.FloatFilter<"CreatorProfile"> | number
+  coverImage?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
+  coffeePrice?: Prisma.DecimalFilter<"CreatorProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.JsonNullableFilter<"CreatorProfile">
   isPublished?: Prisma.BoolFilter<"CreatorProfile"> | boolean
   totalSupporters?: Prisma.IntFilter<"CreatorProfile"> | number
@@ -305,13 +327,16 @@ export type CreatorProfileWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"CreatorProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   supports?: Prisma.SupportListRelationFilter
-}, "id" | "userId">
+  goals?: Prisma.CreatorGoalListRelationFilter
+}, "id" | "userId" | "slug">
 
 export type CreatorProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   pageTitle?: Prisma.SortOrder
   thankYouMessage?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
   coffeePrice?: Prisma.SortOrder
   socialLinks?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublished?: Prisma.SortOrder
@@ -332,9 +357,11 @@ export type CreatorProfileScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CreatorProfileScalarWhereWithAggregatesInput | Prisma.CreatorProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"CreatorProfile"> | string
   userId?: Prisma.StringWithAggregatesFilter<"CreatorProfile"> | string
+  slug?: Prisma.StringWithAggregatesFilter<"CreatorProfile"> | string
   pageTitle?: Prisma.StringWithAggregatesFilter<"CreatorProfile"> | string
   thankYouMessage?: Prisma.StringNullableWithAggregatesFilter<"CreatorProfile"> | string | null
-  coffeePrice?: Prisma.FloatWithAggregatesFilter<"CreatorProfile"> | number
+  coverImage?: Prisma.StringNullableWithAggregatesFilter<"CreatorProfile"> | string | null
+  coffeePrice?: Prisma.DecimalWithAggregatesFilter<"CreatorProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.JsonNullableWithAggregatesFilter<"CreatorProfile">
   isPublished?: Prisma.BoolWithAggregatesFilter<"CreatorProfile"> | boolean
   totalSupporters?: Prisma.IntWithAggregatesFilter<"CreatorProfile"> | number
@@ -345,9 +372,11 @@ export type CreatorProfileScalarWhereWithAggregatesInput = {
 
 export type CreatorProfileCreateInput = {
   id?: string
+  slug: string
   pageTitle?: string
   thankYouMessage?: string | null
-  coffeePrice?: number
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -356,14 +385,17 @@ export type CreatorProfileCreateInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
   supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateInput = {
   id?: string
   userId: string
+  slug: string
   pageTitle?: string
   thankYouMessage?: string | null
-  coffeePrice?: number
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -371,13 +403,16 @@ export type CreatorProfileUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coffeePrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -386,14 +421,17 @@ export type CreatorProfileUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
   supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coffeePrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -401,14 +439,17 @@ export type CreatorProfileUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateManyInput = {
   id?: string
   userId: string
+  slug: string
   pageTitle?: string
   thankYouMessage?: string | null
-  coffeePrice?: number
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -419,9 +460,11 @@ export type CreatorProfileCreateManyInput = {
 
 export type CreatorProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coffeePrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -433,9 +476,11 @@ export type CreatorProfileUpdateManyMutationInput = {
 export type CreatorProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coffeePrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -452,8 +497,10 @@ export type CreatorProfileNullableScalarRelationFilter = {
 export type CreatorProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   pageTitle?: Prisma.SortOrder
   thankYouMessage?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrder
   coffeePrice?: Prisma.SortOrder
   socialLinks?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
@@ -472,8 +519,10 @@ export type CreatorProfileAvgOrderByAggregateInput = {
 export type CreatorProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   pageTitle?: Prisma.SortOrder
   thankYouMessage?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrder
   coffeePrice?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   totalSupporters?: Prisma.SortOrder
@@ -485,8 +534,10 @@ export type CreatorProfileMaxOrderByAggregateInput = {
 export type CreatorProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   pageTitle?: Prisma.SortOrder
   thankYouMessage?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrder
   coffeePrice?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   totalSupporters?: Prisma.SortOrder
@@ -546,6 +597,20 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type CreatorProfileCreateNestedOneWithoutGoalsInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutGoalsInput, Prisma.CreatorProfileUncheckedCreateWithoutGoalsInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutGoalsInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+}
+
+export type CreatorProfileUpdateOneRequiredWithoutGoalsNestedInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutGoalsInput, Prisma.CreatorProfileUncheckedCreateWithoutGoalsInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutGoalsInput
+  upsert?: Prisma.CreatorProfileUpsertWithoutGoalsInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorProfileUpdateToOneWithWhereWithoutGoalsInput, Prisma.CreatorProfileUpdateWithoutGoalsInput>, Prisma.CreatorProfileUncheckedUpdateWithoutGoalsInput>
+}
+
 export type CreatorProfileCreateNestedOneWithoutSupportsInput = {
   create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutSupportsInput, Prisma.CreatorProfileUncheckedCreateWithoutSupportsInput>
   connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutSupportsInput
@@ -562,9 +627,11 @@ export type CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput = {
 
 export type CreatorProfileCreateWithoutUserInput = {
   id?: string
+  slug: string
   pageTitle?: string
   thankYouMessage?: string | null
-  coffeePrice?: number
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -572,13 +639,16 @@ export type CreatorProfileCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutUserInput = {
   id?: string
+  slug: string
   pageTitle?: string
   thankYouMessage?: string | null
-  coffeePrice?: number
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -586,6 +656,7 @@ export type CreatorProfileUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutUserInput = {
@@ -606,9 +677,11 @@ export type CreatorProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type CreatorProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coffeePrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -616,13 +689,101 @@ export type CreatorProfileUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coffeePrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileCreateWithoutGoalsInput = {
+  id?: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
+  supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileUncheckedCreateWithoutGoalsInput = {
+  id?: string
+  userId: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileCreateOrConnectWithoutGoalsInput = {
+  where: Prisma.CreatorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutGoalsInput, Prisma.CreatorProfileUncheckedCreateWithoutGoalsInput>
+}
+
+export type CreatorProfileUpsertWithoutGoalsInput = {
+  update: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutGoalsInput, Prisma.CreatorProfileUncheckedUpdateWithoutGoalsInput>
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutGoalsInput, Prisma.CreatorProfileUncheckedCreateWithoutGoalsInput>
+  where?: Prisma.CreatorProfileWhereInput
+}
+
+export type CreatorProfileUpdateToOneWithWhereWithoutGoalsInput = {
+  where?: Prisma.CreatorProfileWhereInput
+  data: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutGoalsInput, Prisma.CreatorProfileUncheckedUpdateWithoutGoalsInput>
+}
+
+export type CreatorProfileUpdateWithoutGoalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileUncheckedUpdateWithoutGoalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -634,9 +795,11 @@ export type CreatorProfileUncheckedUpdateWithoutUserInput = {
 
 export type CreatorProfileCreateWithoutSupportsInput = {
   id?: string
+  slug: string
   pageTitle?: string
   thankYouMessage?: string | null
-  coffeePrice?: number
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -644,20 +807,24 @@ export type CreatorProfileCreateWithoutSupportsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutSupportsInput = {
   id?: string
   userId: string
+  slug: string
   pageTitle?: string
   thankYouMessage?: string | null
-  coffeePrice?: number
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
   totalSupports?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutSupportsInput = {
@@ -678,9 +845,11 @@ export type CreatorProfileUpdateToOneWithWhereWithoutSupportsInput = {
 
 export type CreatorProfileUpdateWithoutSupportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coffeePrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -688,20 +857,24 @@ export type CreatorProfileUpdateWithoutSupportsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutSupportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coffeePrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
   totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
 }
 
 
@@ -711,10 +884,12 @@ export type CreatorProfileUncheckedUpdateWithoutSupportsInput = {
 
 export type CreatorProfileCountOutputType = {
   supports: number
+  goals: number
 }
 
 export type CreatorProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   supports?: boolean | CreatorProfileCountOutputTypeCountSupportsArgs
+  goals?: boolean | CreatorProfileCountOutputTypeCountGoalsArgs
 }
 
 /**
@@ -734,12 +909,21 @@ export type CreatorProfileCountOutputTypeCountSupportsArgs<ExtArgs extends runti
   where?: Prisma.SupportWhereInput
 }
 
+/**
+ * CreatorProfileCountOutputType without action
+ */
+export type CreatorProfileCountOutputTypeCountGoalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CreatorGoalWhereInput
+}
+
 
 export type CreatorProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  slug?: boolean
   pageTitle?: boolean
   thankYouMessage?: boolean
+  coverImage?: boolean
   coffeePrice?: boolean
   socialLinks?: boolean
   isPublished?: boolean
@@ -749,14 +933,17 @@ export type CreatorProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   supports?: boolean | Prisma.CreatorProfile$supportsArgs<ExtArgs>
+  goals?: boolean | Prisma.CreatorProfile$goalsArgs<ExtArgs>
   _count?: boolean | Prisma.CreatorProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["creatorProfile"]>
 
 export type CreatorProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  slug?: boolean
   pageTitle?: boolean
   thankYouMessage?: boolean
+  coverImage?: boolean
   coffeePrice?: boolean
   socialLinks?: boolean
   isPublished?: boolean
@@ -770,8 +957,10 @@ export type CreatorProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Type
 export type CreatorProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  slug?: boolean
   pageTitle?: boolean
   thankYouMessage?: boolean
+  coverImage?: boolean
   coffeePrice?: boolean
   socialLinks?: boolean
   isPublished?: boolean
@@ -785,8 +974,10 @@ export type CreatorProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
 export type CreatorProfileSelectScalar = {
   id?: boolean
   userId?: boolean
+  slug?: boolean
   pageTitle?: boolean
   thankYouMessage?: boolean
+  coverImage?: boolean
   coffeePrice?: boolean
   socialLinks?: boolean
   isPublished?: boolean
@@ -796,10 +987,11 @@ export type CreatorProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CreatorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "pageTitle" | "thankYouMessage" | "coffeePrice" | "socialLinks" | "isPublished" | "totalSupporters" | "totalSupports" | "createdAt" | "updatedAt", ExtArgs["result"]["creatorProfile"]>
+export type CreatorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "pageTitle" | "thankYouMessage" | "coverImage" | "coffeePrice" | "socialLinks" | "isPublished" | "totalSupporters" | "totalSupports" | "createdAt" | "updatedAt", ExtArgs["result"]["creatorProfile"]>
 export type CreatorProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   supports?: boolean | Prisma.CreatorProfile$supportsArgs<ExtArgs>
+  goals?: boolean | Prisma.CreatorProfile$goalsArgs<ExtArgs>
   _count?: boolean | Prisma.CreatorProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CreatorProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -814,13 +1006,16 @@ export type $CreatorProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     supports: Prisma.$SupportPayload<ExtArgs>[]
+    goals: Prisma.$CreatorGoalPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
+    slug: string
     pageTitle: string
     thankYouMessage: string | null
-    coffeePrice: number
+    coverImage: string | null
+    coffeePrice: runtime.Decimal
     socialLinks: runtime.JsonValue | null
     isPublished: boolean
     totalSupporters: number
@@ -1223,6 +1418,7 @@ export interface Prisma__CreatorProfileClient<T, Null = never, ExtArgs extends r
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   supports<T extends Prisma.CreatorProfile$supportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$supportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  goals<T extends Prisma.CreatorProfile$goalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$goalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreatorGoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1254,9 +1450,11 @@ export interface Prisma__CreatorProfileClient<T, Null = never, ExtArgs extends r
 export interface CreatorProfileFieldRefs {
   readonly id: Prisma.FieldRef<"CreatorProfile", 'String'>
   readonly userId: Prisma.FieldRef<"CreatorProfile", 'String'>
+  readonly slug: Prisma.FieldRef<"CreatorProfile", 'String'>
   readonly pageTitle: Prisma.FieldRef<"CreatorProfile", 'String'>
   readonly thankYouMessage: Prisma.FieldRef<"CreatorProfile", 'String'>
-  readonly coffeePrice: Prisma.FieldRef<"CreatorProfile", 'Float'>
+  readonly coverImage: Prisma.FieldRef<"CreatorProfile", 'String'>
+  readonly coffeePrice: Prisma.FieldRef<"CreatorProfile", 'Decimal'>
   readonly socialLinks: Prisma.FieldRef<"CreatorProfile", 'Json'>
   readonly isPublished: Prisma.FieldRef<"CreatorProfile", 'Boolean'>
   readonly totalSupporters: Prisma.FieldRef<"CreatorProfile", 'Int'>
@@ -1685,6 +1883,30 @@ export type CreatorProfile$supportsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.SupportScalarFieldEnum | Prisma.SupportScalarFieldEnum[]
+}
+
+/**
+ * CreatorProfile.goals
+ */
+export type CreatorProfile$goalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CreatorGoal
+   */
+  select?: Prisma.CreatorGoalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CreatorGoal
+   */
+  omit?: Prisma.CreatorGoalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CreatorGoalInclude<ExtArgs> | null
+  where?: Prisma.CreatorGoalWhereInput
+  orderBy?: Prisma.CreatorGoalOrderByWithRelationInput | Prisma.CreatorGoalOrderByWithRelationInput[]
+  cursor?: Prisma.CreatorGoalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CreatorGoalScalarFieldEnum | Prisma.CreatorGoalScalarFieldEnum[]
 }
 
 /**

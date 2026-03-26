@@ -55,3 +55,72 @@ export const FinancialAccountType = {
 } as const
 
 export type FinancialAccountType = (typeof FinancialAccountType)[keyof typeof FinancialAccountType]
+
+
+export const TransactionType = {
+  CREDIT: 'CREDIT',
+  DEBIT: 'DEBIT'
+} as const
+
+export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
+
+
+export const TransactionReason = {
+  SUPPORT_RECEIVED: 'SUPPORT_RECEIVED',
+  WITHDRAWAL: 'WITHDRAWAL',
+  WITHDRAWAL_FAILED: 'WITHDRAWAL_FAILED',
+  REFUND: 'REFUND',
+  ADJUSTMENT: 'ADJUSTMENT'
+} as const
+
+export type TransactionReason = (typeof TransactionReason)[keyof typeof TransactionReason]
+
+
+export const NotificationType = {
+  SUPPORT_RECEIVED: 'SUPPORT_RECEIVED',
+  WITHDRAWAL_PROCESSED: 'WITHDRAWAL_PROCESSED',
+  WITHDRAWAL_REJECTED: 'WITHDRAWAL_REJECTED',
+  GOAL_REACHED: 'GOAL_REACHED',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const OtpPurpose = {
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION',
+  PHONE_VERIFICATION: 'PHONE_VERIFICATION',
+  PASSWORD_RESET: 'PASSWORD_RESET',
+  WITHDRAWAL_CONFIRM: 'WITHDRAWAL_CONFIRM'
+} as const
+
+export type OtpPurpose = (typeof OtpPurpose)[keyof typeof OtpPurpose]
+
+
+export const WebhookSource = {
+  CHAPA: 'CHAPA'
+} as const
+
+export type WebhookSource = (typeof WebhookSource)[keyof typeof WebhookSource]
+
+
+export const PayoutBatchStatus = {
+  OPEN: 'OPEN',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type PayoutBatchStatus = (typeof PayoutBatchStatus)[keyof typeof PayoutBatchStatus]
+
+
+export const AuditAction = {
+  WITHDRAWAL_STATUS_CHANGED: 'WITHDRAWAL_STATUS_CHANGED',
+  USER_BANNED: 'USER_BANNED',
+  USER_UNBANNED: 'USER_UNBANNED',
+  CREATOR_UNPUBLISHED: 'CREATOR_UNPUBLISHED',
+  PAYOUT_BATCH_PROCESSED: 'PAYOUT_BATCH_PROCESSED',
+  ADJUSTMENT_MADE: 'ADJUSTMENT_MADE'
+} as const
+
+export type AuditAction = (typeof AuditAction)[keyof typeof AuditAction]

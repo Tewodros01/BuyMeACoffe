@@ -291,6 +291,11 @@ export type UserWhereInput = {
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileNullableScalarRelationFilter, Prisma.CreatorProfileWhereInput> | null
   financialAccounts?: Prisma.FinancialAccountListRelationFilter
   withdrawals?: Prisma.WithdrawalListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
+  otpCodes?: Prisma.OtpVerificationListRelationFilter
+  supports?: Prisma.SupportListRelationFilter
+  auditLogsActed?: Prisma.AuditLogListRelationFilter
+  auditLogsTargeted?: Prisma.AuditLogListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -317,6 +322,11 @@ export type UserOrderByWithRelationInput = {
   creatorProfile?: Prisma.CreatorProfileOrderByWithRelationInput
   financialAccounts?: Prisma.FinancialAccountOrderByRelationAggregateInput
   withdrawals?: Prisma.WithdrawalOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  otpCodes?: Prisma.OtpVerificationOrderByRelationAggregateInput
+  supports?: Prisma.SupportOrderByRelationAggregateInput
+  auditLogsActed?: Prisma.AuditLogOrderByRelationAggregateInput
+  auditLogsTargeted?: Prisma.AuditLogOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -346,6 +356,11 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileNullableScalarRelationFilter, Prisma.CreatorProfileWhereInput> | null
   financialAccounts?: Prisma.FinancialAccountListRelationFilter
   withdrawals?: Prisma.WithdrawalListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
+  otpCodes?: Prisma.OtpVerificationListRelationFilter
+  supports?: Prisma.SupportListRelationFilter
+  auditLogsActed?: Prisma.AuditLogListRelationFilter
+  auditLogsTargeted?: Prisma.AuditLogListRelationFilter
 }, "id" | "username" | "email" | "phone" | "telegramId">
 
 export type UserOrderByWithAggregationInput = {
@@ -420,6 +435,11 @@ export type UserCreateInput = {
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -446,6 +466,11 @@ export type UserUncheckedCreateInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
 
 export type UserUpdateInput = {
@@ -472,6 +497,11 @@ export type UserUpdateInput = {
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -498,6 +528,11 @@ export type UserUncheckedUpdateInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -631,6 +666,11 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -667,6 +707,20 @@ export type UserUpdateOneRequiredWithoutSessionsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutSessionsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSessionsInput, Prisma.UserUpdateWithoutSessionsInput>, Prisma.UserUncheckedUpdateWithoutSessionsInput>
+}
+
+export type UserCreateNestedOneWithoutOtpCodesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOtpCodesInput, Prisma.UserUncheckedCreateWithoutOtpCodesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOtpCodesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutOtpCodesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOtpCodesInput, Prisma.UserUncheckedCreateWithoutOtpCodesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOtpCodesInput
+  upsert?: Prisma.UserUpsertWithoutOtpCodesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOtpCodesInput, Prisma.UserUpdateWithoutOtpCodesInput>, Prisma.UserUncheckedUpdateWithoutOtpCodesInput>
 }
 
 export type UserCreateNestedOneWithoutWalletInput = {
@@ -711,6 +765,22 @@ export type UserUpdateOneRequiredWithoutCreatorProfileNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatorProfileInput, Prisma.UserUpdateWithoutCreatorProfileInput>, Prisma.UserUncheckedUpdateWithoutCreatorProfileInput>
 }
 
+export type UserCreateNestedOneWithoutSupportsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSupportsInput, Prisma.UserUncheckedCreateWithoutSupportsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSupportsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutSupportsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSupportsInput, Prisma.UserUncheckedCreateWithoutSupportsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSupportsInput
+  upsert?: Prisma.UserUpsertWithoutSupportsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSupportsInput, Prisma.UserUpdateWithoutSupportsInput>, Prisma.UserUncheckedUpdateWithoutSupportsInput>
+}
+
 export type UserCreateNestedOneWithoutWithdrawalsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutWithdrawalsInput, Prisma.UserUncheckedCreateWithoutWithdrawalsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutWithdrawalsInput
@@ -723,6 +793,50 @@ export type UserUpdateOneRequiredWithoutWithdrawalsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutWithdrawalsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWithdrawalsInput, Prisma.UserUpdateWithoutWithdrawalsInput>, Prisma.UserUncheckedUpdateWithoutWithdrawalsInput>
+}
+
+export type UserCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.UserUpsertWithoutNotificationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type UserCreateNestedOneWithoutAuditLogsActedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsActedInput, Prisma.UserUncheckedCreateWithoutAuditLogsActedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuditLogsActedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutAuditLogsTargetedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsTargetedInput, Prisma.UserUncheckedCreateWithoutAuditLogsTargetedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuditLogsTargetedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAuditLogsActedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsActedInput, Prisma.UserUncheckedCreateWithoutAuditLogsActedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuditLogsActedInput
+  upsert?: Prisma.UserUpsertWithoutAuditLogsActedInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuditLogsActedInput, Prisma.UserUpdateWithoutAuditLogsActedInput>, Prisma.UserUncheckedUpdateWithoutAuditLogsActedInput>
+}
+
+export type UserUpdateOneWithoutAuditLogsTargetedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsTargetedInput, Prisma.UserUncheckedCreateWithoutAuditLogsTargetedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuditLogsTargetedInput
+  upsert?: Prisma.UserUpsertWithoutAuditLogsTargetedInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuditLogsTargetedInput, Prisma.UserUpdateWithoutAuditLogsTargetedInput>, Prisma.UserUncheckedUpdateWithoutAuditLogsTargetedInput>
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -748,6 +862,11 @@ export type UserCreateWithoutSessionsInput = {
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -773,6 +892,11 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -814,6 +938,11 @@ export type UserUpdateWithoutSessionsInput = {
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -839,6 +968,147 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserCreateWithoutOtpCodesInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserUncheckedCreateWithoutOtpCodesInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserCreateOrConnectWithoutOtpCodesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutOtpCodesInput, Prisma.UserUncheckedCreateWithoutOtpCodesInput>
+}
+
+export type UserUpsertWithoutOtpCodesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutOtpCodesInput, Prisma.UserUncheckedUpdateWithoutOtpCodesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutOtpCodesInput, Prisma.UserUncheckedCreateWithoutOtpCodesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutOtpCodesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutOtpCodesInput, Prisma.UserUncheckedUpdateWithoutOtpCodesInput>
+}
+
+export type UserUpdateWithoutOtpCodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutOtpCodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
 
 export type UserCreateWithoutWalletInput = {
@@ -864,6 +1134,11 @@ export type UserCreateWithoutWalletInput = {
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
 
 export type UserUncheckedCreateWithoutWalletInput = {
@@ -889,6 +1164,11 @@ export type UserUncheckedCreateWithoutWalletInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
 
 export type UserCreateOrConnectWithoutWalletInput = {
@@ -930,6 +1210,11 @@ export type UserUpdateWithoutWalletInput = {
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWalletInput = {
@@ -955,6 +1240,11 @@ export type UserUncheckedUpdateWithoutWalletInput = {
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
 
 export type UserCreateWithoutFinancialAccountsInput = {
@@ -980,6 +1270,11 @@ export type UserCreateWithoutFinancialAccountsInput = {
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
 
 export type UserUncheckedCreateWithoutFinancialAccountsInput = {
@@ -1005,6 +1300,11 @@ export type UserUncheckedCreateWithoutFinancialAccountsInput = {
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
 
 export type UserCreateOrConnectWithoutFinancialAccountsInput = {
@@ -1046,6 +1346,11 @@ export type UserUpdateWithoutFinancialAccountsInput = {
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFinancialAccountsInput = {
@@ -1071,6 +1376,11 @@ export type UserUncheckedUpdateWithoutFinancialAccountsInput = {
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
 
 export type UserCreateWithoutCreatorProfileInput = {
@@ -1096,6 +1406,11 @@ export type UserCreateWithoutCreatorProfileInput = {
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatorProfileInput = {
@@ -1121,6 +1436,11 @@ export type UserUncheckedCreateWithoutCreatorProfileInput = {
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatorProfileInput = {
@@ -1162,6 +1482,11 @@ export type UserUpdateWithoutCreatorProfileInput = {
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatorProfileInput = {
@@ -1187,6 +1512,147 @@ export type UserUncheckedUpdateWithoutCreatorProfileInput = {
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserCreateWithoutSupportsInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserUncheckedCreateWithoutSupportsInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserCreateOrConnectWithoutSupportsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSupportsInput, Prisma.UserUncheckedCreateWithoutSupportsInput>
+}
+
+export type UserUpsertWithoutSupportsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSupportsInput, Prisma.UserUncheckedUpdateWithoutSupportsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSupportsInput, Prisma.UserUncheckedCreateWithoutSupportsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSupportsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSupportsInput, Prisma.UserUncheckedUpdateWithoutSupportsInput>
+}
+
+export type UserUpdateWithoutSupportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSupportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
 
 export type UserCreateWithoutWithdrawalsInput = {
@@ -1212,6 +1678,11 @@ export type UserCreateWithoutWithdrawalsInput = {
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
 
 export type UserUncheckedCreateWithoutWithdrawalsInput = {
@@ -1237,6 +1708,11 @@ export type UserUncheckedCreateWithoutWithdrawalsInput = {
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
 
 export type UserCreateOrConnectWithoutWithdrawalsInput = {
@@ -1278,6 +1754,11 @@ export type UserUpdateWithoutWithdrawalsInput = {
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWithdrawalsInput = {
@@ -1303,6 +1784,419 @@ export type UserUncheckedUpdateWithoutWithdrawalsInput = {
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserCreateWithoutNotificationsInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+}
+
+export type UserUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type UserUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserCreateWithoutAuditLogsActedInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserUncheckedCreateWithoutAuditLogsActedInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserCreateOrConnectWithoutAuditLogsActedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsActedInput, Prisma.UserUncheckedCreateWithoutAuditLogsActedInput>
+}
+
+export type UserCreateWithoutAuditLogsTargetedInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+}
+
+export type UserUncheckedCreateWithoutAuditLogsTargetedInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+}
+
+export type UserCreateOrConnectWithoutAuditLogsTargetedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsTargetedInput, Prisma.UserUncheckedCreateWithoutAuditLogsTargetedInput>
+}
+
+export type UserUpsertWithoutAuditLogsActedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAuditLogsActedInput, Prisma.UserUncheckedUpdateWithoutAuditLogsActedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsActedInput, Prisma.UserUncheckedCreateWithoutAuditLogsActedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAuditLogsActedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAuditLogsActedInput, Prisma.UserUncheckedUpdateWithoutAuditLogsActedInput>
+}
+
+export type UserUpdateWithoutAuditLogsActedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAuditLogsActedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserUpsertWithoutAuditLogsTargetedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAuditLogsTargetedInput, Prisma.UserUncheckedUpdateWithoutAuditLogsTargetedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsTargetedInput, Prisma.UserUncheckedCreateWithoutAuditLogsTargetedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAuditLogsTargetedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAuditLogsTargetedInput, Prisma.UserUncheckedUpdateWithoutAuditLogsTargetedInput>
+}
+
+export type UserUpdateWithoutAuditLogsTargetedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAuditLogsTargetedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
 
@@ -1314,12 +2208,22 @@ export type UserCountOutputType = {
   sessions: number
   financialAccounts: number
   withdrawals: number
+  notifications: number
+  otpCodes: number
+  supports: number
+  auditLogsActed: number
+  auditLogsTargeted: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   financialAccounts?: boolean | UserCountOutputTypeCountFinancialAccountsArgs
   withdrawals?: boolean | UserCountOutputTypeCountWithdrawalsArgs
+  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+  otpCodes?: boolean | UserCountOutputTypeCountOtpCodesArgs
+  supports?: boolean | UserCountOutputTypeCountSupportsArgs
+  auditLogsActed?: boolean | UserCountOutputTypeCountAuditLogsActedArgs
+  auditLogsTargeted?: boolean | UserCountOutputTypeCountAuditLogsTargetedArgs
 }
 
 /**
@@ -1353,6 +2257,41 @@ export type UserCountOutputTypeCountWithdrawalsArgs<ExtArgs extends runtime.Type
   where?: Prisma.WithdrawalWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountOtpCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OtpVerificationWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSupportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SupportWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAuditLogsActedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuditLogWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAuditLogsTargetedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuditLogWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1378,6 +2317,11 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   creatorProfile?: boolean | Prisma.User$creatorProfileArgs<ExtArgs>
   financialAccounts?: boolean | Prisma.User$financialAccountsArgs<ExtArgs>
   withdrawals?: boolean | Prisma.User$withdrawalsArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  otpCodes?: boolean | Prisma.User$otpCodesArgs<ExtArgs>
+  supports?: boolean | Prisma.User$supportsArgs<ExtArgs>
+  auditLogsActed?: boolean | Prisma.User$auditLogsActedArgs<ExtArgs>
+  auditLogsTargeted?: boolean | Prisma.User$auditLogsTargetedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1451,6 +2395,11 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   creatorProfile?: boolean | Prisma.User$creatorProfileArgs<ExtArgs>
   financialAccounts?: boolean | Prisma.User$financialAccountsArgs<ExtArgs>
   withdrawals?: boolean | Prisma.User$withdrawalsArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  otpCodes?: boolean | Prisma.User$otpCodesArgs<ExtArgs>
+  supports?: boolean | Prisma.User$supportsArgs<ExtArgs>
+  auditLogsActed?: boolean | Prisma.User$auditLogsActedArgs<ExtArgs>
+  auditLogsTargeted?: boolean | Prisma.User$auditLogsTargetedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1464,6 +2413,11 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     creatorProfile: Prisma.$CreatorProfilePayload<ExtArgs> | null
     financialAccounts: Prisma.$FinancialAccountPayload<ExtArgs>[]
     withdrawals: Prisma.$WithdrawalPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    otpCodes: Prisma.$OtpVerificationPayload<ExtArgs>[]
+    supports: Prisma.$SupportPayload<ExtArgs>[]
+    auditLogsActed: Prisma.$AuditLogPayload<ExtArgs>[]
+    auditLogsTargeted: Prisma.$AuditLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1883,6 +2837,11 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   creatorProfile<T extends Prisma.User$creatorProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$creatorProfileArgs<ExtArgs>>): Prisma.Prisma__CreatorProfileClient<runtime.Types.Result.GetResult<Prisma.$CreatorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   financialAccounts<T extends Prisma.User$financialAccountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$financialAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FinancialAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   withdrawals<T extends Prisma.User$withdrawalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$withdrawalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  otpCodes<T extends Prisma.User$otpCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$otpCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OtpVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  supports<T extends Prisma.User$supportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$supportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  auditLogsActed<T extends Prisma.User$auditLogsActedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsActedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  auditLogsTargeted<T extends Prisma.User$auditLogsTargetedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsTargetedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2430,6 +3389,126 @@ export type User$withdrawalsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.WithdrawalScalarFieldEnum | Prisma.WithdrawalScalarFieldEnum[]
+}
+
+/**
+ * User.notifications
+ */
+export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * User.otpCodes
+ */
+export type User$otpCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OtpVerification
+   */
+  select?: Prisma.OtpVerificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OtpVerification
+   */
+  omit?: Prisma.OtpVerificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OtpVerificationInclude<ExtArgs> | null
+  where?: Prisma.OtpVerificationWhereInput
+  orderBy?: Prisma.OtpVerificationOrderByWithRelationInput | Prisma.OtpVerificationOrderByWithRelationInput[]
+  cursor?: Prisma.OtpVerificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OtpVerificationScalarFieldEnum | Prisma.OtpVerificationScalarFieldEnum[]
+}
+
+/**
+ * User.supports
+ */
+export type User$supportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Support
+   */
+  select?: Prisma.SupportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Support
+   */
+  omit?: Prisma.SupportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SupportInclude<ExtArgs> | null
+  where?: Prisma.SupportWhereInput
+  orderBy?: Prisma.SupportOrderByWithRelationInput | Prisma.SupportOrderByWithRelationInput[]
+  cursor?: Prisma.SupportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SupportScalarFieldEnum | Prisma.SupportScalarFieldEnum[]
+}
+
+/**
+ * User.auditLogsActed
+ */
+export type User$auditLogsActedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AuditLog
+   */
+  select?: Prisma.AuditLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AuditLog
+   */
+  omit?: Prisma.AuditLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuditLogInclude<ExtArgs> | null
+  where?: Prisma.AuditLogWhereInput
+  orderBy?: Prisma.AuditLogOrderByWithRelationInput | Prisma.AuditLogOrderByWithRelationInput[]
+  cursor?: Prisma.AuditLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
+}
+
+/**
+ * User.auditLogsTargeted
+ */
+export type User$auditLogsTargetedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AuditLog
+   */
+  select?: Prisma.AuditLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AuditLog
+   */
+  omit?: Prisma.AuditLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuditLogInclude<ExtArgs> | null
+  where?: Prisma.AuditLogWhereInput
+  orderBy?: Prisma.AuditLogOrderByWithRelationInput | Prisma.AuditLogOrderByWithRelationInput[]
+  cursor?: Prisma.AuditLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
 }
 
 /**

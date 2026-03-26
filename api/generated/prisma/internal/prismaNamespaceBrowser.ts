@@ -53,11 +53,18 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Session: 'Session',
+  OtpVerification: 'OtpVerification',
   Wallet: 'Wallet',
+  WalletTransaction: 'WalletTransaction',
   FinancialAccount: 'FinancialAccount',
   CreatorProfile: 'CreatorProfile',
+  CreatorGoal: 'CreatorGoal',
   Support: 'Support',
-  Withdrawal: 'Withdrawal'
+  PayoutBatch: 'PayoutBatch',
+  Withdrawal: 'Withdrawal',
+  Notification: 'Notification',
+  WebhookEvent: 'WebhookEvent',
+  AuditLog: 'AuditLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -113,19 +120,49 @@ export const SessionScalarFieldEnum = {
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+export const OtpVerificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  purpose: 'purpose',
+  code: 'code',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type OtpVerificationScalarFieldEnum = (typeof OtpVerificationScalarFieldEnum)[keyof typeof OtpVerificationScalarFieldEnum]
+
+
 export const WalletScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  balance: 'balance',
+  availableBalance: 'availableBalance',
+  lockedBalance: 'lockedBalance',
+  pendingBalance: 'pendingBalance',
   totalEarned: 'totalEarned',
   currency: 'currency',
-  isDefault: 'isDefault',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
+
+
+export const WalletTransactionScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  type: 'type',
+  reason: 'reason',
+  amount: 'amount',
+  balanceAfter: 'balanceAfter',
+  referenceId: 'referenceId',
+  referenceType: 'referenceType',
+  note: 'note',
+  createdAt: 'createdAt'
+} as const
+
+export type WalletTransactionScalarFieldEnum = (typeof WalletTransactionScalarFieldEnum)[keyof typeof WalletTransactionScalarFieldEnum]
 
 
 export const FinancialAccountScalarFieldEnum = {
@@ -148,8 +185,10 @@ export type FinancialAccountScalarFieldEnum = (typeof FinancialAccountScalarFiel
 export const CreatorProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  slug: 'slug',
   pageTitle: 'pageTitle',
   thankYouMessage: 'thankYouMessage',
+  coverImage: 'coverImage',
   coffeePrice: 'coffeePrice',
   socialLinks: 'socialLinks',
   isPublished: 'isPublished',
@@ -162,19 +201,43 @@ export const CreatorProfileScalarFieldEnum = {
 export type CreatorProfileScalarFieldEnum = (typeof CreatorProfileScalarFieldEnum)[keyof typeof CreatorProfileScalarFieldEnum]
 
 
+export const CreatorGoalScalarFieldEnum = {
+  id: 'id',
+  creatorProfileId: 'creatorProfileId',
+  title: 'title',
+  description: 'description',
+  targetAmount: 'targetAmount',
+  raisedAmount: 'raisedAmount',
+  currency: 'currency',
+  isActive: 'isActive',
+  reachedAt: 'reachedAt',
+  deadline: 'deadline',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CreatorGoalScalarFieldEnum = (typeof CreatorGoalScalarFieldEnum)[keyof typeof CreatorGoalScalarFieldEnum]
+
+
 export const SupportScalarFieldEnum = {
   id: 'id',
   creatorProfileId: 'creatorProfileId',
+  goalId: 'goalId',
+  supporterId: 'supporterId',
   supporterName: 'supporterName',
   supporterEmail: 'supporterEmail',
   message: 'message',
   coffeeCount: 'coffeeCount',
   amount: 'amount',
+  customAmount: 'customAmount',
+  platformFee: 'platformFee',
+  netAmount: 'netAmount',
   currency: 'currency',
   chapaRef: 'chapaRef',
   chapaCheckoutUrl: 'chapaCheckoutUrl',
   status: 'status',
   paidAt: 'paidAt',
+  walletCredited: 'walletCredited',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -182,21 +245,81 @@ export const SupportScalarFieldEnum = {
 export type SupportScalarFieldEnum = (typeof SupportScalarFieldEnum)[keyof typeof SupportScalarFieldEnum]
 
 
+export const PayoutBatchScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  totalAmount: 'totalAmount',
+  currency: 'currency',
+  processedAt: 'processedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PayoutBatchScalarFieldEnum = (typeof PayoutBatchScalarFieldEnum)[keyof typeof PayoutBatchScalarFieldEnum]
+
+
 export const WithdrawalScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   financialAccountId: 'financialAccountId',
+  payoutBatchId: 'payoutBatchId',
   amount: 'amount',
   currency: 'currency',
   method: 'method',
   status: 'status',
+  referenceId: 'referenceId',
   note: 'note',
+  adminNote: 'adminNote',
   processedAt: 'processedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type WithdrawalScalarFieldEnum = (typeof WithdrawalScalarFieldEnum)[keyof typeof WithdrawalScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  title: 'title',
+  body: 'body',
+  referenceId: 'referenceId',
+  isRead: 'isRead',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const WebhookEventScalarFieldEnum = {
+  id: 'id',
+  source: 'source',
+  externalId: 'externalId',
+  eventType: 'eventType',
+  payload: 'payload',
+  processedAt: 'processedAt',
+  error: 'error',
+  createdAt: 'createdAt'
+} as const
+
+export type WebhookEventScalarFieldEnum = (typeof WebhookEventScalarFieldEnum)[keyof typeof WebhookEventScalarFieldEnum]
+
+
+export const AuditLogScalarFieldEnum = {
+  id: 'id',
+  actorId: 'actorId',
+  targetUserId: 'targetUserId',
+  action: 'action',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  before: 'before',
+  after: 'after',
+  ipAddress: 'ipAddress',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -213,6 +336,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

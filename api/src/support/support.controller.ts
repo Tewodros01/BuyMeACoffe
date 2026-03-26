@@ -7,18 +7,16 @@ import {
   HttpStatus,
   Param,
   Post,
-  RawBodyRequest,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import { Request } from 'express';
+import type { ActiveUser } from '../auth/decorators/get-user.decorators';
 import { GetUser } from '../auth/decorators/get-user.decorators';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { OptionalJwtAuthGuard } from '../auth/guards/optional-jwt-auth.guard';
 import { InitiateSupportDto } from './dto/initiate-support.dto';
 import { SupportService } from './support.service';
-import { OptionalJwtAuthGuard } from '../auth/guards/optional-jwt-auth.guard';
 
 @ApiTags('supports')
 @Controller('supports')
@@ -33,7 +31,7 @@ export class SupportController {
   initiate(
     @Param('slug') slug: string,
     @Body() dto: InitiateSupportDto,
-    @GetUser() user?: { sub: string },
+    @GetUser() user?: ActiveUser,
   ) {
     return this.supportService.initiate(slug, dto, user?.sub);
   }
@@ -42,7 +40,7 @@ export class SupportController {
   @Post('webhook')
   @HttpCode(HttpStatus.OK)
   webhook(
-    @Req() req: RawBodyRequest<Request>,
+    @Req() req: { rawBody?: Buffer },
     @Headers('x-chapa-signature') signature: string,
   ) {
     const rawBody = req.rawBody?.toString('utf8') ?? '{}';

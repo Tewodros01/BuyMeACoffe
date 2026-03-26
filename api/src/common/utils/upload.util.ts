@@ -34,7 +34,7 @@ export function validateUploadMimeType(
 }
 
 export function storeUploadedFile(params: {
-  file: Express.Multer.File | undefined;
+  file: { mimetype: string; buffer: Buffer } | undefined;
   subdirectory: string;
   allowedMimeTypes: readonly string[];
   fallbackExtension: string;

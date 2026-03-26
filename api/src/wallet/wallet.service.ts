@@ -64,9 +64,7 @@ export class WalletService {
   async requestWithdrawal(userId: string, dto: RequestWithdrawalDto) {
     const wallet = await this.getWallet(userId);
 
-    if (!wallet.isActive) {
-      throw new BadRequestException('Wallet is not active');
-    }
+    if (!wallet.isActive) throw new BadRequestException('Wallet is not active');
     if (dto.amount < MIN_WITHDRAWAL) {
       throw new BadRequestException(`Minimum withdrawal is ETB ${MIN_WITHDRAWAL}`);
     }
@@ -82,7 +80,6 @@ export class WalletService {
     if (!account) throw new NotFoundException('Financial account not found');
 
     return this.prisma.$transaction(async (tx) => {
-      // Move funds from available → locked while withdrawal is processing
       const updatedWallet = await tx.wallet.update({
         where: { userId },
         data: {
@@ -110,7 +107,6 @@ export class WalletService {
         },
       });
 
-      // Record in ledger
       await tx.walletTransaction.create({
         data: {
           wallet: { connect: { userId } },
@@ -137,7 +133,6 @@ export class WalletService {
         currency: true,
         method: true,
         status: true,
-        referenceId: true,
         note: true,
         processedAt: true,
         createdAt: true,

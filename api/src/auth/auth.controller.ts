@@ -5,6 +5,7 @@ import {
   Headers,
   HttpCode,
   HttpStatus,
+  Ip,
   Param,
   Post,
   UseGuards,
@@ -40,8 +41,12 @@ export class AuthController {
   @Throttle({ short: { ttl: 60000, limit: 5 } })  // 5 registrations per minute
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
-  register(@Body() registerDto: RegisterDto) {
-    return this.authService.register(registerDto);
+  register(
+    @Body() registerDto: RegisterDto,
+    @Headers('user-agent') userAgent?: string,
+    @Ip() ipAddress?: string,
+  ) {
+    return this.authService.register(registerDto, { userAgent, ipAddress });
   }
 
   @ApiOperation({ summary: 'Login user' })
@@ -50,8 +55,12 @@ export class AuthController {
   @Throttle({ short: { ttl: 60000, limit: 10 } })  // 10 login attempts per minute
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto.email, loginDto.password);
+  login(
+    @Body() loginDto: LoginDto,
+    @Headers('user-agent') userAgent?: string,
+    @Ip() ipAddress?: string,
+  ) {
+    return this.authService.login(loginDto.email, loginDto.password, { userAgent, ipAddress });
   }
 
   @ApiOperation({ summary: 'Login or register with Telegram Mini App init data' })
