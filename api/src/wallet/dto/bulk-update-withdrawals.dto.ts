@@ -1,6 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsArray,
+  IsIn,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 import { WithdrawalStatus } from 'generated/prisma/client';
-import { IsArray, IsIn, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class BulkUpdateWithdrawalsDto {
   @ApiProperty({ type: [String] })

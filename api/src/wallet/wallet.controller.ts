@@ -18,9 +18,9 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { BulkUpdateWithdrawalsDto } from './dto/bulk-update-withdrawals.dto';
 import { ListAdminAuditLogsDto } from './dto/list-admin-audit-logs.dto';
-import { UpdateWithdrawalStatusDto } from './dto/update-withdrawal-status.dto';
 import { ListAdminWithdrawalsDto } from './dto/list-admin-withdrawals.dto';
 import { RequestWithdrawalDto } from './dto/request-withdrawal.dto';
+import { UpdateWithdrawalStatusDto } from './dto/update-withdrawal-status.dto';
 import { WalletService } from './wallet.service';
 
 @ApiTags('wallet')
@@ -46,7 +46,10 @@ export class WalletController {
   @Throttle({ short: { ttl: 60000, limit: 3 } })
   @Post('withdraw')
   @HttpCode(HttpStatus.CREATED)
-  requestWithdrawal(@GetUser('sub') userId: string, @Body() dto: RequestWithdrawalDto) {
+  requestWithdrawal(
+    @GetUser('sub') userId: string,
+    @Body() dto: RequestWithdrawalDto,
+  ) {
     return this.walletService.requestWithdrawal(userId, dto);
   }
 

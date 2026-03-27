@@ -10,7 +10,10 @@ import {
 } from 'class-validator';
 
 export class InitiateSupportDto {
-  @ApiProperty({ example: 'Abebe Bikila', description: 'Supporter display name' })
+  @ApiProperty({
+    example: 'Abebe Bikila',
+    description: 'Supporter display name',
+  })
   @IsString()
   @MaxLength(100)
   supporterName!: string;

@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import * as crypto from 'crypto';
@@ -34,6 +39,10 @@ export interface ChapaVerifyResponse {
   };
 }
 
+interface ChapaErrorResponse {
+  message?: string;
+}
+
 @Injectable()
 export class ChapaService {
   private readonly logger = new Logger(ChapaService.name);
@@ -43,17 +52,23 @@ export class ChapaService {
 
   constructor(private readonly configService: ConfigService) {
     const secretKey = this.configService.get<string>('chapa.secretKey');
-    const baseUrl = this.configService.get<string>('chapa.baseUrl') ?? 'https://api.chapa.co/v1';
+    const baseUrl =
+      this.configService.get<string>('chapa.baseUrl') ??
+      'https://api.chapa.co/v1';
 
     this.webhookSecret = this.configService.get<string>('chapa.webhookSecret');
     this.isProd = this.configService.get<string>('nodeEnv') === 'production';
 
     // Fail fast in production if critical config is missing
     if (this.isProd && !secretKey) {
-      throw new InternalServerErrorException('CHAPA_SECRET_KEY is required in production');
+      throw new InternalServerErrorException(
+        'CHAPA_SECRET_KEY is required in production',
+      );
     }
     if (this.isProd && !this.webhookSecret) {
-      throw new InternalServerErrorException('CHAPA_WEBHOOK_SECRET is required in production');
+      throw new InternalServerErrorException(
+        'CHAPA_WEBHOOK_SECRET is required in production',
+      );
     }
 
     this.http = axios.create({
@@ -66,35 +81,54 @@ export class ChapaService {
     });
   }
 
-  async initializePayment(payload: ChapaInitPayload): Promise<ChapaInitResponse> {
+  async initializePayment(
+    payload: ChapaInitPayload,
+  ): Promise<ChapaInitResponse> {
     try {
-      const { data } = await this.http.post<ChapaInitResponse>('/transaction/initialize', payload);
+      const { data } = await this.http.post<ChapaInitResponse>(
+        '/transaction/initialize',
+        payload,
+      );
       return data;
-    } catch (error: any) {
-      this.logger.error('Chapa init failed', error?.response?.data);
+    } catch (error: unknown) {
+      const responseData = this.getAxiosErrorData(error);
+      this.logger.error('Chapa init failed', responseData);
       throw new BadRequestException(
-        error?.response?.data?.message ?? 'Payment initialization failed',
+        responseData?.message ?? 'Payment initialization failed',
       );
     }
   }
 
   async verifyPayment(txRef: string): Promise<ChapaVerifyResponse> {
     try {
-      const { data } = await this.http.get<ChapaVerifyResponse>(`/transaction/verify/${txRef}`);
+      const { data } = await this.http.get<ChapaVerifyResponse>(
+        `/transaction/verify/${txRef}`,
+      );
       return data;
-    } catch (error: any) {
-      this.logger.error('Chapa verify failed', error?.response?.data);
+    } catch (error: unknown) {
+      const responseData = this.getAxiosErrorData(error);
+      this.logger.error('Chapa verify failed', responseData);
       throw new BadRequestException(
-        error?.response?.data?.message ?? 'Payment verification failed',
+        responseData?.message ?? 'Payment verification failed',
       );
     }
+  }
+
+  private getAxiosErrorData(error: unknown): ChapaErrorResponse | undefined {
+    if (axios.isAxiosError<ChapaErrorResponse>(error)) {
+      return error.response?.data;
+    }
+
+    return undefined;
   }
 
   verifyWebhookSignature(rawBody: string, signature: string): boolean {
     if (!this.webhookSecret) {
       // In dev without a secret configured, log a warning and allow through
       // In prod this is already blocked in the constructor
-      this.logger.warn('CHAPA_WEBHOOK_SECRET not set — skipping signature verification (dev only)');
+      this.logger.warn(
+        'CHAPA_WEBHOOK_SECRET not set — skipping signature verification (dev only)',
+      );
       return true;
     }
 

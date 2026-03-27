@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { AuditAction } from 'generated/prisma/client';
 import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
+import { AuditAction } from 'generated/prisma/client';
 
 export class ListAdminAuditLogsDto {
   @ApiPropertyOptional({ enum: AuditAction })

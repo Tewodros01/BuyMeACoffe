@@ -10,8 +10,8 @@ import {
   WithdrawalMethod,
   WithdrawalStatus,
 } from 'generated/prisma/client';
-import { PrismaService } from '../prisma/prisma.service';
 import { maskFinancialAccountNumber } from '../common/utils/encryption.util';
+import { PrismaService } from '../prisma/prisma.service';
 import { BulkUpdateWithdrawalsDto } from './dto/bulk-update-withdrawals.dto';
 import { ListAdminAuditLogsDto } from './dto/list-admin-audit-logs.dto';
 import { ListAdminWithdrawalsDto } from './dto/list-admin-withdrawals.dto';
@@ -79,7 +79,9 @@ export class WalletService {
 
   async requestWithdrawal(userId: string, dto: RequestWithdrawalDto) {
     if (dto.amount < MIN_WITHDRAWAL) {
-      throw new BadRequestException(`Minimum withdrawal is ETB ${MIN_WITHDRAWAL}`);
+      throw new BadRequestException(
+        `Minimum withdrawal is ETB ${MIN_WITHDRAWAL}`,
+      );
     }
 
     return this.prisma.$transaction(async (tx) => {
@@ -203,7 +205,11 @@ export class WalletService {
                   lastName: { contains: search, mode: 'insensitive' },
                 },
               },
-              { financialAccount: { provider: { contains: search, mode: 'insensitive' } } },
+              {
+                financialAccount: {
+                  provider: { contains: search, mode: 'insensitive' },
+                },
+              },
               { referenceId: { contains: search, mode: 'insensitive' } },
             ],
           }
@@ -214,10 +220,7 @@ export class WalletService {
       this.prisma.withdrawal.count({ where }),
       this.prisma.withdrawal.findMany({
         where,
-        orderBy: [
-          { status: 'asc' },
-          { createdAt: 'desc' },
-        ],
+        orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
         skip,
         take,
         select: {
@@ -343,8 +346,14 @@ export class WalletService {
             OR: [
               { entityId: { contains: search, mode: 'insensitive' } },
               { actor: { email: { contains: search, mode: 'insensitive' } } },
-              { actor: { username: { contains: search, mode: 'insensitive' } } },
-              { targetUser: { email: { contains: search, mode: 'insensitive' } } },
+              {
+                actor: { username: { contains: search, mode: 'insensitive' } },
+              },
+              {
+                targetUser: {
+                  email: { contains: search, mode: 'insensitive' },
+                },
+              },
             ],
           }
         : {}),
@@ -564,8 +573,7 @@ export class WalletService {
           status: dto.status,
           adminNote: dto.adminNote,
           referenceId: dto.referenceId,
-          processedAt:
-            dto.status === 'PROCESSING' ? null : new Date(),
+          processedAt: dto.status === 'PROCESSING' ? null : new Date(),
         },
         select: {
           id: true,

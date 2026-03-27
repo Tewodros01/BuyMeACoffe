@@ -42,7 +42,8 @@ export class SupportService {
 
     const txRef = this.chapa.generateTxRef('bmac');
     const apiUrl = this.config.get<string>('apiUrl') ?? 'http://localhost:3000';
-    const frontendUrl = this.config.get<string>('frontendUrl') ?? 'http://localhost:5173';
+    const frontendUrl =
+      this.config.get<string>('frontendUrl') ?? 'http://localhost:5173';
 
     const [firstName, ...rest] = dto.supporterName.trim().split(' ');
     const lastName = rest.join(' ') || 'Supporter';
@@ -79,7 +80,14 @@ export class SupportService {
       },
     });
 
-    return { checkoutUrl: chapaRes.data.checkout_url, txRef, amount, platformFee, netAmount, currency: 'ETB' };
+    return {
+      checkoutUrl: chapaRes.data.checkout_url,
+      txRef,
+      amount,
+      platformFee,
+      netAmount,
+      currency: 'ETB',
+    };
   }
 
   async handleWebhook(rawBody: string, signature: string) {
@@ -108,7 +116,10 @@ export class SupportService {
         },
       });
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
         const existingEvent = await this.prisma.webhookEvent.findUnique({
           where: { externalId: txRef },
           select: { processedAt: true },
@@ -134,7 +145,8 @@ export class SupportService {
       await this.prisma.webhookEvent.update({
         where: { externalId: txRef },
         data: {
-          error: error instanceof Error ? error.message : 'Unknown webhook error',
+          error:
+            error instanceof Error ? error.message : 'Unknown webhook error',
         },
       });
       throw error;
@@ -261,7 +273,9 @@ export class SupportService {
           userId: creatorUserId,
           type: 'SUPPORT_RECEIVED',
           title: `${support.supporterName} bought you ${support.coffeeCount} coffee${support.coffeeCount > 1 ? 's' : ''}! ☕`,
-          body: support.message ?? `ETB ${Number(support.amount).toFixed(2)} received`,
+          body:
+            support.message ??
+            `ETB ${Number(support.amount).toFixed(2)} received`,
           referenceId: support.id,
         },
       });
@@ -283,7 +297,9 @@ export class SupportService {
       })
       .catch((err) => this.logger.error('Telegram notify failed', err));
 
-    this.logger.log(`Payment completed: ${txRef} — ETB ${support.amount}`);
+    this.logger.log(
+      `Payment completed: ${txRef} — ETB ${support.amount.toFixed(2)}`,
+    );
     return { status: 'completed' };
   }
 }

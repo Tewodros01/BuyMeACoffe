@@ -1,13 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 import { WithdrawalStatus } from 'generated/prisma/client';
-import {
-  IsEnum,
-  IsInt,
-  IsOptional,
-  IsString,
-  Max,
-  Min,
-} from 'class-validator';
 
 export class ListAdminWithdrawalsDto {
   @ApiPropertyOptional({ enum: WithdrawalStatus })
