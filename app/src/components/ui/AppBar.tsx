@@ -68,10 +68,13 @@ export function AppBar({
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 -mx-4 flex w-[calc(100%+2rem)] items-center justify-between gap-3 border-b border-white/[0.06] bg-[#07070f]/85 px-4 py-3 backdrop-blur-xl",
+        "sticky top-0 z-40 -mx-4 -mt-5 flex w-[calc(100%+2rem)] items-center justify-between gap-3 border-b border-white/[0.06] bg-[#07070f]/85 px-4 py-3 backdrop-blur-xl",
         className,
       )}
-      style={style}
+      style={{
+        paddingTop: "calc(0.75rem + env(safe-area-inset-top, 0px))",
+        ...style,
+      }}
     >
       <div className="min-w-0 flex-1">{leftContent}</div>
 
