@@ -22,7 +22,10 @@ export class CreatorController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update my creator profile' })
   @Patch('profile')
-  updateProfile(@GetUser('sub') userId: string, @Body() dto: UpdateCreatorProfileDto) {
+  updateProfile(
+    @GetUser('sub') userId: string,
+    @Body() dto: UpdateCreatorProfileDto,
+  ) {
     return this.creatorService.updateProfile(userId, dto);
   }
 

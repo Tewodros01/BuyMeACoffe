@@ -29,9 +29,11 @@ export default function PaymentSuccessPage() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-        <Spinner className="w-10 h-10" />
-        <p className="text-[#7c7c9a] text-sm">Verifying your payment…</p>
+      <div className="flex min-h-screen items-center justify-center px-6">
+        <div className="w-full max-w-sm rounded-[28px] border border-white/[0.08] bg-[#0e0e1c]/95 p-8 text-center shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+          <Spinner className="mx-auto w-10 h-10" />
+          <p className="mt-4 text-sm text-[#7c7c9a]">Verifying your payment…</p>
+        </div>
       </div>
     )
   }
@@ -39,15 +41,16 @@ export default function PaymentSuccessPage() {
   const success = data?.status === 'completed' || data?.status === 'already_completed'
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-6 gap-6 fade-in">
-      <div className={`w-24 h-24 rounded-full flex items-center justify-center ${success ? 'bg-emerald-500/10' : 'bg-red-500/10'}`}>
+    <div className="flex min-h-screen items-center justify-center px-6 py-10 fade-in">
+      <div className="w-full max-w-sm rounded-[28px] border border-white/[0.08] bg-[#0e0e1c]/95 p-8 text-center shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+      <div className={`mx-auto flex h-24 w-24 items-center justify-center rounded-full ${success ? 'bg-emerald-500/10' : 'bg-red-500/10'}`}>
         {success
           ? <CheckCircle className="w-12 h-12 text-emerald-400" />
           : <XCircle className="w-12 h-12 text-red-400" />
         }
       </div>
 
-      <div className="text-center">
+      <div className="mt-6 text-center">
         <h1 className="text-2xl font-bold text-[#e2e2f0]">
           {success ? 'Payment Successful!' : 'Payment Failed'}
         </h1>
@@ -59,7 +62,7 @@ export default function PaymentSuccessPage() {
         {txRef && <p className="text-xs text-[#4a4a6a] mt-2 font-mono">Ref: {txRef}</p>}
       </div>
 
-      <div className="flex flex-col gap-3 w-full max-w-xs">
+      <div className="mt-6 flex flex-col gap-3">
         <Button fullWidth onClick={() => navigate(-1)}>
           <Coffee className="w-4 h-4" />
           {success ? 'Back to Creator' : 'Try Again'}
@@ -67,6 +70,7 @@ export default function PaymentSuccessPage() {
         <Button variant="ghost" fullWidth onClick={() => navigate('/home')}>
           Go Home
         </Button>
+      </div>
       </div>
     </div>
   )

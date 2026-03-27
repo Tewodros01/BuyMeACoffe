@@ -80,40 +80,44 @@ export default function OnboardingPage() {
   const current = steps[step]
 
   return (
-    <div className="flex flex-col min-h-screen px-5 pt-10 pb-8">
-      {/* Progress */}
-      <div className="flex gap-1.5 mb-8">
-        {steps.map((_, i) => (
-          <div key={i} className={`h-1 flex-1 rounded-full transition-all duration-300 ${i <= step ? 'bg-amber-500' : 'bg-[#2a2a3a]'}`} />
-        ))}
-      </div>
+    <div className="flex min-h-screen flex-col px-5 py-8">
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col">
+        <div className="mb-8 rounded-[28px] border border-white/[0.08] bg-[#0e0e1c]/95 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+          <div className="mb-6 flex gap-1.5">
+            {steps.map((_, i) => (
+              <div key={i} className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${i <= step ? 'bg-amber-500' : 'bg-white/[0.08]'}`} />
+            ))}
+          </div>
 
-      <div className="flex-1 flex flex-col">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-[#e2e2f0]">{current.title}</h1>
-          <p className="text-sm text-[#7c7c9a] mt-1">{current.subtitle}</p>
+          <div className="mb-6">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-amber-500/15 bg-amber-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-amber-300">
+              Creator Setup
+            </div>
+            <h1 className="text-2xl font-bold text-[#e2e2f0]">{current.title}</h1>
+            <p className="mt-1 text-sm text-[#7c7c9a]">{current.subtitle}</p>
+          </div>
+
+          <div>{current.content}</div>
         </div>
 
-        <div className="flex-1">{current.content}</div>
-      </div>
-
-      <div className="flex flex-col gap-3 mt-8">
-        {setupMutation.error && (
-          <p className="text-xs text-red-400 text-center">{(setupMutation.error as any)?.response?.data?.message ?? 'Setup failed'}</p>
-        )}
-        <Button
-          fullWidth size="lg"
-          loading={setupMutation.isPending}
-          onClick={() => {
-            if (isLast) { setupMutation.mutate() }
-            else { haptic('light'); setStep(s => s + 1) }
-          }}
-        >
-          {isLast ? <><Sparkles className="w-4 h-4" /> Launch My Page</> : <><ArrowRight className="w-4 h-4" /> Continue</>}
-        </Button>
-        {step > 0 && (
-          <Button variant="ghost" fullWidth onClick={() => setStep(s => s - 1)}>Back</Button>
-        )}
+        <div className="mt-auto flex flex-col gap-3">
+          {setupMutation.error && (
+            <p className="text-xs text-red-400 text-center">{(setupMutation.error as any)?.response?.data?.message ?? 'Setup failed'}</p>
+          )}
+          <Button
+            fullWidth size="lg"
+            loading={setupMutation.isPending}
+            onClick={() => {
+              if (isLast) { setupMutation.mutate() }
+              else { haptic('light'); setStep(s => s + 1) }
+            }}
+          >
+            {isLast ? <><Sparkles className="w-4 h-4" /> Launch My Page</> : <><ArrowRight className="w-4 h-4" /> Continue</>}
+          </Button>
+          {step > 0 && (
+            <Button variant="ghost" fullWidth onClick={() => setStep(s => s - 1)}>Back</Button>
+          )}
+        </div>
       </div>
     </div>
   )

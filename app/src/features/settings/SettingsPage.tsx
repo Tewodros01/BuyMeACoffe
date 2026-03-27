@@ -2,9 +2,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { type AxiosError } from "axios";
 import {
-  ChevronRight,
+  ArrowUpRight,
   Coffee,
   CreditCard,
+  PencilLine,
   Globe,
   LogOut,
   Plus,
@@ -16,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/Button";
 import {
+  AppBar,
   Avatar,
   Badge,
   Card,
@@ -116,8 +118,21 @@ export default function SettingsPage() {
   if (section === "main")
     return (
       <div className="flex flex-col gap-5 px-4 pt-5 pb-28 fade-in">
-        <h1 className="text-xl font-bold text-[#e2e2f0]">Settings</h1>
-
+        <AppBar
+          title="Settings"
+          subtitle="Manage your creator page and payouts"
+          trailing={
+            <button
+              type="button"
+              aria-label="Edit profile"
+              title="Edit profile"
+              onClick={() => setSection("profile")}
+              className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/[0.07] bg-white/[0.05] text-white/40 transition-colors hover:text-amber-400"
+            >
+              <PencilLine className="h-4 w-4" aria-hidden="true" />
+            </button>
+          }
+        />
         {/* Profile Card */}
         <Card className="p-4 flex items-center gap-4">
           <Avatar
@@ -174,7 +189,7 @@ export default function SettingsPage() {
                   </p>
                   <p className="text-xs text-[#7c7c9a]">{item.sub}</p>
                 </div>
-                <ChevronRight className="w-4 h-4 text-[#4a4a6a]" />
+                <ArrowUpRight className="w-4 h-4 text-[#4a4a6a]" />
               </button>
             </div>
           ))}
@@ -190,16 +205,11 @@ export default function SettingsPage() {
   if (section === "profile")
     return (
       <div className="flex flex-col gap-5 px-4 pt-5 pb-28 fade-in">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setSection("main")}
-            aria-label="Back to settings"
-            className="text-[#7c7c9a] hover:text-[#e2e2f0]"
-          >
-            ←
-          </button>
-          <h1 className="text-xl font-bold text-[#e2e2f0]">Creator Profile</h1>
-        </div>
+        <AppBar
+          title="Creator Profile"
+          back
+          onBack={() => setSection("main")}
+        />
         <form
           onSubmit={profileForm.handleSubmit((d) =>
             updateProfileMutation.mutate(d),
@@ -251,23 +261,16 @@ export default function SettingsPage() {
   if (section === "accounts")
     return (
       <div className="flex flex-col gap-5 px-4 pt-5 pb-28 fade-in">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setSection("main")}
-              aria-label="Back to settings"
-              className="text-[#7c7c9a] hover:text-[#e2e2f0]"
-            >
-              ←
-            </button>
-            <h1 className="text-xl font-bold text-[#e2e2f0]">
-              Financial Accounts
-            </h1>
-          </div>
-          <Button size="sm" onClick={() => setSection("add-account")}>
-            <Plus className="w-4 h-4" /> Add
-          </Button>
-        </div>
+        <AppBar
+          title="Financial Accounts"
+          back
+          onBack={() => setSection("main")}
+          trailing={
+            <Button size="sm" onClick={() => setSection("add-account")}>
+              <Plus className="w-4 h-4" /> Add
+            </Button>
+          }
+        />
 
         {accountsLoading ? (
           <Spinner />
@@ -328,16 +331,11 @@ export default function SettingsPage() {
   if (section === "add-account")
     return (
       <div className="flex flex-col gap-5 px-4 pt-5 pb-28 fade-in">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setSection("accounts")}
-            aria-label="Back to financial accounts"
-            className="text-[#7c7c9a] hover:text-[#e2e2f0]"
-          >
-            ←
-          </button>
-          <h1 className="text-xl font-bold text-[#e2e2f0]">Add Account</h1>
-        </div>
+        <AppBar
+          title="Add Account"
+          back
+          onBack={() => setSection("accounts")}
+        />
         <form
           onSubmit={accountForm.handleSubmit((d) =>
             addAccountMutation.mutate(d),

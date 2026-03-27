@@ -23,11 +23,15 @@ const accountSelect = {
   createdAt: true,
 } as const;
 
-function maskAccount(account: { accountNumber: string; [key: string]: unknown }) {
+function maskAccount(account: {
+  accountNumber: string;
+  [key: string]: unknown;
+}) {
   const n = account.accountNumber;
   return {
     ...account,
-    accountNumber: n.length > 4 ? `${'*'.repeat(n.length - 4)}${n.slice(-4)}` : '****',
+    accountNumber:
+      n.length > 4 ? `${'*'.repeat(n.length - 4)}${n.slice(-4)}` : '****',
   };
 }
 
@@ -49,7 +53,9 @@ export class FinancialAccountService {
       where: { userId, isActive: true },
     });
     if (count >= MAX_ACCOUNTS) {
-      throw new BadRequestException(`Maximum of ${MAX_ACCOUNTS} accounts allowed`);
+      throw new BadRequestException(
+        `Maximum of ${MAX_ACCOUNTS} accounts allowed`,
+      );
     }
 
     return this.prisma.$transaction(async (tx) => {
@@ -73,7 +79,11 @@ export class FinancialAccountService {
     });
   }
 
-  async update(userId: string, accountId: string, dto: UpdateFinancialAccountDto) {
+  async update(
+    userId: string,
+    accountId: string,
+    dto: UpdateFinancialAccountDto,
+  ) {
     await this.findActiveOrThrow(userId, accountId);
 
     return this.prisma.$transaction(async (tx) => {

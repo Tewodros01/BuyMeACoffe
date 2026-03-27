@@ -1,5 +1,6 @@
 import { type HTMLAttributes, type InputHTMLAttributes, forwardRef } from 'react'
 import { cn } from './utils'
+export { AppBar } from './AppBar'
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
 interface CardProps extends HTMLAttributes<HTMLDivElement> { glow?: 'amber' | 'green' | 'blue' }

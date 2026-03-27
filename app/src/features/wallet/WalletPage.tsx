@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowDownLeft, ArrowUpRight, Clock, Lock, AlertCircle, Send, X } from 'lucide-react'
 import { walletApi, RequestWithdrawalSchema, type RequestWithdrawalInput } from './walletApi'
 import { financialAccountApi } from '../settings/financialAccountApi'
-import { Badge, Spinner, Empty, Divider, SectionHeader } from '../../components/ui/index'
+import { AppBar, Badge, Spinner, Empty, Divider, SectionHeader } from '../../components/ui/index'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/index'
 import { formatETB, timeAgo } from '../creator/utils'
@@ -57,10 +57,7 @@ export default function WalletPage() {
       <div className="relative flex flex-col gap-5 px-4 pt-5 stagger">
 
         {/* Header */}
-        <div className="flex items-center justify-between fade-up">
-          <h1 className="text-[22px] font-bold text-white tracking-tight">Wallet</h1>
-          <Badge variant="success" dot>ETB</Badge>
-        </div>
+        <AppBar title="Wallet" trailing={<Badge variant="success" dot>ETB</Badge>} className="fade-up" />
 
         {/* Balance Card */}
         <div className="relative rounded-[24px] overflow-hidden fade-up" style={{ animationDelay: '40ms' }}>

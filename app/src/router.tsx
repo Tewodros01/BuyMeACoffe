@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { useAuthStore } from './store/authStore'
-import { BottomNav } from './components/ui/BottomNav'
+import { AppLayout } from './components/ui/Layout'
 import AuthPage from './features/auth/AuthPage'
 import HomePage from './features/creator/HomePage'
 import PublicCreatorPage from './features/creator/PublicCreatorPage'
@@ -28,12 +28,7 @@ function OnboardingGuard({ children }: { children: React.ReactNode }) {
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
   const showNav = AUTHED_ROUTES.includes(location.pathname) && location.pathname !== '/onboarding'
-  return (
-    <div className="flex flex-col min-h-screen max-w-lg mx-auto relative">
-      <main className="flex-1">{children}</main>
-      {showNav && <BottomNav />}
-    </div>
-  )
+  return <AppLayout showNav={showNav}>{children}</AppLayout>
 }
 
 export default function AppRouter() {

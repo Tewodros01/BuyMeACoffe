@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdateCreatorProfileDto } from './dto/update-creator-profile.dto';
 
@@ -156,7 +160,10 @@ export class CreatorService {
   }
 
   private async generateUniqueSlug(base: string): Promise<string> {
-    const sanitized = base.toLowerCase().replace(/[^a-z0-9_-]/g, '-').slice(0, 30);
+    const sanitized = base
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]/g, '-')
+      .slice(0, 30);
     let candidate = sanitized;
     let suffix = 1;
 

@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Bell, CheckCheck, Coffee, Wallet } from "lucide-react";
 import { z } from "zod";
 import { Button } from "../../components/ui/Button";
-import { Badge, Card, Empty, Spinner } from "../../components/ui/index";
+import { AppBar, Badge, Card, Empty, Spinner } from "../../components/ui/index";
 import { api } from "../../lib/api";
 import { haptic } from "../../lib/telegram";
 import { timeAgo } from "../creator/utils";
@@ -64,22 +64,26 @@ export default function NotificationsPage() {
 
   return (
     <div className="flex flex-col gap-5 px-4 pt-5 pb-28 fade-in">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <h1 className="text-xl font-bold text-[#e2e2f0]">Notifications</h1>
-          {unread > 0 && <Badge variant="warning">{unread}</Badge>}
-        </div>
-        {unread > 0 && (
-          <Button
-            size="sm"
-            variant="ghost"
-            loading={markAllMutation.isPending}
-            onClick={() => markAllMutation.mutate()}
-          >
-            <CheckCheck className="w-4 h-4" /> Mark all read
-          </Button>
-        )}
-      </div>
+      <AppBar
+        title={
+          <div className="flex items-center gap-2">
+            <span>Notifications</span>
+            {unread > 0 && <Badge variant="warning">{unread}</Badge>}
+          </div>
+        }
+        trailing={
+          unread > 0 ? (
+            <Button
+              size="sm"
+              variant="ghost"
+              loading={markAllMutation.isPending}
+              onClick={() => markAllMutation.mutate()}
+            >
+              <CheckCheck className="w-4 h-4" /> Mark all read
+            </Button>
+          ) : undefined
+        }
+      />
 
       {isLoading ? (
         <div className="flex justify-center py-12">

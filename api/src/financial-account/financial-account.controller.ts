@@ -35,7 +35,10 @@ export class FinancialAccountController {
   @ApiOperation({ summary: 'Add a financial account' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@GetUser('sub') userId: string, @Body() dto: CreateFinancialAccountDto) {
+  create(
+    @GetUser('sub') userId: string,
+    @Body() dto: CreateFinancialAccountDto,
+  ) {
     return this.service.create(userId, dto);
   }
 

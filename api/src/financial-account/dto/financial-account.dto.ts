@@ -1,5 +1,4 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { FinancialAccountType } from 'generated/prisma/client';
 import {
   IsBoolean,
   IsEnum,
@@ -9,13 +8,17 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { FinancialAccountType } from 'generated/prisma/client';
 
 export class CreateFinancialAccountDto {
   @ApiProperty({ enum: FinancialAccountType, example: 'MOBILE_MONEY' })
   @IsEnum(FinancialAccountType)
   type!: FinancialAccountType;
 
-  @ApiProperty({ example: 'telebirr', description: 'telebirr | cbe | awash | dashen | bank_transfer' })
+  @ApiProperty({
+    example: 'telebirr',
+    description: 'telebirr | cbe | awash | dashen | bank_transfer',
+  })
   @IsString()
   @MinLength(2)
   @MaxLength(50)
@@ -31,7 +34,9 @@ export class CreateFinancialAccountDto {
   @IsString()
   @MinLength(5)
   @MaxLength(30)
-  @Matches(/^[0-9+\-\s]+$/, { message: 'Account number must contain only digits, +, -, or spaces' })
+  @Matches(/^[0-9+\-\s]+$/, {
+    message: 'Account number must contain only digits, +, -, or spaces',
+  })
   accountNumber!: string;
 
   @ApiPropertyOptional({ example: 'My TeleBirr' })

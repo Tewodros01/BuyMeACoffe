@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { TrendingUp, Users, Coffee, Copy, ExternalLink, ArrowDownLeft, Bell } from 'lucide-react'
 import { creatorApi } from './creatorApi'
 import { useAuthStore } from '../../store/authStore'
-import { Avatar, Badge, Spinner, Empty, SectionHeader } from '../../components/ui/index'
+import { AppBar, Avatar, Badge, Spinner, Empty, SectionHeader } from '../../components/ui/index'
 import { haptic } from '../../lib/telegram'
 import { formatETB, timeAgo } from './utils'
 import { useNavigate } from 'react-router-dom'
@@ -39,19 +39,20 @@ export default function HomePage() {
       <div className="relative flex flex-col gap-5 px-4 pt-5 stagger">
 
         {/* Header */}
-        <div className="flex items-center justify-between fade-up">
-          <div>
-            <p className="text-[12px] text-white/30 font-medium">Good day ☕</p>
-            <h1 className="text-[22px] font-bold text-white tracking-tight mt-0.5">{user?.firstName} {user?.lastName}</h1>
-          </div>
-          <div className="flex items-center gap-2">
-            <button onClick={() => navigate('/notifications')}
-              className="w-10 h-10 rounded-2xl bg-white/[0.05] border border-white/[0.07] flex items-center justify-center text-white/30 active:scale-95 transition-transform">
-              <Bell className="w-[18px] h-[18px]" />
-            </button>
-            <Avatar src={user?.avatar} name={`${user?.firstName} ${user?.lastName}`} size="md" />
-          </div>
-        </div>
+        <AppBar
+          title={`${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() || 'Creator'}
+          subtitle="Good day ☕"
+          trailing={
+            <>
+              <button onClick={() => navigate('/notifications')}
+                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/[0.07] bg-white/[0.05] text-white/30 transition-transform active:scale-95">
+                <Bell className="h-[18px] w-[18px]" />
+              </button>
+              <Avatar src={user?.avatar} name={`${user?.firstName} ${user?.lastName}`} size="md" />
+            </>
+          }
+          className="fade-up"
+        />
 
         {/* Balance Card */}
         <div className="relative rounded-[24px] overflow-hidden fade-up" style={{ animationDelay: '50ms' }}>
