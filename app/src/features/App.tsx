@@ -1,12 +1,16 @@
+import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AppLayout } from "../components/ui/Layout";
+import { Spinner } from "../components/ui";
 import { APP_ROUTES, AUTHED_ROUTES } from "../config/routes";
+import { authApi } from "./auth/authApi";
 import { useAuthStore } from "../store/authStore";
 import AuthPage from "./auth/AuthPage";
 import HomePage from "./creator/HomePage";
 import OnboardingPage from "./creator/OnboardingPage";
 import PublicCreatorPage from "./creator/PublicCreatorPage";
 import NotificationsPage from "./notifications/NotificationsPage";
+import AdminWithdrawalsPage from "./admin/AdminWithdrawalsPage";
 import SettingsPage from "./settings/SettingsPage";
 import PaymentSuccessPage from "./support/PaymentSuccessPage";
 import WalletPage from "./wallet/WalletPage";
@@ -32,6 +36,16 @@ function OnboardingGuard({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+function AdminGuard({ children }: { children: React.ReactNode }) {
+  const user = useAuthStore((state) => state.user);
+
+  if (user?.role !== 'ADMIN') {
+    return <Navigate to={APP_ROUTES.home} replace />;
+  }
+
+  return <>{children}</>;
+}
+
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const showNav =
@@ -42,6 +56,26 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 const App = () => {
+  const authReady = useAuthStore((state) => state.authReady);
+  const setSession = useAuthStore((state) => state.setSession);
+
+  useEffect(() => {
+    if (authReady) return;
+
+    authApi
+      .getProfile()
+      .then((user) => setSession(user))
+      .catch(() => setSession(null));
+  }, [authReady, setSession]);
+
+  if (!authReady) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#07070f]">
+        <Spinner className="h-8 w-8" />
+      </div>
+    );
+  }
+
   return (
     <Layout>
       <Routes>
@@ -91,6 +125,16 @@ const App = () => {
               <OnboardingGuard>
                 <NotificationsPage />
               </OnboardingGuard>
+            </AuthGuard>
+          }
+        />
+        <Route
+          path={APP_ROUTES.adminWithdrawals}
+          element={
+            <AuthGuard>
+              <AdminGuard>
+                <AdminWithdrawalsPage />
+              </AdminGuard>
             </AuthGuard>
           }
         />

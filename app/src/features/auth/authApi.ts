@@ -3,8 +3,6 @@ import { api } from '../../lib/api'
 import { UserSchema } from '../../store/authStore'
 
 const AuthResponseSchema = z.object({
-  access_token: z.string(),
-  refresh_token: z.string(),
   user: UserSchema,
 })
 
@@ -47,7 +45,7 @@ export const authApi = {
     return UserSchema.parse(data)
   },
 
-  logout: async (refreshToken: string) => {
-    await api.post('/auth/logout', { refresh_token: refreshToken })
+  logout: async () => {
+    await api.post('/auth/logout', {})
   },
 }

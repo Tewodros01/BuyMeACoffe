@@ -109,20 +109,36 @@ export class SupportService {
       });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
-        this.logger.warn(`Duplicate webhook for txRef: ${txRef}`);
-        return { status: 'already_processed' };
+        const existingEvent = await this.prisma.webhookEvent.findUnique({
+          where: { externalId: txRef },
+          select: { processedAt: true },
+        });
+        if (existingEvent?.processedAt) {
+          this.logger.warn(`Duplicate webhook for txRef: ${txRef}`);
+          return { status: 'already_processed' };
+        }
       }
       throw error;
     }
 
-    const result = await this.processPayment(txRef);
+    try {
+      const result = await this.processPayment(txRef);
 
-    await this.prisma.webhookEvent.update({
-      where: { externalId: txRef },
-      data: { processedAt: new Date() },
-    });
+      await this.prisma.webhookEvent.update({
+        where: { externalId: txRef },
+        data: { processedAt: new Date(), error: null },
+      });
 
-    return result;
+      return result;
+    } catch (error) {
+      await this.prisma.webhookEvent.update({
+        where: { externalId: txRef },
+        data: {
+          error: error instanceof Error ? error.message : 'Unknown webhook error',
+        },
+      });
+      throw error;
+    }
   }
 
   async verifyAndComplete(txRef: string) {
@@ -151,8 +167,12 @@ export class SupportService {
     }
 
     const verification = await this.chapa.verifyPayment(txRef);
+    const verifiedAmount = new Prisma.Decimal(verification.data.amount);
 
-    if (verification.data.status !== 'success') {
+    if (
+      verification.data.status !== 'success' ||
+      verification.data.tx_ref !== txRef
+    ) {
       await this.prisma.support.update({
         where: { chapaRef: txRef },
         data: { status: 'FAILED' },
@@ -160,14 +180,33 @@ export class SupportService {
       return { status: 'failed' };
     }
 
+    if (
+      verification.data.currency !== support.currency ||
+      !verifiedAmount.equals(support.amount)
+    ) {
+      throw new ConflictException(
+        'Verified payment details do not match the support request',
+      );
+    }
+
     const creatorUserId = support.creatorProfile.user.id;
     const netAmount = support.netAmount;
 
-    await this.prisma.$transaction(async (tx) => {
-      await tx.support.update({
-        where: { chapaRef: txRef },
-        data: { status: 'COMPLETED', paidAt: new Date(), walletCredited: true },
+    const paymentApplied = await this.prisma.$transaction(async (tx) => {
+      const completion = await tx.support.updateMany({
+        where: {
+          chapaRef: txRef,
+          walletCredited: false,
+        },
+        data: {
+          status: 'COMPLETED',
+          paidAt: new Date(),
+          walletCredited: true,
+        },
       });
+      if (completion.count !== 1) {
+        return false;
+      }
 
       const wallet = await tx.wallet.update({
         where: { userId: creatorUserId },
@@ -190,6 +229,33 @@ export class SupportService {
         },
       });
 
+      const supporterIdentityFilter =
+        support.supporterId != null
+          ? { supporterId: support.supporterId }
+          : support.supporterEmail
+            ? { supporterEmail: support.supporterEmail }
+            : {
+                supporterName: support.supporterName,
+              };
+
+      const previousCompletedSupport = await tx.support.count({
+        where: {
+          creatorProfileId: support.creatorProfileId,
+          status: 'COMPLETED',
+          id: { not: support.id },
+          ...supporterIdentityFilter,
+        },
+      });
+
+      await tx.creatorProfile.update({
+        where: { id: support.creatorProfileId },
+        data: {
+          totalSupports: { increment: 1 },
+          totalSupporters:
+            previousCompletedSupport === 0 ? { increment: 1 } : undefined,
+        },
+      });
+
       await tx.notification.create({
         data: {
           userId: creatorUserId,
@@ -199,7 +265,13 @@ export class SupportService {
           referenceId: support.id,
         },
       });
+
+      return true;
     });
+
+    if (!paymentApplied) {
+      return { status: 'already_completed' };
+    }
 
     this.telegram
       .notifyCreatorOfSupport({

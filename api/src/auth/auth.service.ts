@@ -25,6 +25,7 @@ const DUMMY_HASH =
 const MAX_SESSIONS = 5;
 const TELEGRAM_INIT_DATA_MAX_AGE_SECONDS = 60 * 60;
 const RESET_TOKEN_PREFIX = 'reset:';
+const DEFAULT_ACCESS_TOKEN_TTL_SECONDS = 15 * 60;
 
 const financialAccountSelect = {
   id: true,
@@ -113,7 +114,7 @@ export class AuthService {
             ...userData,
             password: hashedPassword,
             avatar: userAvatar,
-            isVerified: true,
+            isVerified: false,
           },
           select: userSelect,
         });
@@ -171,10 +172,6 @@ export class AuthService {
 
       if (!user || !isMatch) {
         throw new UnauthorizedException('Invalid credentials');
-      }
-
-      if (!user.isVerified) {
-        throw new UnauthorizedException('Email not verified');
       }
 
       const tokens = await this.issueTokens(
@@ -592,7 +589,12 @@ export class AuthService {
         },
       });
 
-      return { access_token, refresh_token: rawRefresh };
+      return {
+        access_token,
+        refresh_token: rawRefresh,
+        accessTokenTtlSeconds: this.getAccessTokenTtlSeconds(),
+        refreshTokenTtlSeconds: this.refreshTtlDays * 24 * 60 * 60,
+      };
     } catch {
       throw new InternalServerErrorException('Failed to issue tokens');
     }
@@ -708,5 +710,39 @@ export class AuthService {
       .slice(0, 20);
 
     return sanitized.length >= 3 ? sanitized : null;
+  }
+
+  private getAccessTokenTtlSeconds() {
+    const configured =
+      this.configService.get<string>('jwt.expiresIn') ?? '15m';
+    return this.parseDurationToSeconds(configured);
+  }
+
+  private parseDurationToSeconds(value: string) {
+    const trimmed = value.trim();
+    const match = /^(\d+)([smhd])$/i.exec(trimmed);
+
+    if (!match) {
+      const direct = Number(trimmed);
+      return Number.isFinite(direct) && direct > 0
+        ? direct
+        : DEFAULT_ACCESS_TOKEN_TTL_SECONDS;
+    }
+
+    const amount = Number(match[1]);
+    const unit = match[2].toLowerCase();
+
+    switch (unit) {
+      case 's':
+        return amount;
+      case 'm':
+        return amount * 60;
+      case 'h':
+        return amount * 60 * 60;
+      case 'd':
+        return amount * 24 * 60 * 60;
+      default:
+        return DEFAULT_ACCESS_TOKEN_TTL_SECONDS;
+    }
   }
 }

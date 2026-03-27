@@ -11,12 +11,12 @@ export const GetUser = createParamDecorator(
   (
     data: keyof ActiveUser | undefined,
     ctx: ExecutionContext,
-  ): ActiveUser | ActiveUser[keyof ActiveUser] => {
+  ): ActiveUser | ActiveUser[keyof ActiveUser] | undefined => {
     const request = ctx.switchToHttp().getRequest<{ user: ActiveUser }>();
     const user = request.user;
 
     if (!user) {
-      throw new Error('User not found in request context');
+      return undefined;
     }
 
     return data ? user[data] : user;

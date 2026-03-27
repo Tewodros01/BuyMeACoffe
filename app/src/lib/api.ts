@@ -1,19 +1,28 @@
 import axios from 'axios'
 import { getInitData } from './telegram'
+import { useAuthStore } from '../store/authStore'
+
+function getCookie(name: string) {
+  const prefix = `${name}=`
+  return document.cookie
+    .split(';')
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(prefix))
+    ?.slice(prefix.length)
+}
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api/v1',
   timeout: 15000,
+  withCredentials: true,
 })
 
-// Inject auth token + Telegram initData on every request
+// Inject CSRF header + Telegram initData on every request
 api.interceptors.request.use((config) => {
-  const raw = localStorage.getItem('auth')
-  if (raw) {
-    try {
-      const { access_token } = JSON.parse(raw) as { access_token: string }
-      if (access_token) config.headers.Authorization = `Bearer ${access_token}`
-    } catch { /* ignore */ }
+  const method = (config.method ?? 'get').toUpperCase()
+  if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+    const csrf = getCookie('bmac_csrf')
+    if (csrf) config.headers['x-csrf-token'] = decodeURIComponent(csrf)
   }
 
   const initData = getInitData()
@@ -30,18 +39,19 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !original._retry) {
       original._retry = true
       try {
-        const raw = localStorage.getItem('auth')
-        if (!raw) throw new Error('no auth')
-        const { refresh_token } = JSON.parse(raw) as { refresh_token: string }
-        const { data } = await axios.post(
+        await axios.post(
           `${import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api/v1'}/auth/refresh`,
-          { refresh_token },
+          {},
+          {
+            withCredentials: true,
+            headers: {
+              'x-csrf-token': decodeURIComponent(getCookie('bmac_csrf') ?? ''),
+            },
+          },
         )
-        localStorage.setItem('auth', JSON.stringify(data))
-        original.headers.Authorization = `Bearer ${data.access_token}`
         return api(original)
       } catch {
-        localStorage.removeItem('auth')
+        useAuthStore.getState().logout()
         window.location.href = '/auth'
       }
     }

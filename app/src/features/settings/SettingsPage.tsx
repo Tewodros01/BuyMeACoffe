@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { type AxiosError } from "axios";
 import {
+  ShieldCheck,
   ArrowUpRight,
   Coffee,
   CreditCard,
@@ -44,7 +45,6 @@ export default function SettingsPage() {
   const qc = useQueryClient();
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
-  const refreshToken = useAuthStore((s) => s.refreshToken);
   const [section, setSection] = useState<
     "main" | "profile" | "accounts" | "add-account"
   >("main");
@@ -109,7 +109,7 @@ export default function SettingsPage() {
 
   const handleLogout = async () => {
     haptic("medium");
-    if (refreshToken) await authApi.logout(refreshToken).catch(() => {});
+    await authApi.logout().catch(() => {});
     logout();
     navigate("/auth", { replace: true });
   };
@@ -168,12 +168,19 @@ export default function SettingsPage() {
               action: () => setSection("accounts"),
             },
             {
+              icon: <ShieldCheck className="w-4 h-4 text-red-400" />,
+              label: "Admin Console",
+              sub: "Metrics, payouts, and audit history",
+              action: () => navigate("/admin/withdrawals"),
+              hidden: user?.role !== "ADMIN",
+            },
+            {
               icon: <Globe className="w-4 h-4 text-emerald-400" />,
               label: "My Public Page",
               sub: profile?.slug ? `View your page` : "Not set up",
               action: () => profile?.slug && navigate(`/c/${profile.slug}`),
             },
-          ].map((item, i) => (
+          ].filter((item) => !item.hidden).map((item, i) => (
             <div key={i}>
               {i > 0 && <Divider />}
               <button

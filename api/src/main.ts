@@ -8,6 +8,8 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { ACCESS_COOKIE, REFRESH_COOKIE } from './common/utils/cookie.util';
+import { assertCsrf } from './common/utils/csrf.util';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -46,6 +48,34 @@ async function bootstrap() {
   app.enableCors({
     origin: allowedOrigins,
     credentials: true,
+  });
+
+  app.use((req, _res, next) => {
+    const method = req.method.toUpperCase();
+    const isUnsafeMethod = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method);
+    const path = req.path ?? req.url ?? '';
+    const hasSessionCookie =
+      typeof req.headers.cookie === 'string' &&
+      (req.headers.cookie.includes(`${ACCESS_COOKIE}=`) ||
+        req.headers.cookie.includes(`${REFRESH_COOKIE}=`));
+    const isExemptPath =
+      path.includes('/supports/webhook') ||
+      path.endsWith('/auth/login') ||
+      path.endsWith('/auth/register') ||
+      path.endsWith('/auth/telegram') ||
+      path.endsWith('/auth/forgot-password') ||
+      path.endsWith('/auth/reset-password');
+
+    if (!isUnsafeMethod || !hasSessionCookie || isExemptPath) {
+      return next();
+    }
+
+    try {
+      assertCsrf(req);
+      return next();
+    } catch (error) {
+      return next(error);
+    }
   });
 
   app.setGlobalPrefix('api/v1');

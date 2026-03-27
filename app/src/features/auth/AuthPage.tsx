@@ -14,16 +14,18 @@ export default function AuthPage() {
   const navigate = useNavigate()
   const setAuth = useAuthStore((s) => s.setAuth)
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
+  const authReady = useAuthStore((s) => s.authReady)
   const [tab, setTab] = useState<'login' | 'register'>('login')
   const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
+    if (!authReady) return
     if (isAuthenticated) { navigate('/home', { replace: true }); return }
     if (isInsideTelegram()) {
       const initData = getInitData()
       if (initData) telegramMutation.mutate(initData)
     }
-  }, [])
+  }, [authReady, isAuthenticated, navigate])
 
   const telegramMutation = useMutation({
     mutationFn: authApi.loginWithTelegram,

@@ -8,8 +8,11 @@ import {
   Ip,
   Param,
   Post,
+  Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
+import type { Request, Response } from 'express';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -29,6 +32,14 @@ import { RegisterDto } from './dto/register.dto';
 import { RefreshDto } from './dto/refresh.dto';
 import { TelegramLoginDto, TelegramSendMessageDto } from './dto/telegram.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import {
+  clearSessionCookies,
+  generateCsrfToken,
+  getCookie,
+  REFRESH_COOKIE,
+  setSessionCookies,
+  type SessionCookieOptions,
+} from '../common/utils/cookie.util';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -43,10 +54,13 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   register(
     @Body() registerDto: RegisterDto,
+    @Res({ passthrough: true }) res: Response,
     @Headers('user-agent') userAgent?: string,
     @Ip() ipAddress?: string,
   ) {
-    return this.authService.register(registerDto, { userAgent, ipAddress });
+    return this.authService
+      .register(registerDto, { userAgent, ipAddress })
+      .then((result) => this.respondWithSession(res, result));
   }
 
   @ApiOperation({ summary: 'Login user' })
@@ -57,10 +71,13 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   login(
     @Body() loginDto: LoginDto,
+    @Res({ passthrough: true }) res: Response,
     @Headers('user-agent') userAgent?: string,
     @Ip() ipAddress?: string,
   ) {
-    return this.authService.login(loginDto.email, loginDto.password, { userAgent, ipAddress });
+    return this.authService
+      .login(loginDto.email, loginDto.password, { userAgent, ipAddress })
+      .then((result) => this.respondWithSession(res, result));
   }
 
   @ApiOperation({ summary: 'Login or register with Telegram Mini App init data' })
@@ -68,8 +85,13 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Invalid Telegram init data' })
   @Post('telegram')
   @HttpCode(HttpStatus.OK)
-  telegramLogin(@Body() dto: TelegramLoginDto) {
-    return this.authService.loginWithTelegram(dto.initData);
+  telegramLogin(
+    @Body() dto: TelegramLoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService
+      .loginWithTelegram(dto.initData)
+      .then((result) => this.respondWithSession(res, result));
   }
 
   @UseGuards(JwtAuthGuard)
@@ -111,16 +133,32 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Invalid or expired refresh token' })
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  refresh(@Body() dto: RefreshDto) {
-    return this.authService.refresh(dto.refresh_token);
+  refresh(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+    @Body() _dto: RefreshDto,
+  ) {
+    const refreshToken = getCookie(req, REFRESH_COOKIE);
+    return this.authService
+      .refresh(refreshToken ?? '')
+      .then((result) => this.respondWithSession(res, result));
   }
 
   @ApiOperation({ summary: 'Logout current session' })
   @ApiResponse({ status: 200, description: 'Logged out' })
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  logout(@Body() dto: RefreshDto) {
-    return this.authService.logout(dto.refresh_token);
+  async logout(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+    @Body() _dto: RefreshDto,
+  ) {
+    const refreshToken = getCookie(req, REFRESH_COOKIE);
+    if (refreshToken) {
+      await this.authService.logout(refreshToken);
+    }
+    clearSessionCookies(res, this.getCookieOptions());
+    return { success: true };
   }
 
   @UseGuards(JwtAuthGuard)
@@ -151,9 +189,12 @@ export class AuthController {
   @Get('sessions')
   getSessions(
     @GetUser('sub') userId: string,
-    @Headers('x-session-token') currentSessionToken?: string,
+    @Req() req: Request,
   ) {
-    return this.authService.getSessions(userId, currentSessionToken);
+    return this.authService.getSessions(
+      userId,
+      getCookie(req, REFRESH_COOKIE),
+    );
   }
 
   @UseGuards(JwtAuthGuard)
@@ -179,5 +220,47 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   resetPassword(@Body() dto: ResetPasswordDto) {
     return this.authService.resetPassword(dto.token, dto.newPassword);
+  }
+
+  private respondWithSession(
+    res: Response,
+    payload: {
+      access_token: string;
+      refresh_token: string;
+      accessTokenTtlSeconds: number;
+      refreshTokenTtlSeconds: number;
+      user: Awaited<ReturnType<AuthService['getUserProfile']>>;
+    },
+  ) {
+    setSessionCookies(
+      res,
+      {
+        accessToken: payload.access_token,
+        refreshToken: payload.refresh_token,
+        csrfToken: generateCsrfToken(),
+        accessTtlSeconds: payload.accessTokenTtlSeconds,
+        refreshTtlSeconds: payload.refreshTokenTtlSeconds,
+      },
+      this.getCookieOptions(),
+    );
+
+    return { user: payload.user };
+  }
+
+  private getCookieOptions(): SessionCookieOptions {
+    const secure = !!process.env.COOKIE_SECURE && process.env.COOKIE_SECURE !== 'false'
+      ? true
+      : process.env.NODE_ENV === 'production';
+    const sameSiteRaw = process.env.COOKIE_SAME_SITE?.toLowerCase();
+    const sameSite =
+      sameSiteRaw === 'none' || sameSiteRaw === 'lax' || sameSiteRaw === 'strict'
+        ? sameSiteRaw
+        : 'strict';
+
+    return {
+      secure,
+      sameSite,
+      domain: process.env.COOKIE_DOMAIN || undefined,
+    };
   }
 }

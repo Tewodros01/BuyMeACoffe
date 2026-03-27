@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Role } from 'generated/prisma/client';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import type { Request } from 'express';
+import { ACCESS_COOKIE, parseCookies } from '../../common/utils/cookie.util';
 import { ActiveUser } from '../decorators/get-user.decorators';
 
 export interface JwtPayload {
@@ -14,12 +16,15 @@ export interface JwtPayload {
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(configService: ConfigService) {
-    const jwtSecret = configService.get<string>('JWT_SECRET');
+    const jwtSecret = configService.get<string>('jwt.secret');
     if (!jwtSecret)
       throw new Error('JWT_SECRET environment variable is required');
 
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+        (req: Request) => parseCookies(req.headers.cookie)[ACCESS_COOKIE] ?? null,
+      ]),
       ignoreExpiration: false,
       secretOrKey: jwtSecret,
     });

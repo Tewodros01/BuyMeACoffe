@@ -32,6 +32,24 @@ export default () => {
     },
 
     refreshTtlDays: parseInt(process.env.REFRESH_TTL_DAYS ?? '30', 10),
+    security: {
+      cookieDomain: process.env.COOKIE_DOMAIN,
+      cookieSecure:
+        (process.env.COOKIE_SECURE ?? '').toLowerCase() === 'true' ||
+        process.env.NODE_ENV === 'production',
+      cookieSameSite:
+        process.env.COOKIE_SAME_SITE?.toLowerCase() === 'none'
+          ? 'none'
+          : process.env.COOKIE_SAME_SITE?.toLowerCase() === 'lax'
+            ? 'lax'
+            : 'strict',
+    },
+    financialAccounts: {
+      encryptionKey: requireInProd(
+        'FINANCIAL_ACCOUNT_ENCRYPTION_KEY',
+        process.env.FINANCIAL_ACCOUNT_ENCRYPTION_KEY,
+      ),
+    },
 
     telegram: {
       botToken: requireInProd(

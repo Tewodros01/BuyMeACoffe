@@ -6,6 +6,7 @@ export const APP_ROUTES = {
   wallet: "/wallet",
   learn: "/wallet",
   notifications: "/notifications",
+  adminWithdrawals: "/admin/withdrawals",
   challenge: "/notifications",
   settings: "/settings",
   setting: "/settings",
@@ -19,6 +20,7 @@ export const AUTHED_ROUTES = [
   APP_ROUTES.home,
   APP_ROUTES.wallet,
   APP_ROUTES.notifications,
+  APP_ROUTES.adminWithdrawals,
   APP_ROUTES.settings,
   APP_ROUTES.onboarding,
 ] as const;

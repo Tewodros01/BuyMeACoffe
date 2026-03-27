@@ -22,10 +22,10 @@ export type User = z.infer<typeof UserSchema>
 
 interface AuthState {
   user: User | null
-  accessToken: string | null
-  refreshToken: string | null
   isAuthenticated: boolean
-  setAuth: (payload: { user: User; access_token: string; refresh_token: string }) => void
+  authReady: boolean
+  setAuth: (payload: { user: User }) => void
+  setSession: (user: User | null) => void
   updateUser: (user: Partial<User>) => void
   logout: () => void
 }
@@ -34,31 +34,32 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      accessToken: null,
-      refreshToken: null,
       isAuthenticated: false,
+      authReady: false,
 
-      setAuth: ({ user, access_token, refresh_token }) => {
-        // Also write to localStorage key that axios interceptor reads
-        localStorage.setItem('auth', JSON.stringify({ access_token, refresh_token }))
-        set({ user, accessToken: access_token, refreshToken: refresh_token, isAuthenticated: true })
+      setAuth: ({ user }) => {
+        set({ user, isAuthenticated: true, authReady: true })
       },
+
+      setSession: (user) => set({
+        user,
+        isAuthenticated: !!user,
+        authReady: true,
+      }),
 
       updateUser: (partial) =>
         set((s) => ({ user: s.user ? { ...s.user, ...partial } : s.user })),
 
       logout: () => {
-        localStorage.removeItem('auth')
-        set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false })
+        set({ user: null, isAuthenticated: false, authReady: true })
       },
     }),
     {
       name: 'bmac-auth',
       partialize: (s) => ({
         user: s.user,
-        accessToken: s.accessToken,
-        refreshToken: s.refreshToken,
         isAuthenticated: s.isAuthenticated,
+        authReady: false,
       }),
     },
   ),

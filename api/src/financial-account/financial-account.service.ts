@@ -3,6 +3,11 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import {
+  encryptFinancialAccountNumber,
+  maskFinancialAccountNumber,
+  normalizeAccountNumber,
+} from '../common/utils/encryption.util';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   CreateFinancialAccountDto,
@@ -27,11 +32,9 @@ function maskAccount(account: {
   accountNumber: string;
   [key: string]: unknown;
 }) {
-  const n = account.accountNumber;
   return {
     ...account,
-    accountNumber:
-      n.length > 4 ? `${'*'.repeat(n.length - 4)}${n.slice(-4)}` : '****',
+    accountNumber: maskFinancialAccountNumber(account.accountNumber),
   };
 }
 
@@ -49,6 +52,17 @@ export class FinancialAccountService {
   }
 
   async create(userId: string, dto: CreateFinancialAccountDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { isVerified: true },
+    });
+    if (!user) throw new NotFoundException('User not found');
+    if (!user.isVerified) {
+      throw new BadRequestException(
+        'Identity verification is required before adding payout accounts',
+      );
+    }
+
     const count = await this.prisma.financialAccount.count({
       where: { userId, isActive: true },
     });
@@ -72,7 +86,14 @@ export class FinancialAccountService {
 
       return maskAccount(
         await tx.financialAccount.create({
-          data: { ...dto, userId, isDefault },
+          data: {
+            ...dto,
+            userId,
+            isDefault,
+            accountNumber: encryptFinancialAccountNumber(
+              normalizeAccountNumber(dto.accountNumber),
+            ),
+          },
           select: accountSelect,
         }),
       );
