@@ -66,27 +66,35 @@ export function AppBar({
   const rightContent = right ?? trailing;
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-40 -mx-4 -mt-5 flex w-[calc(100%+2rem)] items-center justify-between gap-3 border-b border-white/[0.06] bg-[#07070f]/85 px-4 py-3 backdrop-blur-xl",
-        className,
-      )}
-      style={{
-        paddingTop: "calc(0.75rem + env(safe-area-inset-top, 0px))",
-        ...style,
-      }}
-    >
-      <div className="min-w-0 flex-1">{leftContent}</div>
+    <>
+      <div
+        aria-hidden="true"
+        className="-mx-4 -mt-5 w-[calc(100%+2rem)]"
+        style={{ height: "calc(4.75rem + env(safe-area-inset-top, 0px))" }}
+      />
 
-      {center && (
-        <div className="flex shrink-0 items-center justify-center">{center}</div>
-      )}
+      <header
+        className={cn(
+          "fixed top-0 left-1/2 z-40 flex w-full max-w-[430px] -translate-x-1/2 items-center justify-between gap-3 border-b border-white/[0.06] bg-[#07070f]/85 px-4 py-3 backdrop-blur-xl",
+          className,
+        )}
+        style={{
+          paddingTop: "calc(0.75rem + env(safe-area-inset-top, 0px))",
+          ...style,
+        }}
+      >
+        <div className="min-w-0 flex-1">{leftContent}</div>
 
-      {rightContent ? (
-        <div className="flex shrink-0 items-center gap-2">{rightContent}</div>
-      ) : (
-        <div className="w-0 shrink-0" />
-      )}
-    </header>
+        {center && (
+          <div className="flex shrink-0 items-center justify-center">{center}</div>
+        )}
+
+        {rightContent ? (
+          <div className="flex shrink-0 items-center gap-2">{rightContent}</div>
+        ) : (
+          <div className="w-0 shrink-0" />
+        )}
+      </header>
+    </>
   );
 }
