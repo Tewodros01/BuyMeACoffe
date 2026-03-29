@@ -56,10 +56,29 @@ enum TransactionReason {
 
 enum NotificationType {
   SUPPORT_RECEIVED
+  REWARD_UNLOCKED
   WITHDRAWAL_PROCESSED
   WITHDRAWAL_REJECTED
   GOAL_REACHED
   SYSTEM
+}
+
+enum RewardType {
+  CONTENT
+  MESSAGE
+  TELEGRAM_ACCESS
+  FILE
+  CUSTOM
+}
+
+enum GoalType {
+  FUNDING
+  CHALLENGE
+}
+
+enum FanBadgeType {
+  VIP
+  TOP_FAN
 }
 
 enum OtpPurpose {
@@ -117,6 +136,9 @@ model User {
   notifications     Notification[]
   otpCodes          OtpVerification[]
   supports          Support[]          @relation("SupporterSupports")
+  unlockedRewards   UnlockedReward[]
+  paidVotes         PaidVote[]
+  fanBadges         FanBadge[]
   auditLogsActed    AuditLog[]         @relation("AuditActor")
   auditLogsTargeted AuditLog[]         @relation("AuditTarget")
 
@@ -235,6 +257,11 @@ model CreatorProfile {
 
   supports Support[]
   goals    CreatorGoal[]
+  rewards  Reward[]
+  campaigns TikTokCampaign[]
+  polls    Poll[]
+  featureRequests FeatureRequest[]
+  fanBadges FanBadge[]
 
   @@index([userId])
   @@index([slug])
@@ -248,6 +275,7 @@ model CreatorGoal {
   creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id], onDelete: Cascade)
   title            String
   description      String?        @db.Text
+  type             GoalType       @default(FUNDING)
   targetAmount     Decimal        @db.Decimal(18, 2)
 
   raisedAmount     Decimal        @default(0) @db.Decimal(18, 2)
@@ -265,17 +293,52 @@ model CreatorGoal {
   @@map("creator_goals")
 }
 
+model Reward {
+  id               String         @id @default(cuid())
+  creatorProfileId String
+  creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  title            String
+  description      String?        @db.Text
+  type             RewardType
+  price            Decimal        @db.Decimal(18, 2)
+  contentUrl       String?
+  telegramLink     String?
+  maxQuantity      Int?
+  claimedCount     Int            @default(0)
+  isFeatured       Boolean        @default(false)
+  isActive         Boolean        @default(true)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  supports        Support[]
+  unlockedRewards UnlockedReward[]
+
+  @@index([creatorProfileId])
+  @@index([creatorProfileId, isActive])
+  @@index([creatorProfileId, isFeatured])
+  @@map("rewards")
+}
+
 model Support {
-  id               String       @id @default(cuid())
+  id               String         @id @default(cuid())
   creatorProfileId String
   creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id])
   goalId           String?
   goal             CreatorGoal? @relation(fields: [goalId], references: [id], onDelete: SetNull)
+  rewardId         String?
+  reward           Reward?        @relation(fields: [rewardId], references: [id], onDelete: SetNull)
+  campaignId       String?
+  campaign         TikTokCampaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  pollId           String?
+  poll             Poll?          @relation(fields: [pollId], references: [id], onDelete: SetNull)
+  pollOptionId     String?
+  pollOption       PollOption?    @relation(fields: [pollOptionId], references: [id], onDelete: SetNull)
   supporterId      String?
   supporter        User?        @relation("SupporterSupports", fields: [supporterId], references: [id], onDelete: SetNull)
   supporterName    String
   supporterEmail   String?
   message          String?      @db.Text
+  isFeatureRequest Boolean      @default(false)
   coffeeCount      Int          @default(1)
   amount           Decimal      @db.Decimal(18, 2)
   customAmount     Decimal?     @db.Decimal(18, 2)
@@ -290,14 +353,138 @@ model Support {
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
 
+  unlockedReward UnlockedReward?
+  featureRequest FeatureRequest?
+  paidVote       PaidVote?
+
   @@index([creatorProfileId])
   @@index([goalId])
+  @@index([rewardId])
+  @@index([campaignId])
+  @@index([pollId])
+  @@index([pollOptionId])
   @@index([supporterId])
   @@index([chapaRef])
   @@index([status])
   @@index([createdAt])
   @@index([creatorProfileId, status])
   @@map("supports")
+}
+
+model TikTokCampaign {
+  id               String         @id @default(cuid())
+  creatorProfileId String
+  creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  videoId          String
+  title            String?
+  clicks           Int            @default(0)
+  revenue          Decimal        @default(0) @db.Decimal(18, 2)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  supports Support[]
+
+  @@unique([creatorProfileId, videoId])
+  @@index([creatorProfileId])
+  @@index([creatorProfileId, createdAt])
+  @@map("tiktok_campaigns")
+}
+
+model UnlockedReward {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rewardId   String
+  reward     Reward   @relation(fields: [rewardId], references: [id], onDelete: Cascade)
+  supportId  String   @unique
+  support    Support  @relation(fields: [supportId], references: [id], onDelete: Cascade)
+  unlockedAt DateTime @default(now())
+
+  @@unique([userId, rewardId])
+  @@index([userId])
+  @@index([rewardId])
+  @@map("unlocked_rewards")
+}
+
+model FeatureRequest {
+  id               String         @id @default(cuid())
+  supportId        String         @unique
+  support          Support        @relation(fields: [supportId], references: [id], onDelete: Cascade)
+  creatorProfileId String
+  creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  message          String?        @db.Text
+  isUsed           Boolean        @default(false)
+  usedAt           DateTime?
+  createdAt        DateTime       @default(now())
+
+  @@index([creatorProfileId, isUsed])
+  @@map("feature_requests")
+}
+
+model Poll {
+  id               String         @id @default(cuid())
+  creatorProfileId String
+  creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  question         String
+  price            Decimal        @db.Decimal(18, 2)
+  isActive         Boolean        @default(true)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  options  PollOption[]
+  supports Support[]
+  paidVotes PaidVote[]
+
+  @@index([creatorProfileId, isActive])
+  @@map("polls")
+}
+
+model PollOption {
+  id        String   @id @default(cuid())
+  pollId     String
+  poll       Poll     @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  text       String
+  votes      Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  supports Support[]
+  paidVotes PaidVote[]
+
+  @@index([pollId])
+  @@map("poll_options")
+}
+
+model PaidVote {
+  id          String   @id @default(cuid())
+  pollId       String
+  poll         Poll     @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  optionId     String
+  option       PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  supportId    String   @unique
+  support      Support  @relation(fields: [supportId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+
+  @@index([pollId])
+  @@index([optionId])
+  @@index([userId])
+  @@map("paid_votes")
+}
+
+model FanBadge {
+  id               String         @id @default(cuid())
+  userId           String
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  creatorProfileId String
+  creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  badge            FanBadgeType
+  createdAt        DateTime       @default(now())
+
+  @@unique([userId, creatorProfileId, badge])
+  @@index([creatorProfileId, badge])
+  @@index([userId])
+  @@map("fan_badges")
 }
 
 model PayoutBatch {
