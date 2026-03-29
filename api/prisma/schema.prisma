@@ -259,6 +259,7 @@ model CreatorProfile {
   goals    CreatorGoal[]
   rewards  Reward[]
   campaigns TikTokCampaign[]
+  deepLinks DeepLink[]
   polls    Poll[]
   featureRequests FeatureRequest[]
   fanBadges FanBadge[]
@@ -329,6 +330,8 @@ model Support {
   reward           Reward?        @relation(fields: [rewardId], references: [id], onDelete: SetNull)
   campaignId       String?
   campaign         TikTokCampaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  deepLinkId       String?
+  deepLink         DeepLink?      @relation(fields: [deepLinkId], references: [id], onDelete: SetNull)
   pollId           String?
   poll             Poll?          @relation(fields: [pollId], references: [id], onDelete: SetNull)
   pollOptionId     String?
@@ -361,6 +364,7 @@ model Support {
   @@index([goalId])
   @@index([rewardId])
   @@index([campaignId])
+  @@index([deepLinkId])
   @@index([pollId])
   @@index([pollOptionId])
   @@index([supporterId])
@@ -388,6 +392,42 @@ model TikTokCampaign {
   @@index([creatorProfileId])
   @@index([creatorProfileId, createdAt])
   @@map("tiktok_campaigns")
+}
+
+model DeepLink {
+  id               String         @id @default(cuid())
+  creatorProfileId String
+  creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  slug             String         @unique
+  source           String
+  clicks           Int            @default(0)
+  uniqueClicks     Int            @default(0)
+  conversions      Int            @default(0)
+  revenue          Decimal        @default(0) @db.Decimal(18, 2)
+  campaignTag      String?
+  videoId          String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  supports Support[]
+  visits   DeepLinkVisit[]
+
+  @@index([creatorProfileId])
+  @@index([slug])
+  @@index([creatorProfileId, source])
+  @@map("deep_links")
+}
+
+model DeepLinkVisit {
+  id         String   @id @default(cuid())
+  deepLinkId String
+  deepLink   DeepLink @relation(fields: [deepLinkId], references: [id], onDelete: Cascade)
+  visitorKey String
+  createdAt  DateTime @default(now())
+
+  @@unique([deepLinkId, visitorKey])
+  @@index([deepLinkId])
+  @@map("deep_link_visits")
 }
 
 model UnlockedReward {

@@ -287,6 +287,12 @@ export type CreatorProfileWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   supports?: Prisma.SupportListRelationFilter
   goals?: Prisma.CreatorGoalListRelationFilter
+  rewards?: Prisma.RewardListRelationFilter
+  campaigns?: Prisma.TikTokCampaignListRelationFilter
+  deepLinks?: Prisma.DeepLinkListRelationFilter
+  polls?: Prisma.PollListRelationFilter
+  featureRequests?: Prisma.FeatureRequestListRelationFilter
+  fanBadges?: Prisma.FanBadgeListRelationFilter
 }
 
 export type CreatorProfileOrderByWithRelationInput = {
@@ -306,6 +312,12 @@ export type CreatorProfileOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   supports?: Prisma.SupportOrderByRelationAggregateInput
   goals?: Prisma.CreatorGoalOrderByRelationAggregateInput
+  rewards?: Prisma.RewardOrderByRelationAggregateInput
+  campaigns?: Prisma.TikTokCampaignOrderByRelationAggregateInput
+  deepLinks?: Prisma.DeepLinkOrderByRelationAggregateInput
+  polls?: Prisma.PollOrderByRelationAggregateInput
+  featureRequests?: Prisma.FeatureRequestOrderByRelationAggregateInput
+  fanBadges?: Prisma.FanBadgeOrderByRelationAggregateInput
 }
 
 export type CreatorProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -328,6 +340,12 @@ export type CreatorProfileWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   supports?: Prisma.SupportListRelationFilter
   goals?: Prisma.CreatorGoalListRelationFilter
+  rewards?: Prisma.RewardListRelationFilter
+  campaigns?: Prisma.TikTokCampaignListRelationFilter
+  deepLinks?: Prisma.DeepLinkListRelationFilter
+  polls?: Prisma.PollListRelationFilter
+  featureRequests?: Prisma.FeatureRequestListRelationFilter
+  fanBadges?: Prisma.FanBadgeListRelationFilter
 }, "id" | "userId" | "slug">
 
 export type CreatorProfileOrderByWithAggregationInput = {
@@ -386,6 +404,12 @@ export type CreatorProfileCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
   supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
   goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateInput = {
@@ -404,6 +428,12 @@ export type CreatorProfileUncheckedCreateInput = {
   updatedAt?: Date | string
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
   goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardUncheckedCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignUncheckedCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUpdateInput = {
@@ -422,6 +452,12 @@ export type CreatorProfileUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
   supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
   goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateInput = {
@@ -440,6 +476,12 @@ export type CreatorProfileUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput
   goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateManyInput = {
@@ -611,6 +653,20 @@ export type CreatorProfileUpdateOneRequiredWithoutGoalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorProfileUpdateToOneWithWhereWithoutGoalsInput, Prisma.CreatorProfileUpdateWithoutGoalsInput>, Prisma.CreatorProfileUncheckedUpdateWithoutGoalsInput>
 }
 
+export type CreatorProfileCreateNestedOneWithoutRewardsInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutRewardsInput, Prisma.CreatorProfileUncheckedCreateWithoutRewardsInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutRewardsInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+}
+
+export type CreatorProfileUpdateOneRequiredWithoutRewardsNestedInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutRewardsInput, Prisma.CreatorProfileUncheckedCreateWithoutRewardsInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutRewardsInput
+  upsert?: Prisma.CreatorProfileUpsertWithoutRewardsInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorProfileUpdateToOneWithWhereWithoutRewardsInput, Prisma.CreatorProfileUpdateWithoutRewardsInput>, Prisma.CreatorProfileUncheckedUpdateWithoutRewardsInput>
+}
+
 export type CreatorProfileCreateNestedOneWithoutSupportsInput = {
   create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutSupportsInput, Prisma.CreatorProfileUncheckedCreateWithoutSupportsInput>
   connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutSupportsInput
@@ -623,6 +679,76 @@ export type CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput = {
   upsert?: Prisma.CreatorProfileUpsertWithoutSupportsInput
   connect?: Prisma.CreatorProfileWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorProfileUpdateToOneWithWhereWithoutSupportsInput, Prisma.CreatorProfileUpdateWithoutSupportsInput>, Prisma.CreatorProfileUncheckedUpdateWithoutSupportsInput>
+}
+
+export type CreatorProfileCreateNestedOneWithoutCampaignsInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutCampaignsInput, Prisma.CreatorProfileUncheckedCreateWithoutCampaignsInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutCampaignsInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+}
+
+export type CreatorProfileUpdateOneRequiredWithoutCampaignsNestedInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutCampaignsInput, Prisma.CreatorProfileUncheckedCreateWithoutCampaignsInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutCampaignsInput
+  upsert?: Prisma.CreatorProfileUpsertWithoutCampaignsInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorProfileUpdateToOneWithWhereWithoutCampaignsInput, Prisma.CreatorProfileUpdateWithoutCampaignsInput>, Prisma.CreatorProfileUncheckedUpdateWithoutCampaignsInput>
+}
+
+export type CreatorProfileCreateNestedOneWithoutDeepLinksInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutDeepLinksInput, Prisma.CreatorProfileUncheckedCreateWithoutDeepLinksInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutDeepLinksInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+}
+
+export type CreatorProfileUpdateOneRequiredWithoutDeepLinksNestedInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutDeepLinksInput, Prisma.CreatorProfileUncheckedCreateWithoutDeepLinksInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutDeepLinksInput
+  upsert?: Prisma.CreatorProfileUpsertWithoutDeepLinksInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorProfileUpdateToOneWithWhereWithoutDeepLinksInput, Prisma.CreatorProfileUpdateWithoutDeepLinksInput>, Prisma.CreatorProfileUncheckedUpdateWithoutDeepLinksInput>
+}
+
+export type CreatorProfileCreateNestedOneWithoutFeatureRequestsInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutFeatureRequestsInput, Prisma.CreatorProfileUncheckedCreateWithoutFeatureRequestsInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutFeatureRequestsInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+}
+
+export type CreatorProfileUpdateOneRequiredWithoutFeatureRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutFeatureRequestsInput, Prisma.CreatorProfileUncheckedCreateWithoutFeatureRequestsInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutFeatureRequestsInput
+  upsert?: Prisma.CreatorProfileUpsertWithoutFeatureRequestsInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorProfileUpdateToOneWithWhereWithoutFeatureRequestsInput, Prisma.CreatorProfileUpdateWithoutFeatureRequestsInput>, Prisma.CreatorProfileUncheckedUpdateWithoutFeatureRequestsInput>
+}
+
+export type CreatorProfileCreateNestedOneWithoutPollsInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutPollsInput, Prisma.CreatorProfileUncheckedCreateWithoutPollsInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutPollsInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+}
+
+export type CreatorProfileUpdateOneRequiredWithoutPollsNestedInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutPollsInput, Prisma.CreatorProfileUncheckedCreateWithoutPollsInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutPollsInput
+  upsert?: Prisma.CreatorProfileUpsertWithoutPollsInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorProfileUpdateToOneWithWhereWithoutPollsInput, Prisma.CreatorProfileUpdateWithoutPollsInput>, Prisma.CreatorProfileUncheckedUpdateWithoutPollsInput>
+}
+
+export type CreatorProfileCreateNestedOneWithoutFanBadgesInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutFanBadgesInput, Prisma.CreatorProfileUncheckedCreateWithoutFanBadgesInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutFanBadgesInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+}
+
+export type CreatorProfileUpdateOneRequiredWithoutFanBadgesNestedInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutFanBadgesInput, Prisma.CreatorProfileUncheckedCreateWithoutFanBadgesInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutFanBadgesInput
+  upsert?: Prisma.CreatorProfileUpsertWithoutFanBadgesInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorProfileUpdateToOneWithWhereWithoutFanBadgesInput, Prisma.CreatorProfileUpdateWithoutFanBadgesInput>, Prisma.CreatorProfileUncheckedUpdateWithoutFanBadgesInput>
 }
 
 export type CreatorProfileCreateWithoutUserInput = {
@@ -640,6 +766,12 @@ export type CreatorProfileCreateWithoutUserInput = {
   updatedAt?: Date | string
   supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
   goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutUserInput = {
@@ -657,6 +789,12 @@ export type CreatorProfileUncheckedCreateWithoutUserInput = {
   updatedAt?: Date | string
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
   goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardUncheckedCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignUncheckedCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutUserInput = {
@@ -690,6 +828,12 @@ export type CreatorProfileUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
   goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutUserInput = {
@@ -707,6 +851,12 @@ export type CreatorProfileUncheckedUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput
   goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateWithoutGoalsInput = {
@@ -724,6 +874,12 @@ export type CreatorProfileCreateWithoutGoalsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
   supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutGoalsInput = {
@@ -741,6 +897,12 @@ export type CreatorProfileUncheckedCreateWithoutGoalsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardUncheckedCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignUncheckedCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutGoalsInput = {
@@ -774,6 +936,12 @@ export type CreatorProfileUpdateWithoutGoalsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
   supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutGoalsInput = {
@@ -791,6 +959,120 @@ export type CreatorProfileUncheckedUpdateWithoutGoalsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileCreateWithoutRewardsInput = {
+  id?: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
+  supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileUncheckedCreateWithoutRewardsInput = {
+  id?: string
+  userId: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignUncheckedCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileCreateOrConnectWithoutRewardsInput = {
+  where: Prisma.CreatorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutRewardsInput, Prisma.CreatorProfileUncheckedCreateWithoutRewardsInput>
+}
+
+export type CreatorProfileUpsertWithoutRewardsInput = {
+  update: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutRewardsInput, Prisma.CreatorProfileUncheckedUpdateWithoutRewardsInput>
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutRewardsInput, Prisma.CreatorProfileUncheckedCreateWithoutRewardsInput>
+  where?: Prisma.CreatorProfileWhereInput
+}
+
+export type CreatorProfileUpdateToOneWithWhereWithoutRewardsInput = {
+  where?: Prisma.CreatorProfileWhereInput
+  data: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutRewardsInput, Prisma.CreatorProfileUncheckedUpdateWithoutRewardsInput>
+}
+
+export type CreatorProfileUpdateWithoutRewardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileUncheckedUpdateWithoutRewardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateWithoutSupportsInput = {
@@ -808,6 +1090,12 @@ export type CreatorProfileCreateWithoutSupportsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
   goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutSupportsInput = {
@@ -825,6 +1113,12 @@ export type CreatorProfileUncheckedCreateWithoutSupportsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardUncheckedCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignUncheckedCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutSupportsInput = {
@@ -858,6 +1152,12 @@ export type CreatorProfileUpdateWithoutSupportsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
   goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutSupportsInput = {
@@ -875,6 +1175,552 @@ export type CreatorProfileUncheckedUpdateWithoutSupportsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileCreateWithoutCampaignsInput = {
+  id?: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
+  supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileUncheckedCreateWithoutCampaignsInput = {
+  id?: string
+  userId: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardUncheckedCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileCreateOrConnectWithoutCampaignsInput = {
+  where: Prisma.CreatorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutCampaignsInput, Prisma.CreatorProfileUncheckedCreateWithoutCampaignsInput>
+}
+
+export type CreatorProfileUpsertWithoutCampaignsInput = {
+  update: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutCampaignsInput, Prisma.CreatorProfileUncheckedUpdateWithoutCampaignsInput>
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutCampaignsInput, Prisma.CreatorProfileUncheckedCreateWithoutCampaignsInput>
+  where?: Prisma.CreatorProfileWhereInput
+}
+
+export type CreatorProfileUpdateToOneWithWhereWithoutCampaignsInput = {
+  where?: Prisma.CreatorProfileWhereInput
+  data: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutCampaignsInput, Prisma.CreatorProfileUncheckedUpdateWithoutCampaignsInput>
+}
+
+export type CreatorProfileUpdateWithoutCampaignsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileUncheckedUpdateWithoutCampaignsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileCreateWithoutDeepLinksInput = {
+  id?: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
+  supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileUncheckedCreateWithoutDeepLinksInput = {
+  id?: string
+  userId: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardUncheckedCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignUncheckedCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileCreateOrConnectWithoutDeepLinksInput = {
+  where: Prisma.CreatorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutDeepLinksInput, Prisma.CreatorProfileUncheckedCreateWithoutDeepLinksInput>
+}
+
+export type CreatorProfileUpsertWithoutDeepLinksInput = {
+  update: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutDeepLinksInput, Prisma.CreatorProfileUncheckedUpdateWithoutDeepLinksInput>
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutDeepLinksInput, Prisma.CreatorProfileUncheckedCreateWithoutDeepLinksInput>
+  where?: Prisma.CreatorProfileWhereInput
+}
+
+export type CreatorProfileUpdateToOneWithWhereWithoutDeepLinksInput = {
+  where?: Prisma.CreatorProfileWhereInput
+  data: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutDeepLinksInput, Prisma.CreatorProfileUncheckedUpdateWithoutDeepLinksInput>
+}
+
+export type CreatorProfileUpdateWithoutDeepLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileUncheckedUpdateWithoutDeepLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileCreateWithoutFeatureRequestsInput = {
+  id?: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
+  supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileUncheckedCreateWithoutFeatureRequestsInput = {
+  id?: string
+  userId: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardUncheckedCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignUncheckedCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileCreateOrConnectWithoutFeatureRequestsInput = {
+  where: Prisma.CreatorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutFeatureRequestsInput, Prisma.CreatorProfileUncheckedCreateWithoutFeatureRequestsInput>
+}
+
+export type CreatorProfileUpsertWithoutFeatureRequestsInput = {
+  update: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutFeatureRequestsInput, Prisma.CreatorProfileUncheckedUpdateWithoutFeatureRequestsInput>
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutFeatureRequestsInput, Prisma.CreatorProfileUncheckedCreateWithoutFeatureRequestsInput>
+  where?: Prisma.CreatorProfileWhereInput
+}
+
+export type CreatorProfileUpdateToOneWithWhereWithoutFeatureRequestsInput = {
+  where?: Prisma.CreatorProfileWhereInput
+  data: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutFeatureRequestsInput, Prisma.CreatorProfileUncheckedUpdateWithoutFeatureRequestsInput>
+}
+
+export type CreatorProfileUpdateWithoutFeatureRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileUncheckedUpdateWithoutFeatureRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileCreateWithoutPollsInput = {
+  id?: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
+  supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileUncheckedCreateWithoutPollsInput = {
+  id?: string
+  userId: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardUncheckedCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignUncheckedCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileCreateOrConnectWithoutPollsInput = {
+  where: Prisma.CreatorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutPollsInput, Prisma.CreatorProfileUncheckedCreateWithoutPollsInput>
+}
+
+export type CreatorProfileUpsertWithoutPollsInput = {
+  update: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutPollsInput, Prisma.CreatorProfileUncheckedUpdateWithoutPollsInput>
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutPollsInput, Prisma.CreatorProfileUncheckedCreateWithoutPollsInput>
+  where?: Prisma.CreatorProfileWhereInput
+}
+
+export type CreatorProfileUpdateToOneWithWhereWithoutPollsInput = {
+  where?: Prisma.CreatorProfileWhereInput
+  data: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutPollsInput, Prisma.CreatorProfileUncheckedUpdateWithoutPollsInput>
+}
+
+export type CreatorProfileUpdateWithoutPollsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileUncheckedUpdateWithoutPollsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileCreateWithoutFanBadgesInput = {
+  id?: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
+  supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileUncheckedCreateWithoutFanBadgesInput = {
+  id?: string
+  userId: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardUncheckedCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignUncheckedCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileCreateOrConnectWithoutFanBadgesInput = {
+  where: Prisma.CreatorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutFanBadgesInput, Prisma.CreatorProfileUncheckedCreateWithoutFanBadgesInput>
+}
+
+export type CreatorProfileUpsertWithoutFanBadgesInput = {
+  update: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutFanBadgesInput, Prisma.CreatorProfileUncheckedUpdateWithoutFanBadgesInput>
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutFanBadgesInput, Prisma.CreatorProfileUncheckedCreateWithoutFanBadgesInput>
+  where?: Prisma.CreatorProfileWhereInput
+}
+
+export type CreatorProfileUpdateToOneWithWhereWithoutFanBadgesInput = {
+  where?: Prisma.CreatorProfileWhereInput
+  data: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutFanBadgesInput, Prisma.CreatorProfileUncheckedUpdateWithoutFanBadgesInput>
+}
+
+export type CreatorProfileUpdateWithoutFanBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileUncheckedUpdateWithoutFanBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
 }
 
 
@@ -885,11 +1731,23 @@ export type CreatorProfileUncheckedUpdateWithoutSupportsInput = {
 export type CreatorProfileCountOutputType = {
   supports: number
   goals: number
+  rewards: number
+  campaigns: number
+  deepLinks: number
+  polls: number
+  featureRequests: number
+  fanBadges: number
 }
 
 export type CreatorProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   supports?: boolean | CreatorProfileCountOutputTypeCountSupportsArgs
   goals?: boolean | CreatorProfileCountOutputTypeCountGoalsArgs
+  rewards?: boolean | CreatorProfileCountOutputTypeCountRewardsArgs
+  campaigns?: boolean | CreatorProfileCountOutputTypeCountCampaignsArgs
+  deepLinks?: boolean | CreatorProfileCountOutputTypeCountDeepLinksArgs
+  polls?: boolean | CreatorProfileCountOutputTypeCountPollsArgs
+  featureRequests?: boolean | CreatorProfileCountOutputTypeCountFeatureRequestsArgs
+  fanBadges?: boolean | CreatorProfileCountOutputTypeCountFanBadgesArgs
 }
 
 /**
@@ -916,6 +1774,48 @@ export type CreatorProfileCountOutputTypeCountGoalsArgs<ExtArgs extends runtime.
   where?: Prisma.CreatorGoalWhereInput
 }
 
+/**
+ * CreatorProfileCountOutputType without action
+ */
+export type CreatorProfileCountOutputTypeCountRewardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RewardWhereInput
+}
+
+/**
+ * CreatorProfileCountOutputType without action
+ */
+export type CreatorProfileCountOutputTypeCountCampaignsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TikTokCampaignWhereInput
+}
+
+/**
+ * CreatorProfileCountOutputType without action
+ */
+export type CreatorProfileCountOutputTypeCountDeepLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeepLinkWhereInput
+}
+
+/**
+ * CreatorProfileCountOutputType without action
+ */
+export type CreatorProfileCountOutputTypeCountPollsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PollWhereInput
+}
+
+/**
+ * CreatorProfileCountOutputType without action
+ */
+export type CreatorProfileCountOutputTypeCountFeatureRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FeatureRequestWhereInput
+}
+
+/**
+ * CreatorProfileCountOutputType without action
+ */
+export type CreatorProfileCountOutputTypeCountFanBadgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FanBadgeWhereInput
+}
+
 
 export type CreatorProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -934,6 +1834,12 @@ export type CreatorProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   supports?: boolean | Prisma.CreatorProfile$supportsArgs<ExtArgs>
   goals?: boolean | Prisma.CreatorProfile$goalsArgs<ExtArgs>
+  rewards?: boolean | Prisma.CreatorProfile$rewardsArgs<ExtArgs>
+  campaigns?: boolean | Prisma.CreatorProfile$campaignsArgs<ExtArgs>
+  deepLinks?: boolean | Prisma.CreatorProfile$deepLinksArgs<ExtArgs>
+  polls?: boolean | Prisma.CreatorProfile$pollsArgs<ExtArgs>
+  featureRequests?: boolean | Prisma.CreatorProfile$featureRequestsArgs<ExtArgs>
+  fanBadges?: boolean | Prisma.CreatorProfile$fanBadgesArgs<ExtArgs>
   _count?: boolean | Prisma.CreatorProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["creatorProfile"]>
 
@@ -992,6 +1898,12 @@ export type CreatorProfileInclude<ExtArgs extends runtime.Types.Extensions.Inter
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   supports?: boolean | Prisma.CreatorProfile$supportsArgs<ExtArgs>
   goals?: boolean | Prisma.CreatorProfile$goalsArgs<ExtArgs>
+  rewards?: boolean | Prisma.CreatorProfile$rewardsArgs<ExtArgs>
+  campaigns?: boolean | Prisma.CreatorProfile$campaignsArgs<ExtArgs>
+  deepLinks?: boolean | Prisma.CreatorProfile$deepLinksArgs<ExtArgs>
+  polls?: boolean | Prisma.CreatorProfile$pollsArgs<ExtArgs>
+  featureRequests?: boolean | Prisma.CreatorProfile$featureRequestsArgs<ExtArgs>
+  fanBadges?: boolean | Prisma.CreatorProfile$fanBadgesArgs<ExtArgs>
   _count?: boolean | Prisma.CreatorProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CreatorProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1007,6 +1919,12 @@ export type $CreatorProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     user: Prisma.$UserPayload<ExtArgs>
     supports: Prisma.$SupportPayload<ExtArgs>[]
     goals: Prisma.$CreatorGoalPayload<ExtArgs>[]
+    rewards: Prisma.$RewardPayload<ExtArgs>[]
+    campaigns: Prisma.$TikTokCampaignPayload<ExtArgs>[]
+    deepLinks: Prisma.$DeepLinkPayload<ExtArgs>[]
+    polls: Prisma.$PollPayload<ExtArgs>[]
+    featureRequests: Prisma.$FeatureRequestPayload<ExtArgs>[]
+    fanBadges: Prisma.$FanBadgePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1419,6 +2337,12 @@ export interface Prisma__CreatorProfileClient<T, Null = never, ExtArgs extends r
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   supports<T extends Prisma.CreatorProfile$supportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$supportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   goals<T extends Prisma.CreatorProfile$goalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$goalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreatorGoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  rewards<T extends Prisma.CreatorProfile$rewardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$rewardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  campaigns<T extends Prisma.CreatorProfile$campaignsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$campaignsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TikTokCampaignPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  deepLinks<T extends Prisma.CreatorProfile$deepLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$deepLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeepLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  polls<T extends Prisma.CreatorProfile$pollsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$pollsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PollPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  featureRequests<T extends Prisma.CreatorProfile$featureRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$featureRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeatureRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  fanBadges<T extends Prisma.CreatorProfile$fanBadgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$fanBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FanBadgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1907,6 +2831,150 @@ export type CreatorProfile$goalsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.CreatorGoalScalarFieldEnum | Prisma.CreatorGoalScalarFieldEnum[]
+}
+
+/**
+ * CreatorProfile.rewards
+ */
+export type CreatorProfile$rewardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reward
+   */
+  select?: Prisma.RewardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reward
+   */
+  omit?: Prisma.RewardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RewardInclude<ExtArgs> | null
+  where?: Prisma.RewardWhereInput
+  orderBy?: Prisma.RewardOrderByWithRelationInput | Prisma.RewardOrderByWithRelationInput[]
+  cursor?: Prisma.RewardWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RewardScalarFieldEnum | Prisma.RewardScalarFieldEnum[]
+}
+
+/**
+ * CreatorProfile.campaigns
+ */
+export type CreatorProfile$campaignsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TikTokCampaign
+   */
+  select?: Prisma.TikTokCampaignSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TikTokCampaign
+   */
+  omit?: Prisma.TikTokCampaignOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TikTokCampaignInclude<ExtArgs> | null
+  where?: Prisma.TikTokCampaignWhereInput
+  orderBy?: Prisma.TikTokCampaignOrderByWithRelationInput | Prisma.TikTokCampaignOrderByWithRelationInput[]
+  cursor?: Prisma.TikTokCampaignWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TikTokCampaignScalarFieldEnum | Prisma.TikTokCampaignScalarFieldEnum[]
+}
+
+/**
+ * CreatorProfile.deepLinks
+ */
+export type CreatorProfile$deepLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeepLink
+   */
+  select?: Prisma.DeepLinkSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeepLink
+   */
+  omit?: Prisma.DeepLinkOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeepLinkInclude<ExtArgs> | null
+  where?: Prisma.DeepLinkWhereInput
+  orderBy?: Prisma.DeepLinkOrderByWithRelationInput | Prisma.DeepLinkOrderByWithRelationInput[]
+  cursor?: Prisma.DeepLinkWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeepLinkScalarFieldEnum | Prisma.DeepLinkScalarFieldEnum[]
+}
+
+/**
+ * CreatorProfile.polls
+ */
+export type CreatorProfile$pollsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Poll
+   */
+  select?: Prisma.PollSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Poll
+   */
+  omit?: Prisma.PollOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PollInclude<ExtArgs> | null
+  where?: Prisma.PollWhereInput
+  orderBy?: Prisma.PollOrderByWithRelationInput | Prisma.PollOrderByWithRelationInput[]
+  cursor?: Prisma.PollWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PollScalarFieldEnum | Prisma.PollScalarFieldEnum[]
+}
+
+/**
+ * CreatorProfile.featureRequests
+ */
+export type CreatorProfile$featureRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FeatureRequest
+   */
+  select?: Prisma.FeatureRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FeatureRequest
+   */
+  omit?: Prisma.FeatureRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FeatureRequestInclude<ExtArgs> | null
+  where?: Prisma.FeatureRequestWhereInput
+  orderBy?: Prisma.FeatureRequestOrderByWithRelationInput | Prisma.FeatureRequestOrderByWithRelationInput[]
+  cursor?: Prisma.FeatureRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FeatureRequestScalarFieldEnum | Prisma.FeatureRequestScalarFieldEnum[]
+}
+
+/**
+ * CreatorProfile.fanBadges
+ */
+export type CreatorProfile$fanBadgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FanBadge
+   */
+  select?: Prisma.FanBadgeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FanBadge
+   */
+  omit?: Prisma.FanBadgeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FanBadgeInclude<ExtArgs> | null
+  where?: Prisma.FanBadgeWhereInput
+  orderBy?: Prisma.FanBadgeOrderByWithRelationInput | Prisma.FanBadgeOrderByWithRelationInput[]
+  cursor?: Prisma.FanBadgeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FanBadgeScalarFieldEnum | Prisma.FanBadgeScalarFieldEnum[]
 }
 
 /**

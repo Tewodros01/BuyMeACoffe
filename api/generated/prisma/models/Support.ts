@@ -46,10 +46,16 @@ export type SupportMinAggregateOutputType = {
   id: string | null
   creatorProfileId: string | null
   goalId: string | null
+  rewardId: string | null
+  campaignId: string | null
+  deepLinkId: string | null
+  pollId: string | null
+  pollOptionId: string | null
   supporterId: string | null
   supporterName: string | null
   supporterEmail: string | null
   message: string | null
+  isFeatureRequest: boolean | null
   coffeeCount: number | null
   amount: runtime.Decimal | null
   customAmount: runtime.Decimal | null
@@ -69,10 +75,16 @@ export type SupportMaxAggregateOutputType = {
   id: string | null
   creatorProfileId: string | null
   goalId: string | null
+  rewardId: string | null
+  campaignId: string | null
+  deepLinkId: string | null
+  pollId: string | null
+  pollOptionId: string | null
   supporterId: string | null
   supporterName: string | null
   supporterEmail: string | null
   message: string | null
+  isFeatureRequest: boolean | null
   coffeeCount: number | null
   amount: runtime.Decimal | null
   customAmount: runtime.Decimal | null
@@ -92,10 +104,16 @@ export type SupportCountAggregateOutputType = {
   id: number
   creatorProfileId: number
   goalId: number
+  rewardId: number
+  campaignId: number
+  deepLinkId: number
+  pollId: number
+  pollOptionId: number
   supporterId: number
   supporterName: number
   supporterEmail: number
   message: number
+  isFeatureRequest: number
   coffeeCount: number
   amount: number
   customAmount: number
@@ -133,10 +151,16 @@ export type SupportMinAggregateInputType = {
   id?: true
   creatorProfileId?: true
   goalId?: true
+  rewardId?: true
+  campaignId?: true
+  deepLinkId?: true
+  pollId?: true
+  pollOptionId?: true
   supporterId?: true
   supporterName?: true
   supporterEmail?: true
   message?: true
+  isFeatureRequest?: true
   coffeeCount?: true
   amount?: true
   customAmount?: true
@@ -156,10 +180,16 @@ export type SupportMaxAggregateInputType = {
   id?: true
   creatorProfileId?: true
   goalId?: true
+  rewardId?: true
+  campaignId?: true
+  deepLinkId?: true
+  pollId?: true
+  pollOptionId?: true
   supporterId?: true
   supporterName?: true
   supporterEmail?: true
   message?: true
+  isFeatureRequest?: true
   coffeeCount?: true
   amount?: true
   customAmount?: true
@@ -179,10 +209,16 @@ export type SupportCountAggregateInputType = {
   id?: true
   creatorProfileId?: true
   goalId?: true
+  rewardId?: true
+  campaignId?: true
+  deepLinkId?: true
+  pollId?: true
+  pollOptionId?: true
   supporterId?: true
   supporterName?: true
   supporterEmail?: true
   message?: true
+  isFeatureRequest?: true
   coffeeCount?: true
   amount?: true
   customAmount?: true
@@ -289,10 +325,16 @@ export type SupportGroupByOutputType = {
   id: string
   creatorProfileId: string
   goalId: string | null
+  rewardId: string | null
+  campaignId: string | null
+  deepLinkId: string | null
+  pollId: string | null
+  pollOptionId: string | null
   supporterId: string | null
   supporterName: string
   supporterEmail: string | null
   message: string | null
+  isFeatureRequest: boolean
   coffeeCount: number
   amount: runtime.Decimal
   customAmount: runtime.Decimal | null
@@ -335,10 +377,16 @@ export type SupportWhereInput = {
   id?: Prisma.StringFilter<"Support"> | string
   creatorProfileId?: Prisma.StringFilter<"Support"> | string
   goalId?: Prisma.StringNullableFilter<"Support"> | string | null
+  rewardId?: Prisma.StringNullableFilter<"Support"> | string | null
+  campaignId?: Prisma.StringNullableFilter<"Support"> | string | null
+  deepLinkId?: Prisma.StringNullableFilter<"Support"> | string | null
+  pollId?: Prisma.StringNullableFilter<"Support"> | string | null
+  pollOptionId?: Prisma.StringNullableFilter<"Support"> | string | null
   supporterId?: Prisma.StringNullableFilter<"Support"> | string | null
   supporterName?: Prisma.StringFilter<"Support"> | string
   supporterEmail?: Prisma.StringNullableFilter<"Support"> | string | null
   message?: Prisma.StringNullableFilter<"Support"> | string | null
+  isFeatureRequest?: Prisma.BoolFilter<"Support"> | boolean
   coffeeCount?: Prisma.IntFilter<"Support"> | number
   amount?: Prisma.DecimalFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.DecimalNullableFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -354,17 +402,31 @@ export type SupportWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Support"> | Date | string
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileScalarRelationFilter, Prisma.CreatorProfileWhereInput>
   goal?: Prisma.XOR<Prisma.CreatorGoalNullableScalarRelationFilter, Prisma.CreatorGoalWhereInput> | null
+  reward?: Prisma.XOR<Prisma.RewardNullableScalarRelationFilter, Prisma.RewardWhereInput> | null
+  campaign?: Prisma.XOR<Prisma.TikTokCampaignNullableScalarRelationFilter, Prisma.TikTokCampaignWhereInput> | null
+  deepLink?: Prisma.XOR<Prisma.DeepLinkNullableScalarRelationFilter, Prisma.DeepLinkWhereInput> | null
+  poll?: Prisma.XOR<Prisma.PollNullableScalarRelationFilter, Prisma.PollWhereInput> | null
+  pollOption?: Prisma.XOR<Prisma.PollOptionNullableScalarRelationFilter, Prisma.PollOptionWhereInput> | null
   supporter?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  unlockedReward?: Prisma.XOR<Prisma.UnlockedRewardNullableScalarRelationFilter, Prisma.UnlockedRewardWhereInput> | null
+  featureRequest?: Prisma.XOR<Prisma.FeatureRequestNullableScalarRelationFilter, Prisma.FeatureRequestWhereInput> | null
+  paidVote?: Prisma.XOR<Prisma.PaidVoteNullableScalarRelationFilter, Prisma.PaidVoteWhereInput> | null
 }
 
 export type SupportOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
   goalId?: Prisma.SortOrderInput | Prisma.SortOrder
+  rewardId?: Prisma.SortOrderInput | Prisma.SortOrder
+  campaignId?: Prisma.SortOrderInput | Prisma.SortOrder
+  deepLinkId?: Prisma.SortOrderInput | Prisma.SortOrder
+  pollId?: Prisma.SortOrderInput | Prisma.SortOrder
+  pollOptionId?: Prisma.SortOrderInput | Prisma.SortOrder
   supporterId?: Prisma.SortOrderInput | Prisma.SortOrder
   supporterName?: Prisma.SortOrder
   supporterEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
+  isFeatureRequest?: Prisma.SortOrder
   coffeeCount?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   customAmount?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -380,7 +442,15 @@ export type SupportOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   creatorProfile?: Prisma.CreatorProfileOrderByWithRelationInput
   goal?: Prisma.CreatorGoalOrderByWithRelationInput
+  reward?: Prisma.RewardOrderByWithRelationInput
+  campaign?: Prisma.TikTokCampaignOrderByWithRelationInput
+  deepLink?: Prisma.DeepLinkOrderByWithRelationInput
+  poll?: Prisma.PollOrderByWithRelationInput
+  pollOption?: Prisma.PollOptionOrderByWithRelationInput
   supporter?: Prisma.UserOrderByWithRelationInput
+  unlockedReward?: Prisma.UnlockedRewardOrderByWithRelationInput
+  featureRequest?: Prisma.FeatureRequestOrderByWithRelationInput
+  paidVote?: Prisma.PaidVoteOrderByWithRelationInput
 }
 
 export type SupportWhereUniqueInput = Prisma.AtLeast<{
@@ -391,10 +461,16 @@ export type SupportWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.SupportWhereInput | Prisma.SupportWhereInput[]
   creatorProfileId?: Prisma.StringFilter<"Support"> | string
   goalId?: Prisma.StringNullableFilter<"Support"> | string | null
+  rewardId?: Prisma.StringNullableFilter<"Support"> | string | null
+  campaignId?: Prisma.StringNullableFilter<"Support"> | string | null
+  deepLinkId?: Prisma.StringNullableFilter<"Support"> | string | null
+  pollId?: Prisma.StringNullableFilter<"Support"> | string | null
+  pollOptionId?: Prisma.StringNullableFilter<"Support"> | string | null
   supporterId?: Prisma.StringNullableFilter<"Support"> | string | null
   supporterName?: Prisma.StringFilter<"Support"> | string
   supporterEmail?: Prisma.StringNullableFilter<"Support"> | string | null
   message?: Prisma.StringNullableFilter<"Support"> | string | null
+  isFeatureRequest?: Prisma.BoolFilter<"Support"> | boolean
   coffeeCount?: Prisma.IntFilter<"Support"> | number
   amount?: Prisma.DecimalFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.DecimalNullableFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -409,17 +485,31 @@ export type SupportWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Support"> | Date | string
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileScalarRelationFilter, Prisma.CreatorProfileWhereInput>
   goal?: Prisma.XOR<Prisma.CreatorGoalNullableScalarRelationFilter, Prisma.CreatorGoalWhereInput> | null
+  reward?: Prisma.XOR<Prisma.RewardNullableScalarRelationFilter, Prisma.RewardWhereInput> | null
+  campaign?: Prisma.XOR<Prisma.TikTokCampaignNullableScalarRelationFilter, Prisma.TikTokCampaignWhereInput> | null
+  deepLink?: Prisma.XOR<Prisma.DeepLinkNullableScalarRelationFilter, Prisma.DeepLinkWhereInput> | null
+  poll?: Prisma.XOR<Prisma.PollNullableScalarRelationFilter, Prisma.PollWhereInput> | null
+  pollOption?: Prisma.XOR<Prisma.PollOptionNullableScalarRelationFilter, Prisma.PollOptionWhereInput> | null
   supporter?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  unlockedReward?: Prisma.XOR<Prisma.UnlockedRewardNullableScalarRelationFilter, Prisma.UnlockedRewardWhereInput> | null
+  featureRequest?: Prisma.XOR<Prisma.FeatureRequestNullableScalarRelationFilter, Prisma.FeatureRequestWhereInput> | null
+  paidVote?: Prisma.XOR<Prisma.PaidVoteNullableScalarRelationFilter, Prisma.PaidVoteWhereInput> | null
 }, "id" | "chapaRef">
 
 export type SupportOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
   goalId?: Prisma.SortOrderInput | Prisma.SortOrder
+  rewardId?: Prisma.SortOrderInput | Prisma.SortOrder
+  campaignId?: Prisma.SortOrderInput | Prisma.SortOrder
+  deepLinkId?: Prisma.SortOrderInput | Prisma.SortOrder
+  pollId?: Prisma.SortOrderInput | Prisma.SortOrder
+  pollOptionId?: Prisma.SortOrderInput | Prisma.SortOrder
   supporterId?: Prisma.SortOrderInput | Prisma.SortOrder
   supporterName?: Prisma.SortOrder
   supporterEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
+  isFeatureRequest?: Prisma.SortOrder
   coffeeCount?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   customAmount?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -447,10 +537,16 @@ export type SupportScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Support"> | string
   creatorProfileId?: Prisma.StringWithAggregatesFilter<"Support"> | string
   goalId?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
+  rewardId?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
+  campaignId?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
+  deepLinkId?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
+  pollId?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
+  pollOptionId?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
   supporterId?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
   supporterName?: Prisma.StringWithAggregatesFilter<"Support"> | string
   supporterEmail?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
   message?: Prisma.StringNullableWithAggregatesFilter<"Support"> | string | null
+  isFeatureRequest?: Prisma.BoolWithAggregatesFilter<"Support"> | boolean
   coffeeCount?: Prisma.IntWithAggregatesFilter<"Support"> | number
   amount?: Prisma.DecimalWithAggregatesFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.DecimalNullableWithAggregatesFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -471,6 +567,7 @@ export type SupportCreateInput = {
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
+  isFeatureRequest?: boolean
   coffeeCount?: number
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -486,17 +583,31 @@ export type SupportCreateInput = {
   updatedAt?: Date | string
   creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
   goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  reward?: Prisma.RewardCreateNestedOneWithoutSupportsInput
+  campaign?: Prisma.TikTokCampaignCreateNestedOneWithoutSupportsInput
+  deepLink?: Prisma.DeepLinkCreateNestedOneWithoutSupportsInput
+  poll?: Prisma.PollCreateNestedOneWithoutSupportsInput
+  pollOption?: Prisma.PollOptionCreateNestedOneWithoutSupportsInput
   supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
+  unlockedReward?: Prisma.UnlockedRewardCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteCreateNestedOneWithoutSupportInput
 }
 
 export type SupportUncheckedCreateInput = {
   id?: string
   creatorProfileId: string
   goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
   supporterId?: string | null
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
+  isFeatureRequest?: boolean
   coffeeCount?: number
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -510,6 +621,9 @@ export type SupportUncheckedCreateInput = {
   walletCredited?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestUncheckedCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteUncheckedCreateNestedOneWithoutSupportInput
 }
 
 export type SupportUpdateInput = {
@@ -517,6 +631,7 @@ export type SupportUpdateInput = {
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -532,17 +647,31 @@ export type SupportUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
   goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  reward?: Prisma.RewardUpdateOneWithoutSupportsNestedInput
+  campaign?: Prisma.TikTokCampaignUpdateOneWithoutSupportsNestedInput
+  deepLink?: Prisma.DeepLinkUpdateOneWithoutSupportsNestedInput
+  poll?: Prisma.PollUpdateOneWithoutSupportsNestedInput
+  pollOption?: Prisma.PollOptionUpdateOneWithoutSupportsNestedInput
   supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
+  unlockedReward?: Prisma.UnlockedRewardUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUpdateOneWithoutSupportNestedInput
 }
 
 export type SupportUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -556,16 +685,25 @@ export type SupportUncheckedUpdateInput = {
   walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUncheckedUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUncheckedUpdateOneWithoutSupportNestedInput
 }
 
 export type SupportCreateManyInput = {
   id?: string
   creatorProfileId: string
   goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
   supporterId?: string | null
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
+  isFeatureRequest?: boolean
   coffeeCount?: number
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -586,6 +724,7 @@ export type SupportUpdateManyMutationInput = {
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -605,10 +744,16 @@ export type SupportUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -638,10 +783,16 @@ export type SupportCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
   goalId?: Prisma.SortOrder
+  rewardId?: Prisma.SortOrder
+  campaignId?: Prisma.SortOrder
+  deepLinkId?: Prisma.SortOrder
+  pollId?: Prisma.SortOrder
+  pollOptionId?: Prisma.SortOrder
   supporterId?: Prisma.SortOrder
   supporterName?: Prisma.SortOrder
   supporterEmail?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  isFeatureRequest?: Prisma.SortOrder
   coffeeCount?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   customAmount?: Prisma.SortOrder
@@ -669,10 +820,16 @@ export type SupportMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
   goalId?: Prisma.SortOrder
+  rewardId?: Prisma.SortOrder
+  campaignId?: Prisma.SortOrder
+  deepLinkId?: Prisma.SortOrder
+  pollId?: Prisma.SortOrder
+  pollOptionId?: Prisma.SortOrder
   supporterId?: Prisma.SortOrder
   supporterName?: Prisma.SortOrder
   supporterEmail?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  isFeatureRequest?: Prisma.SortOrder
   coffeeCount?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   customAmount?: Prisma.SortOrder
@@ -692,10 +849,16 @@ export type SupportMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
   goalId?: Prisma.SortOrder
+  rewardId?: Prisma.SortOrder
+  campaignId?: Prisma.SortOrder
+  deepLinkId?: Prisma.SortOrder
+  pollId?: Prisma.SortOrder
+  pollOptionId?: Prisma.SortOrder
   supporterId?: Prisma.SortOrder
   supporterName?: Prisma.SortOrder
   supporterEmail?: Prisma.SortOrder
   message?: Prisma.SortOrder
+  isFeatureRequest?: Prisma.SortOrder
   coffeeCount?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   customAmount?: Prisma.SortOrder
@@ -717,6 +880,11 @@ export type SupportSumOrderByAggregateInput = {
   customAmount?: Prisma.SortOrder
   platformFee?: Prisma.SortOrder
   netAmount?: Prisma.SortOrder
+}
+
+export type SupportScalarRelationFilter = {
+  is?: Prisma.SupportWhereInput
+  isNot?: Prisma.SupportWhereInput
 }
 
 export type SupportCreateNestedManyWithoutSupporterInput = {
@@ -845,6 +1013,48 @@ export type SupportUncheckedUpdateManyWithoutGoalNestedInput = {
   deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
 }
 
+export type SupportCreateNestedManyWithoutRewardInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutRewardInput, Prisma.SupportUncheckedCreateWithoutRewardInput> | Prisma.SupportCreateWithoutRewardInput[] | Prisma.SupportUncheckedCreateWithoutRewardInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutRewardInput | Prisma.SupportCreateOrConnectWithoutRewardInput[]
+  createMany?: Prisma.SupportCreateManyRewardInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUncheckedCreateNestedManyWithoutRewardInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutRewardInput, Prisma.SupportUncheckedCreateWithoutRewardInput> | Prisma.SupportCreateWithoutRewardInput[] | Prisma.SupportUncheckedCreateWithoutRewardInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutRewardInput | Prisma.SupportCreateOrConnectWithoutRewardInput[]
+  createMany?: Prisma.SupportCreateManyRewardInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUpdateManyWithoutRewardNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutRewardInput, Prisma.SupportUncheckedCreateWithoutRewardInput> | Prisma.SupportCreateWithoutRewardInput[] | Prisma.SupportUncheckedCreateWithoutRewardInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutRewardInput | Prisma.SupportCreateOrConnectWithoutRewardInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutRewardInput | Prisma.SupportUpsertWithWhereUniqueWithoutRewardInput[]
+  createMany?: Prisma.SupportCreateManyRewardInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutRewardInput | Prisma.SupportUpdateWithWhereUniqueWithoutRewardInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutRewardInput | Prisma.SupportUpdateManyWithWhereWithoutRewardInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
+export type SupportUncheckedUpdateManyWithoutRewardNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutRewardInput, Prisma.SupportUncheckedCreateWithoutRewardInput> | Prisma.SupportCreateWithoutRewardInput[] | Prisma.SupportUncheckedCreateWithoutRewardInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutRewardInput | Prisma.SupportCreateOrConnectWithoutRewardInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutRewardInput | Prisma.SupportUpsertWithWhereUniqueWithoutRewardInput[]
+  createMany?: Prisma.SupportCreateManyRewardInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutRewardInput | Prisma.SupportUpdateWithWhereUniqueWithoutRewardInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutRewardInput | Prisma.SupportUpdateManyWithWhereWithoutRewardInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
 export type NullableDecimalFieldUpdateOperationsInput = {
   set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -857,11 +1067,222 @@ export type EnumPaymentStatusFieldUpdateOperationsInput = {
   set?: $Enums.PaymentStatus
 }
 
+export type SupportCreateNestedManyWithoutCampaignInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutCampaignInput, Prisma.SupportUncheckedCreateWithoutCampaignInput> | Prisma.SupportCreateWithoutCampaignInput[] | Prisma.SupportUncheckedCreateWithoutCampaignInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutCampaignInput | Prisma.SupportCreateOrConnectWithoutCampaignInput[]
+  createMany?: Prisma.SupportCreateManyCampaignInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUncheckedCreateNestedManyWithoutCampaignInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutCampaignInput, Prisma.SupportUncheckedCreateWithoutCampaignInput> | Prisma.SupportCreateWithoutCampaignInput[] | Prisma.SupportUncheckedCreateWithoutCampaignInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutCampaignInput | Prisma.SupportCreateOrConnectWithoutCampaignInput[]
+  createMany?: Prisma.SupportCreateManyCampaignInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUpdateManyWithoutCampaignNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutCampaignInput, Prisma.SupportUncheckedCreateWithoutCampaignInput> | Prisma.SupportCreateWithoutCampaignInput[] | Prisma.SupportUncheckedCreateWithoutCampaignInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutCampaignInput | Prisma.SupportCreateOrConnectWithoutCampaignInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutCampaignInput | Prisma.SupportUpsertWithWhereUniqueWithoutCampaignInput[]
+  createMany?: Prisma.SupportCreateManyCampaignInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutCampaignInput | Prisma.SupportUpdateWithWhereUniqueWithoutCampaignInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutCampaignInput | Prisma.SupportUpdateManyWithWhereWithoutCampaignInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
+export type SupportUncheckedUpdateManyWithoutCampaignNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutCampaignInput, Prisma.SupportUncheckedCreateWithoutCampaignInput> | Prisma.SupportCreateWithoutCampaignInput[] | Prisma.SupportUncheckedCreateWithoutCampaignInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutCampaignInput | Prisma.SupportCreateOrConnectWithoutCampaignInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutCampaignInput | Prisma.SupportUpsertWithWhereUniqueWithoutCampaignInput[]
+  createMany?: Prisma.SupportCreateManyCampaignInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutCampaignInput | Prisma.SupportUpdateWithWhereUniqueWithoutCampaignInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutCampaignInput | Prisma.SupportUpdateManyWithWhereWithoutCampaignInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
+export type SupportCreateNestedManyWithoutDeepLinkInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutDeepLinkInput, Prisma.SupportUncheckedCreateWithoutDeepLinkInput> | Prisma.SupportCreateWithoutDeepLinkInput[] | Prisma.SupportUncheckedCreateWithoutDeepLinkInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutDeepLinkInput | Prisma.SupportCreateOrConnectWithoutDeepLinkInput[]
+  createMany?: Prisma.SupportCreateManyDeepLinkInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUncheckedCreateNestedManyWithoutDeepLinkInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutDeepLinkInput, Prisma.SupportUncheckedCreateWithoutDeepLinkInput> | Prisma.SupportCreateWithoutDeepLinkInput[] | Prisma.SupportUncheckedCreateWithoutDeepLinkInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutDeepLinkInput | Prisma.SupportCreateOrConnectWithoutDeepLinkInput[]
+  createMany?: Prisma.SupportCreateManyDeepLinkInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUpdateManyWithoutDeepLinkNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutDeepLinkInput, Prisma.SupportUncheckedCreateWithoutDeepLinkInput> | Prisma.SupportCreateWithoutDeepLinkInput[] | Prisma.SupportUncheckedCreateWithoutDeepLinkInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutDeepLinkInput | Prisma.SupportCreateOrConnectWithoutDeepLinkInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutDeepLinkInput | Prisma.SupportUpsertWithWhereUniqueWithoutDeepLinkInput[]
+  createMany?: Prisma.SupportCreateManyDeepLinkInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutDeepLinkInput | Prisma.SupportUpdateWithWhereUniqueWithoutDeepLinkInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutDeepLinkInput | Prisma.SupportUpdateManyWithWhereWithoutDeepLinkInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
+export type SupportUncheckedUpdateManyWithoutDeepLinkNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutDeepLinkInput, Prisma.SupportUncheckedCreateWithoutDeepLinkInput> | Prisma.SupportCreateWithoutDeepLinkInput[] | Prisma.SupportUncheckedCreateWithoutDeepLinkInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutDeepLinkInput | Prisma.SupportCreateOrConnectWithoutDeepLinkInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutDeepLinkInput | Prisma.SupportUpsertWithWhereUniqueWithoutDeepLinkInput[]
+  createMany?: Prisma.SupportCreateManyDeepLinkInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutDeepLinkInput | Prisma.SupportUpdateWithWhereUniqueWithoutDeepLinkInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutDeepLinkInput | Prisma.SupportUpdateManyWithWhereWithoutDeepLinkInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
+export type SupportCreateNestedOneWithoutUnlockedRewardInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutUnlockedRewardInput, Prisma.SupportUncheckedCreateWithoutUnlockedRewardInput>
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutUnlockedRewardInput
+  connect?: Prisma.SupportWhereUniqueInput
+}
+
+export type SupportUpdateOneRequiredWithoutUnlockedRewardNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutUnlockedRewardInput, Prisma.SupportUncheckedCreateWithoutUnlockedRewardInput>
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutUnlockedRewardInput
+  upsert?: Prisma.SupportUpsertWithoutUnlockedRewardInput
+  connect?: Prisma.SupportWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SupportUpdateToOneWithWhereWithoutUnlockedRewardInput, Prisma.SupportUpdateWithoutUnlockedRewardInput>, Prisma.SupportUncheckedUpdateWithoutUnlockedRewardInput>
+}
+
+export type SupportCreateNestedOneWithoutFeatureRequestInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutFeatureRequestInput, Prisma.SupportUncheckedCreateWithoutFeatureRequestInput>
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutFeatureRequestInput
+  connect?: Prisma.SupportWhereUniqueInput
+}
+
+export type SupportUpdateOneRequiredWithoutFeatureRequestNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutFeatureRequestInput, Prisma.SupportUncheckedCreateWithoutFeatureRequestInput>
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutFeatureRequestInput
+  upsert?: Prisma.SupportUpsertWithoutFeatureRequestInput
+  connect?: Prisma.SupportWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SupportUpdateToOneWithWhereWithoutFeatureRequestInput, Prisma.SupportUpdateWithoutFeatureRequestInput>, Prisma.SupportUncheckedUpdateWithoutFeatureRequestInput>
+}
+
+export type SupportCreateNestedManyWithoutPollInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutPollInput, Prisma.SupportUncheckedCreateWithoutPollInput> | Prisma.SupportCreateWithoutPollInput[] | Prisma.SupportUncheckedCreateWithoutPollInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutPollInput | Prisma.SupportCreateOrConnectWithoutPollInput[]
+  createMany?: Prisma.SupportCreateManyPollInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUncheckedCreateNestedManyWithoutPollInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutPollInput, Prisma.SupportUncheckedCreateWithoutPollInput> | Prisma.SupportCreateWithoutPollInput[] | Prisma.SupportUncheckedCreateWithoutPollInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutPollInput | Prisma.SupportCreateOrConnectWithoutPollInput[]
+  createMany?: Prisma.SupportCreateManyPollInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUpdateManyWithoutPollNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutPollInput, Prisma.SupportUncheckedCreateWithoutPollInput> | Prisma.SupportCreateWithoutPollInput[] | Prisma.SupportUncheckedCreateWithoutPollInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutPollInput | Prisma.SupportCreateOrConnectWithoutPollInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutPollInput | Prisma.SupportUpsertWithWhereUniqueWithoutPollInput[]
+  createMany?: Prisma.SupportCreateManyPollInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutPollInput | Prisma.SupportUpdateWithWhereUniqueWithoutPollInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutPollInput | Prisma.SupportUpdateManyWithWhereWithoutPollInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
+export type SupportUncheckedUpdateManyWithoutPollNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutPollInput, Prisma.SupportUncheckedCreateWithoutPollInput> | Prisma.SupportCreateWithoutPollInput[] | Prisma.SupportUncheckedCreateWithoutPollInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutPollInput | Prisma.SupportCreateOrConnectWithoutPollInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutPollInput | Prisma.SupportUpsertWithWhereUniqueWithoutPollInput[]
+  createMany?: Prisma.SupportCreateManyPollInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutPollInput | Prisma.SupportUpdateWithWhereUniqueWithoutPollInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutPollInput | Prisma.SupportUpdateManyWithWhereWithoutPollInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
+export type SupportCreateNestedManyWithoutPollOptionInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutPollOptionInput, Prisma.SupportUncheckedCreateWithoutPollOptionInput> | Prisma.SupportCreateWithoutPollOptionInput[] | Prisma.SupportUncheckedCreateWithoutPollOptionInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutPollOptionInput | Prisma.SupportCreateOrConnectWithoutPollOptionInput[]
+  createMany?: Prisma.SupportCreateManyPollOptionInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUncheckedCreateNestedManyWithoutPollOptionInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutPollOptionInput, Prisma.SupportUncheckedCreateWithoutPollOptionInput> | Prisma.SupportCreateWithoutPollOptionInput[] | Prisma.SupportUncheckedCreateWithoutPollOptionInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutPollOptionInput | Prisma.SupportCreateOrConnectWithoutPollOptionInput[]
+  createMany?: Prisma.SupportCreateManyPollOptionInputEnvelope
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+}
+
+export type SupportUpdateManyWithoutPollOptionNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutPollOptionInput, Prisma.SupportUncheckedCreateWithoutPollOptionInput> | Prisma.SupportCreateWithoutPollOptionInput[] | Prisma.SupportUncheckedCreateWithoutPollOptionInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutPollOptionInput | Prisma.SupportCreateOrConnectWithoutPollOptionInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutPollOptionInput | Prisma.SupportUpsertWithWhereUniqueWithoutPollOptionInput[]
+  createMany?: Prisma.SupportCreateManyPollOptionInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutPollOptionInput | Prisma.SupportUpdateWithWhereUniqueWithoutPollOptionInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutPollOptionInput | Prisma.SupportUpdateManyWithWhereWithoutPollOptionInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
+export type SupportUncheckedUpdateManyWithoutPollOptionNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutPollOptionInput, Prisma.SupportUncheckedCreateWithoutPollOptionInput> | Prisma.SupportCreateWithoutPollOptionInput[] | Prisma.SupportUncheckedCreateWithoutPollOptionInput[]
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutPollOptionInput | Prisma.SupportCreateOrConnectWithoutPollOptionInput[]
+  upsert?: Prisma.SupportUpsertWithWhereUniqueWithoutPollOptionInput | Prisma.SupportUpsertWithWhereUniqueWithoutPollOptionInput[]
+  createMany?: Prisma.SupportCreateManyPollOptionInputEnvelope
+  set?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  disconnect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  delete?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  connect?: Prisma.SupportWhereUniqueInput | Prisma.SupportWhereUniqueInput[]
+  update?: Prisma.SupportUpdateWithWhereUniqueWithoutPollOptionInput | Prisma.SupportUpdateWithWhereUniqueWithoutPollOptionInput[]
+  updateMany?: Prisma.SupportUpdateManyWithWhereWithoutPollOptionInput | Prisma.SupportUpdateManyWithWhereWithoutPollOptionInput[]
+  deleteMany?: Prisma.SupportScalarWhereInput | Prisma.SupportScalarWhereInput[]
+}
+
+export type SupportCreateNestedOneWithoutPaidVoteInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutPaidVoteInput, Prisma.SupportUncheckedCreateWithoutPaidVoteInput>
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutPaidVoteInput
+  connect?: Prisma.SupportWhereUniqueInput
+}
+
+export type SupportUpdateOneRequiredWithoutPaidVoteNestedInput = {
+  create?: Prisma.XOR<Prisma.SupportCreateWithoutPaidVoteInput, Prisma.SupportUncheckedCreateWithoutPaidVoteInput>
+  connectOrCreate?: Prisma.SupportCreateOrConnectWithoutPaidVoteInput
+  upsert?: Prisma.SupportUpsertWithoutPaidVoteInput
+  connect?: Prisma.SupportWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SupportUpdateToOneWithWhereWithoutPaidVoteInput, Prisma.SupportUpdateWithoutPaidVoteInput>, Prisma.SupportUncheckedUpdateWithoutPaidVoteInput>
+}
+
 export type SupportCreateWithoutSupporterInput = {
   id?: string
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
+  isFeatureRequest?: boolean
   coffeeCount?: number
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -877,15 +1298,29 @@ export type SupportCreateWithoutSupporterInput = {
   updatedAt?: Date | string
   creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
   goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  reward?: Prisma.RewardCreateNestedOneWithoutSupportsInput
+  campaign?: Prisma.TikTokCampaignCreateNestedOneWithoutSupportsInput
+  deepLink?: Prisma.DeepLinkCreateNestedOneWithoutSupportsInput
+  poll?: Prisma.PollCreateNestedOneWithoutSupportsInput
+  pollOption?: Prisma.PollOptionCreateNestedOneWithoutSupportsInput
+  unlockedReward?: Prisma.UnlockedRewardCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteCreateNestedOneWithoutSupportInput
 }
 
 export type SupportUncheckedCreateWithoutSupporterInput = {
   id?: string
   creatorProfileId: string
   goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
+  isFeatureRequest?: boolean
   coffeeCount?: number
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -899,6 +1334,9 @@ export type SupportUncheckedCreateWithoutSupporterInput = {
   walletCredited?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestUncheckedCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteUncheckedCreateNestedOneWithoutSupportInput
 }
 
 export type SupportCreateOrConnectWithoutSupporterInput = {
@@ -934,10 +1372,16 @@ export type SupportScalarWhereInput = {
   id?: Prisma.StringFilter<"Support"> | string
   creatorProfileId?: Prisma.StringFilter<"Support"> | string
   goalId?: Prisma.StringNullableFilter<"Support"> | string | null
+  rewardId?: Prisma.StringNullableFilter<"Support"> | string | null
+  campaignId?: Prisma.StringNullableFilter<"Support"> | string | null
+  deepLinkId?: Prisma.StringNullableFilter<"Support"> | string | null
+  pollId?: Prisma.StringNullableFilter<"Support"> | string | null
+  pollOptionId?: Prisma.StringNullableFilter<"Support"> | string | null
   supporterId?: Prisma.StringNullableFilter<"Support"> | string | null
   supporterName?: Prisma.StringFilter<"Support"> | string
   supporterEmail?: Prisma.StringNullableFilter<"Support"> | string | null
   message?: Prisma.StringNullableFilter<"Support"> | string | null
+  isFeatureRequest?: Prisma.BoolFilter<"Support"> | boolean
   coffeeCount?: Prisma.IntFilter<"Support"> | number
   amount?: Prisma.DecimalFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.DecimalNullableFilter<"Support"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -958,6 +1402,7 @@ export type SupportCreateWithoutCreatorProfileInput = {
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
+  isFeatureRequest?: boolean
   coffeeCount?: number
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -972,16 +1417,30 @@ export type SupportCreateWithoutCreatorProfileInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  reward?: Prisma.RewardCreateNestedOneWithoutSupportsInput
+  campaign?: Prisma.TikTokCampaignCreateNestedOneWithoutSupportsInput
+  deepLink?: Prisma.DeepLinkCreateNestedOneWithoutSupportsInput
+  poll?: Prisma.PollCreateNestedOneWithoutSupportsInput
+  pollOption?: Prisma.PollOptionCreateNestedOneWithoutSupportsInput
   supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
+  unlockedReward?: Prisma.UnlockedRewardCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteCreateNestedOneWithoutSupportInput
 }
 
 export type SupportUncheckedCreateWithoutCreatorProfileInput = {
   id?: string
   goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
   supporterId?: string | null
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
+  isFeatureRequest?: boolean
   coffeeCount?: number
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -995,6 +1454,9 @@ export type SupportUncheckedCreateWithoutCreatorProfileInput = {
   walletCredited?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestUncheckedCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteUncheckedCreateNestedOneWithoutSupportInput
 }
 
 export type SupportCreateOrConnectWithoutCreatorProfileInput = {
@@ -1028,6 +1490,7 @@ export type SupportCreateWithoutGoalInput = {
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
+  isFeatureRequest?: boolean
   coffeeCount?: number
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1042,16 +1505,30 @@ export type SupportCreateWithoutGoalInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
+  reward?: Prisma.RewardCreateNestedOneWithoutSupportsInput
+  campaign?: Prisma.TikTokCampaignCreateNestedOneWithoutSupportsInput
+  deepLink?: Prisma.DeepLinkCreateNestedOneWithoutSupportsInput
+  poll?: Prisma.PollCreateNestedOneWithoutSupportsInput
+  pollOption?: Prisma.PollOptionCreateNestedOneWithoutSupportsInput
   supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
+  unlockedReward?: Prisma.UnlockedRewardCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteCreateNestedOneWithoutSupportInput
 }
 
 export type SupportUncheckedCreateWithoutGoalInput = {
   id?: string
   creatorProfileId: string
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
   supporterId?: string | null
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
+  isFeatureRequest?: boolean
   coffeeCount?: number
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1065,6 +1542,9 @@ export type SupportUncheckedCreateWithoutGoalInput = {
   walletCredited?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestUncheckedCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteUncheckedCreateNestedOneWithoutSupportInput
 }
 
 export type SupportCreateOrConnectWithoutGoalInput = {
@@ -1093,13 +1573,879 @@ export type SupportUpdateManyWithWhereWithoutGoalInput = {
   data: Prisma.XOR<Prisma.SupportUpdateManyMutationInput, Prisma.SupportUncheckedUpdateManyWithoutGoalInput>
 }
 
+export type SupportCreateWithoutRewardInput = {
+  id?: string
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
+  goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  campaign?: Prisma.TikTokCampaignCreateNestedOneWithoutSupportsInput
+  deepLink?: Prisma.DeepLinkCreateNestedOneWithoutSupportsInput
+  poll?: Prisma.PollCreateNestedOneWithoutSupportsInput
+  pollOption?: Prisma.PollOptionCreateNestedOneWithoutSupportsInput
+  supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
+  unlockedReward?: Prisma.UnlockedRewardCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteCreateNestedOneWithoutSupportInput
+}
+
+export type SupportUncheckedCreateWithoutRewardInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestUncheckedCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteUncheckedCreateNestedOneWithoutSupportInput
+}
+
+export type SupportCreateOrConnectWithoutRewardInput = {
+  where: Prisma.SupportWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupportCreateWithoutRewardInput, Prisma.SupportUncheckedCreateWithoutRewardInput>
+}
+
+export type SupportCreateManyRewardInputEnvelope = {
+  data: Prisma.SupportCreateManyRewardInput | Prisma.SupportCreateManyRewardInput[]
+  skipDuplicates?: boolean
+}
+
+export type SupportUpsertWithWhereUniqueWithoutRewardInput = {
+  where: Prisma.SupportWhereUniqueInput
+  update: Prisma.XOR<Prisma.SupportUpdateWithoutRewardInput, Prisma.SupportUncheckedUpdateWithoutRewardInput>
+  create: Prisma.XOR<Prisma.SupportCreateWithoutRewardInput, Prisma.SupportUncheckedCreateWithoutRewardInput>
+}
+
+export type SupportUpdateWithWhereUniqueWithoutRewardInput = {
+  where: Prisma.SupportWhereUniqueInput
+  data: Prisma.XOR<Prisma.SupportUpdateWithoutRewardInput, Prisma.SupportUncheckedUpdateWithoutRewardInput>
+}
+
+export type SupportUpdateManyWithWhereWithoutRewardInput = {
+  where: Prisma.SupportScalarWhereInput
+  data: Prisma.XOR<Prisma.SupportUpdateManyMutationInput, Prisma.SupportUncheckedUpdateManyWithoutRewardInput>
+}
+
+export type SupportCreateWithoutCampaignInput = {
+  id?: string
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
+  goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  reward?: Prisma.RewardCreateNestedOneWithoutSupportsInput
+  deepLink?: Prisma.DeepLinkCreateNestedOneWithoutSupportsInput
+  poll?: Prisma.PollCreateNestedOneWithoutSupportsInput
+  pollOption?: Prisma.PollOptionCreateNestedOneWithoutSupportsInput
+  supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
+  unlockedReward?: Prisma.UnlockedRewardCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteCreateNestedOneWithoutSupportInput
+}
+
+export type SupportUncheckedCreateWithoutCampaignInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  rewardId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestUncheckedCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteUncheckedCreateNestedOneWithoutSupportInput
+}
+
+export type SupportCreateOrConnectWithoutCampaignInput = {
+  where: Prisma.SupportWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupportCreateWithoutCampaignInput, Prisma.SupportUncheckedCreateWithoutCampaignInput>
+}
+
+export type SupportCreateManyCampaignInputEnvelope = {
+  data: Prisma.SupportCreateManyCampaignInput | Prisma.SupportCreateManyCampaignInput[]
+  skipDuplicates?: boolean
+}
+
+export type SupportUpsertWithWhereUniqueWithoutCampaignInput = {
+  where: Prisma.SupportWhereUniqueInput
+  update: Prisma.XOR<Prisma.SupportUpdateWithoutCampaignInput, Prisma.SupportUncheckedUpdateWithoutCampaignInput>
+  create: Prisma.XOR<Prisma.SupportCreateWithoutCampaignInput, Prisma.SupportUncheckedCreateWithoutCampaignInput>
+}
+
+export type SupportUpdateWithWhereUniqueWithoutCampaignInput = {
+  where: Prisma.SupportWhereUniqueInput
+  data: Prisma.XOR<Prisma.SupportUpdateWithoutCampaignInput, Prisma.SupportUncheckedUpdateWithoutCampaignInput>
+}
+
+export type SupportUpdateManyWithWhereWithoutCampaignInput = {
+  where: Prisma.SupportScalarWhereInput
+  data: Prisma.XOR<Prisma.SupportUpdateManyMutationInput, Prisma.SupportUncheckedUpdateManyWithoutCampaignInput>
+}
+
+export type SupportCreateWithoutDeepLinkInput = {
+  id?: string
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
+  goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  reward?: Prisma.RewardCreateNestedOneWithoutSupportsInput
+  campaign?: Prisma.TikTokCampaignCreateNestedOneWithoutSupportsInput
+  poll?: Prisma.PollCreateNestedOneWithoutSupportsInput
+  pollOption?: Prisma.PollOptionCreateNestedOneWithoutSupportsInput
+  supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
+  unlockedReward?: Prisma.UnlockedRewardCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteCreateNestedOneWithoutSupportInput
+}
+
+export type SupportUncheckedCreateWithoutDeepLinkInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestUncheckedCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteUncheckedCreateNestedOneWithoutSupportInput
+}
+
+export type SupportCreateOrConnectWithoutDeepLinkInput = {
+  where: Prisma.SupportWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupportCreateWithoutDeepLinkInput, Prisma.SupportUncheckedCreateWithoutDeepLinkInput>
+}
+
+export type SupportCreateManyDeepLinkInputEnvelope = {
+  data: Prisma.SupportCreateManyDeepLinkInput | Prisma.SupportCreateManyDeepLinkInput[]
+  skipDuplicates?: boolean
+}
+
+export type SupportUpsertWithWhereUniqueWithoutDeepLinkInput = {
+  where: Prisma.SupportWhereUniqueInput
+  update: Prisma.XOR<Prisma.SupportUpdateWithoutDeepLinkInput, Prisma.SupportUncheckedUpdateWithoutDeepLinkInput>
+  create: Prisma.XOR<Prisma.SupportCreateWithoutDeepLinkInput, Prisma.SupportUncheckedCreateWithoutDeepLinkInput>
+}
+
+export type SupportUpdateWithWhereUniqueWithoutDeepLinkInput = {
+  where: Prisma.SupportWhereUniqueInput
+  data: Prisma.XOR<Prisma.SupportUpdateWithoutDeepLinkInput, Prisma.SupportUncheckedUpdateWithoutDeepLinkInput>
+}
+
+export type SupportUpdateManyWithWhereWithoutDeepLinkInput = {
+  where: Prisma.SupportScalarWhereInput
+  data: Prisma.XOR<Prisma.SupportUpdateManyMutationInput, Prisma.SupportUncheckedUpdateManyWithoutDeepLinkInput>
+}
+
+export type SupportCreateWithoutUnlockedRewardInput = {
+  id?: string
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
+  goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  reward?: Prisma.RewardCreateNestedOneWithoutSupportsInput
+  campaign?: Prisma.TikTokCampaignCreateNestedOneWithoutSupportsInput
+  deepLink?: Prisma.DeepLinkCreateNestedOneWithoutSupportsInput
+  poll?: Prisma.PollCreateNestedOneWithoutSupportsInput
+  pollOption?: Prisma.PollOptionCreateNestedOneWithoutSupportsInput
+  supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
+  featureRequest?: Prisma.FeatureRequestCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteCreateNestedOneWithoutSupportInput
+}
+
+export type SupportUncheckedCreateWithoutUnlockedRewardInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  featureRequest?: Prisma.FeatureRequestUncheckedCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteUncheckedCreateNestedOneWithoutSupportInput
+}
+
+export type SupportCreateOrConnectWithoutUnlockedRewardInput = {
+  where: Prisma.SupportWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupportCreateWithoutUnlockedRewardInput, Prisma.SupportUncheckedCreateWithoutUnlockedRewardInput>
+}
+
+export type SupportUpsertWithoutUnlockedRewardInput = {
+  update: Prisma.XOR<Prisma.SupportUpdateWithoutUnlockedRewardInput, Prisma.SupportUncheckedUpdateWithoutUnlockedRewardInput>
+  create: Prisma.XOR<Prisma.SupportCreateWithoutUnlockedRewardInput, Prisma.SupportUncheckedCreateWithoutUnlockedRewardInput>
+  where?: Prisma.SupportWhereInput
+}
+
+export type SupportUpdateToOneWithWhereWithoutUnlockedRewardInput = {
+  where?: Prisma.SupportWhereInput
+  data: Prisma.XOR<Prisma.SupportUpdateWithoutUnlockedRewardInput, Prisma.SupportUncheckedUpdateWithoutUnlockedRewardInput>
+}
+
+export type SupportUpdateWithoutUnlockedRewardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
+  goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  reward?: Prisma.RewardUpdateOneWithoutSupportsNestedInput
+  campaign?: Prisma.TikTokCampaignUpdateOneWithoutSupportsNestedInput
+  deepLink?: Prisma.DeepLinkUpdateOneWithoutSupportsNestedInput
+  poll?: Prisma.PollUpdateOneWithoutSupportsNestedInput
+  pollOption?: Prisma.PollOptionUpdateOneWithoutSupportsNestedInput
+  supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
+  featureRequest?: Prisma.FeatureRequestUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateWithoutUnlockedRewardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  featureRequest?: Prisma.FeatureRequestUncheckedUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUncheckedUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportCreateWithoutFeatureRequestInput = {
+  id?: string
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
+  goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  reward?: Prisma.RewardCreateNestedOneWithoutSupportsInput
+  campaign?: Prisma.TikTokCampaignCreateNestedOneWithoutSupportsInput
+  deepLink?: Prisma.DeepLinkCreateNestedOneWithoutSupportsInput
+  poll?: Prisma.PollCreateNestedOneWithoutSupportsInput
+  pollOption?: Prisma.PollOptionCreateNestedOneWithoutSupportsInput
+  supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
+  unlockedReward?: Prisma.UnlockedRewardCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteCreateNestedOneWithoutSupportInput
+}
+
+export type SupportUncheckedCreateWithoutFeatureRequestInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteUncheckedCreateNestedOneWithoutSupportInput
+}
+
+export type SupportCreateOrConnectWithoutFeatureRequestInput = {
+  where: Prisma.SupportWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupportCreateWithoutFeatureRequestInput, Prisma.SupportUncheckedCreateWithoutFeatureRequestInput>
+}
+
+export type SupportUpsertWithoutFeatureRequestInput = {
+  update: Prisma.XOR<Prisma.SupportUpdateWithoutFeatureRequestInput, Prisma.SupportUncheckedUpdateWithoutFeatureRequestInput>
+  create: Prisma.XOR<Prisma.SupportCreateWithoutFeatureRequestInput, Prisma.SupportUncheckedCreateWithoutFeatureRequestInput>
+  where?: Prisma.SupportWhereInput
+}
+
+export type SupportUpdateToOneWithWhereWithoutFeatureRequestInput = {
+  where?: Prisma.SupportWhereInput
+  data: Prisma.XOR<Prisma.SupportUpdateWithoutFeatureRequestInput, Prisma.SupportUncheckedUpdateWithoutFeatureRequestInput>
+}
+
+export type SupportUpdateWithoutFeatureRequestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
+  goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  reward?: Prisma.RewardUpdateOneWithoutSupportsNestedInput
+  campaign?: Prisma.TikTokCampaignUpdateOneWithoutSupportsNestedInput
+  deepLink?: Prisma.DeepLinkUpdateOneWithoutSupportsNestedInput
+  poll?: Prisma.PollUpdateOneWithoutSupportsNestedInput
+  pollOption?: Prisma.PollOptionUpdateOneWithoutSupportsNestedInput
+  supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
+  unlockedReward?: Prisma.UnlockedRewardUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateWithoutFeatureRequestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUncheckedUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportCreateWithoutPollInput = {
+  id?: string
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
+  goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  reward?: Prisma.RewardCreateNestedOneWithoutSupportsInput
+  campaign?: Prisma.TikTokCampaignCreateNestedOneWithoutSupportsInput
+  deepLink?: Prisma.DeepLinkCreateNestedOneWithoutSupportsInput
+  pollOption?: Prisma.PollOptionCreateNestedOneWithoutSupportsInput
+  supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
+  unlockedReward?: Prisma.UnlockedRewardCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteCreateNestedOneWithoutSupportInput
+}
+
+export type SupportUncheckedCreateWithoutPollInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollOptionId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestUncheckedCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteUncheckedCreateNestedOneWithoutSupportInput
+}
+
+export type SupportCreateOrConnectWithoutPollInput = {
+  where: Prisma.SupportWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupportCreateWithoutPollInput, Prisma.SupportUncheckedCreateWithoutPollInput>
+}
+
+export type SupportCreateManyPollInputEnvelope = {
+  data: Prisma.SupportCreateManyPollInput | Prisma.SupportCreateManyPollInput[]
+  skipDuplicates?: boolean
+}
+
+export type SupportUpsertWithWhereUniqueWithoutPollInput = {
+  where: Prisma.SupportWhereUniqueInput
+  update: Prisma.XOR<Prisma.SupportUpdateWithoutPollInput, Prisma.SupportUncheckedUpdateWithoutPollInput>
+  create: Prisma.XOR<Prisma.SupportCreateWithoutPollInput, Prisma.SupportUncheckedCreateWithoutPollInput>
+}
+
+export type SupportUpdateWithWhereUniqueWithoutPollInput = {
+  where: Prisma.SupportWhereUniqueInput
+  data: Prisma.XOR<Prisma.SupportUpdateWithoutPollInput, Prisma.SupportUncheckedUpdateWithoutPollInput>
+}
+
+export type SupportUpdateManyWithWhereWithoutPollInput = {
+  where: Prisma.SupportScalarWhereInput
+  data: Prisma.XOR<Prisma.SupportUpdateManyMutationInput, Prisma.SupportUncheckedUpdateManyWithoutPollInput>
+}
+
+export type SupportCreateWithoutPollOptionInput = {
+  id?: string
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
+  goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  reward?: Prisma.RewardCreateNestedOneWithoutSupportsInput
+  campaign?: Prisma.TikTokCampaignCreateNestedOneWithoutSupportsInput
+  deepLink?: Prisma.DeepLinkCreateNestedOneWithoutSupportsInput
+  poll?: Prisma.PollCreateNestedOneWithoutSupportsInput
+  supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
+  unlockedReward?: Prisma.UnlockedRewardCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteCreateNestedOneWithoutSupportInput
+}
+
+export type SupportUncheckedCreateWithoutPollOptionInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestUncheckedCreateNestedOneWithoutSupportInput
+  paidVote?: Prisma.PaidVoteUncheckedCreateNestedOneWithoutSupportInput
+}
+
+export type SupportCreateOrConnectWithoutPollOptionInput = {
+  where: Prisma.SupportWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupportCreateWithoutPollOptionInput, Prisma.SupportUncheckedCreateWithoutPollOptionInput>
+}
+
+export type SupportCreateManyPollOptionInputEnvelope = {
+  data: Prisma.SupportCreateManyPollOptionInput | Prisma.SupportCreateManyPollOptionInput[]
+  skipDuplicates?: boolean
+}
+
+export type SupportUpsertWithWhereUniqueWithoutPollOptionInput = {
+  where: Prisma.SupportWhereUniqueInput
+  update: Prisma.XOR<Prisma.SupportUpdateWithoutPollOptionInput, Prisma.SupportUncheckedUpdateWithoutPollOptionInput>
+  create: Prisma.XOR<Prisma.SupportCreateWithoutPollOptionInput, Prisma.SupportUncheckedCreateWithoutPollOptionInput>
+}
+
+export type SupportUpdateWithWhereUniqueWithoutPollOptionInput = {
+  where: Prisma.SupportWhereUniqueInput
+  data: Prisma.XOR<Prisma.SupportUpdateWithoutPollOptionInput, Prisma.SupportUncheckedUpdateWithoutPollOptionInput>
+}
+
+export type SupportUpdateManyWithWhereWithoutPollOptionInput = {
+  where: Prisma.SupportScalarWhereInput
+  data: Prisma.XOR<Prisma.SupportUpdateManyMutationInput, Prisma.SupportUncheckedUpdateManyWithoutPollOptionInput>
+}
+
+export type SupportCreateWithoutPaidVoteInput = {
+  id?: string
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutSupportsInput
+  goal?: Prisma.CreatorGoalCreateNestedOneWithoutSupportsInput
+  reward?: Prisma.RewardCreateNestedOneWithoutSupportsInput
+  campaign?: Prisma.TikTokCampaignCreateNestedOneWithoutSupportsInput
+  deepLink?: Prisma.DeepLinkCreateNestedOneWithoutSupportsInput
+  poll?: Prisma.PollCreateNestedOneWithoutSupportsInput
+  pollOption?: Prisma.PollOptionCreateNestedOneWithoutSupportsInput
+  supporter?: Prisma.UserCreateNestedOneWithoutSupportsInput
+  unlockedReward?: Prisma.UnlockedRewardCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestCreateNestedOneWithoutSupportInput
+}
+
+export type SupportUncheckedCreateWithoutPaidVoteInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedCreateNestedOneWithoutSupportInput
+  featureRequest?: Prisma.FeatureRequestUncheckedCreateNestedOneWithoutSupportInput
+}
+
+export type SupportCreateOrConnectWithoutPaidVoteInput = {
+  where: Prisma.SupportWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupportCreateWithoutPaidVoteInput, Prisma.SupportUncheckedCreateWithoutPaidVoteInput>
+}
+
+export type SupportUpsertWithoutPaidVoteInput = {
+  update: Prisma.XOR<Prisma.SupportUpdateWithoutPaidVoteInput, Prisma.SupportUncheckedUpdateWithoutPaidVoteInput>
+  create: Prisma.XOR<Prisma.SupportCreateWithoutPaidVoteInput, Prisma.SupportUncheckedCreateWithoutPaidVoteInput>
+  where?: Prisma.SupportWhereInput
+}
+
+export type SupportUpdateToOneWithWhereWithoutPaidVoteInput = {
+  where?: Prisma.SupportWhereInput
+  data: Prisma.XOR<Prisma.SupportUpdateWithoutPaidVoteInput, Prisma.SupportUncheckedUpdateWithoutPaidVoteInput>
+}
+
+export type SupportUpdateWithoutPaidVoteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
+  goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  reward?: Prisma.RewardUpdateOneWithoutSupportsNestedInput
+  campaign?: Prisma.TikTokCampaignUpdateOneWithoutSupportsNestedInput
+  deepLink?: Prisma.DeepLinkUpdateOneWithoutSupportsNestedInput
+  poll?: Prisma.PollUpdateOneWithoutSupportsNestedInput
+  pollOption?: Prisma.PollOptionUpdateOneWithoutSupportsNestedInput
+  supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
+  unlockedReward?: Prisma.UnlockedRewardUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateWithoutPaidVoteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUncheckedUpdateOneWithoutSupportNestedInput
+}
+
 export type SupportCreateManySupporterInput = {
   id?: string
   creatorProfileId: string
   goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
+  isFeatureRequest?: boolean
   coffeeCount?: number
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1120,6 +2466,7 @@ export type SupportUpdateWithoutSupporterInput = {
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1135,15 +2482,29 @@ export type SupportUpdateWithoutSupporterInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
   goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  reward?: Prisma.RewardUpdateOneWithoutSupportsNestedInput
+  campaign?: Prisma.TikTokCampaignUpdateOneWithoutSupportsNestedInput
+  deepLink?: Prisma.DeepLinkUpdateOneWithoutSupportsNestedInput
+  poll?: Prisma.PollUpdateOneWithoutSupportsNestedInput
+  pollOption?: Prisma.PollOptionUpdateOneWithoutSupportsNestedInput
+  unlockedReward?: Prisma.UnlockedRewardUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUpdateOneWithoutSupportNestedInput
 }
 
 export type SupportUncheckedUpdateWithoutSupporterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1157,15 +2518,24 @@ export type SupportUncheckedUpdateWithoutSupporterInput = {
   walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUncheckedUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUncheckedUpdateOneWithoutSupportNestedInput
 }
 
 export type SupportUncheckedUpdateManyWithoutSupporterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1184,10 +2554,16 @@ export type SupportUncheckedUpdateManyWithoutSupporterInput = {
 export type SupportCreateManyCreatorProfileInput = {
   id?: string
   goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
   supporterId?: string | null
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
+  isFeatureRequest?: boolean
   coffeeCount?: number
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1208,6 +2584,7 @@ export type SupportUpdateWithoutCreatorProfileInput = {
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1222,16 +2599,30 @@ export type SupportUpdateWithoutCreatorProfileInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  reward?: Prisma.RewardUpdateOneWithoutSupportsNestedInput
+  campaign?: Prisma.TikTokCampaignUpdateOneWithoutSupportsNestedInput
+  deepLink?: Prisma.DeepLinkUpdateOneWithoutSupportsNestedInput
+  poll?: Prisma.PollUpdateOneWithoutSupportsNestedInput
+  pollOption?: Prisma.PollOptionUpdateOneWithoutSupportsNestedInput
   supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
+  unlockedReward?: Prisma.UnlockedRewardUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUpdateOneWithoutSupportNestedInput
 }
 
 export type SupportUncheckedUpdateWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1245,15 +2636,24 @@ export type SupportUncheckedUpdateWithoutCreatorProfileInput = {
   walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUncheckedUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUncheckedUpdateOneWithoutSupportNestedInput
 }
 
 export type SupportUncheckedUpdateManyWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1272,10 +2672,16 @@ export type SupportUncheckedUpdateManyWithoutCreatorProfileInput = {
 export type SupportCreateManyGoalInput = {
   id?: string
   creatorProfileId: string
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
   supporterId?: string | null
   supporterName: string
   supporterEmail?: string | null
   message?: string | null
+  isFeatureRequest?: boolean
   coffeeCount?: number
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1296,6 +2702,7 @@ export type SupportUpdateWithoutGoalInput = {
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1310,16 +2717,61 @@ export type SupportUpdateWithoutGoalInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
+  reward?: Prisma.RewardUpdateOneWithoutSupportsNestedInput
+  campaign?: Prisma.TikTokCampaignUpdateOneWithoutSupportsNestedInput
+  deepLink?: Prisma.DeepLinkUpdateOneWithoutSupportsNestedInput
+  poll?: Prisma.PollUpdateOneWithoutSupportsNestedInput
+  pollOption?: Prisma.PollOptionUpdateOneWithoutSupportsNestedInput
   supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
+  unlockedReward?: Prisma.UnlockedRewardUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUpdateOneWithoutSupportNestedInput
 }
 
 export type SupportUncheckedUpdateWithoutGoalInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUncheckedUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUncheckedUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateManyWithoutGoalInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1335,13 +2787,581 @@ export type SupportUncheckedUpdateWithoutGoalInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type SupportUncheckedUpdateManyWithoutGoalInput = {
+export type SupportCreateManyRewardInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SupportUpdateWithoutRewardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
+  goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  campaign?: Prisma.TikTokCampaignUpdateOneWithoutSupportsNestedInput
+  deepLink?: Prisma.DeepLinkUpdateOneWithoutSupportsNestedInput
+  poll?: Prisma.PollUpdateOneWithoutSupportsNestedInput
+  pollOption?: Prisma.PollOptionUpdateOneWithoutSupportsNestedInput
+  supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
+  unlockedReward?: Prisma.UnlockedRewardUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateWithoutRewardInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supporterName?: Prisma.StringFieldUpdateOperationsInput | string
   supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUncheckedUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUncheckedUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateManyWithoutRewardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SupportCreateManyCampaignInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  rewardId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SupportUpdateWithoutCampaignInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
+  goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  reward?: Prisma.RewardUpdateOneWithoutSupportsNestedInput
+  deepLink?: Prisma.DeepLinkUpdateOneWithoutSupportsNestedInput
+  poll?: Prisma.PollUpdateOneWithoutSupportsNestedInput
+  pollOption?: Prisma.PollOptionUpdateOneWithoutSupportsNestedInput
+  supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
+  unlockedReward?: Prisma.UnlockedRewardUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateWithoutCampaignInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUncheckedUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUncheckedUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateManyWithoutCampaignInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SupportCreateManyDeepLinkInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  pollId?: string | null
+  pollOptionId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SupportUpdateWithoutDeepLinkInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
+  goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  reward?: Prisma.RewardUpdateOneWithoutSupportsNestedInput
+  campaign?: Prisma.TikTokCampaignUpdateOneWithoutSupportsNestedInput
+  poll?: Prisma.PollUpdateOneWithoutSupportsNestedInput
+  pollOption?: Prisma.PollOptionUpdateOneWithoutSupportsNestedInput
+  supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
+  unlockedReward?: Prisma.UnlockedRewardUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateWithoutDeepLinkInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUncheckedUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUncheckedUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateManyWithoutDeepLinkInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SupportCreateManyPollInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollOptionId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SupportUpdateWithoutPollInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
+  goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  reward?: Prisma.RewardUpdateOneWithoutSupportsNestedInput
+  campaign?: Prisma.TikTokCampaignUpdateOneWithoutSupportsNestedInput
+  deepLink?: Prisma.DeepLinkUpdateOneWithoutSupportsNestedInput
+  pollOption?: Prisma.PollOptionUpdateOneWithoutSupportsNestedInput
+  supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
+  unlockedReward?: Prisma.UnlockedRewardUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateWithoutPollInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUncheckedUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUncheckedUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateManyWithoutPollInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollOptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SupportCreateManyPollOptionInput = {
+  id?: string
+  creatorProfileId: string
+  goalId?: string | null
+  rewardId?: string | null
+  campaignId?: string | null
+  deepLinkId?: string | null
+  pollId?: string | null
+  supporterId?: string | null
+  supporterName: string
+  supporterEmail?: string | null
+  message?: string | null
+  isFeatureRequest?: boolean
+  coffeeCount?: number
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  chapaRef: string
+  chapaCheckoutUrl?: string | null
+  status?: $Enums.PaymentStatus
+  paidAt?: Date | string | null
+  walletCredited?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SupportUpdateWithoutPollOptionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutSupportsNestedInput
+  goal?: Prisma.CreatorGoalUpdateOneWithoutSupportsNestedInput
+  reward?: Prisma.RewardUpdateOneWithoutSupportsNestedInput
+  campaign?: Prisma.TikTokCampaignUpdateOneWithoutSupportsNestedInput
+  deepLink?: Prisma.DeepLinkUpdateOneWithoutSupportsNestedInput
+  poll?: Prisma.PollUpdateOneWithoutSupportsNestedInput
+  supporter?: Prisma.UserUpdateOneWithoutSupportsNestedInput
+  unlockedReward?: Prisma.UnlockedRewardUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateWithoutPollOptionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  platformFee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  netAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaRef?: Prisma.StringFieldUpdateOperationsInput | string
+  chapaCheckoutUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  walletCredited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  unlockedReward?: Prisma.UnlockedRewardUncheckedUpdateOneWithoutSupportNestedInput
+  featureRequest?: Prisma.FeatureRequestUncheckedUpdateOneWithoutSupportNestedInput
+  paidVote?: Prisma.PaidVoteUncheckedUpdateOneWithoutSupportNestedInput
+}
+
+export type SupportUncheckedUpdateManyWithoutPollOptionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  goalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deepLinkId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pollId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supporterName?: Prisma.StringFieldUpdateOperationsInput | string
+  supporterEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFeatureRequest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   coffeeCount?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   customAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1363,10 +3383,16 @@ export type SupportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   creatorProfileId?: boolean
   goalId?: boolean
+  rewardId?: boolean
+  campaignId?: boolean
+  deepLinkId?: boolean
+  pollId?: boolean
+  pollOptionId?: boolean
   supporterId?: boolean
   supporterName?: boolean
   supporterEmail?: boolean
   message?: boolean
+  isFeatureRequest?: boolean
   coffeeCount?: boolean
   amount?: boolean
   customAmount?: boolean
@@ -1382,17 +3408,31 @@ export type SupportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   updatedAt?: boolean
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
   goal?: boolean | Prisma.Support$goalArgs<ExtArgs>
+  reward?: boolean | Prisma.Support$rewardArgs<ExtArgs>
+  campaign?: boolean | Prisma.Support$campaignArgs<ExtArgs>
+  deepLink?: boolean | Prisma.Support$deepLinkArgs<ExtArgs>
+  poll?: boolean | Prisma.Support$pollArgs<ExtArgs>
+  pollOption?: boolean | Prisma.Support$pollOptionArgs<ExtArgs>
   supporter?: boolean | Prisma.Support$supporterArgs<ExtArgs>
+  unlockedReward?: boolean | Prisma.Support$unlockedRewardArgs<ExtArgs>
+  featureRequest?: boolean | Prisma.Support$featureRequestArgs<ExtArgs>
+  paidVote?: boolean | Prisma.Support$paidVoteArgs<ExtArgs>
 }, ExtArgs["result"]["support"]>
 
 export type SupportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   creatorProfileId?: boolean
   goalId?: boolean
+  rewardId?: boolean
+  campaignId?: boolean
+  deepLinkId?: boolean
+  pollId?: boolean
+  pollOptionId?: boolean
   supporterId?: boolean
   supporterName?: boolean
   supporterEmail?: boolean
   message?: boolean
+  isFeatureRequest?: boolean
   coffeeCount?: boolean
   amount?: boolean
   customAmount?: boolean
@@ -1408,6 +3448,11 @@ export type SupportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   updatedAt?: boolean
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
   goal?: boolean | Prisma.Support$goalArgs<ExtArgs>
+  reward?: boolean | Prisma.Support$rewardArgs<ExtArgs>
+  campaign?: boolean | Prisma.Support$campaignArgs<ExtArgs>
+  deepLink?: boolean | Prisma.Support$deepLinkArgs<ExtArgs>
+  poll?: boolean | Prisma.Support$pollArgs<ExtArgs>
+  pollOption?: boolean | Prisma.Support$pollOptionArgs<ExtArgs>
   supporter?: boolean | Prisma.Support$supporterArgs<ExtArgs>
 }, ExtArgs["result"]["support"]>
 
@@ -1415,10 +3460,16 @@ export type SupportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   creatorProfileId?: boolean
   goalId?: boolean
+  rewardId?: boolean
+  campaignId?: boolean
+  deepLinkId?: boolean
+  pollId?: boolean
+  pollOptionId?: boolean
   supporterId?: boolean
   supporterName?: boolean
   supporterEmail?: boolean
   message?: boolean
+  isFeatureRequest?: boolean
   coffeeCount?: boolean
   amount?: boolean
   customAmount?: boolean
@@ -1434,6 +3485,11 @@ export type SupportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   updatedAt?: boolean
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
   goal?: boolean | Prisma.Support$goalArgs<ExtArgs>
+  reward?: boolean | Prisma.Support$rewardArgs<ExtArgs>
+  campaign?: boolean | Prisma.Support$campaignArgs<ExtArgs>
+  deepLink?: boolean | Prisma.Support$deepLinkArgs<ExtArgs>
+  poll?: boolean | Prisma.Support$pollArgs<ExtArgs>
+  pollOption?: boolean | Prisma.Support$pollOptionArgs<ExtArgs>
   supporter?: boolean | Prisma.Support$supporterArgs<ExtArgs>
 }, ExtArgs["result"]["support"]>
 
@@ -1441,10 +3497,16 @@ export type SupportSelectScalar = {
   id?: boolean
   creatorProfileId?: boolean
   goalId?: boolean
+  rewardId?: boolean
+  campaignId?: boolean
+  deepLinkId?: boolean
+  pollId?: boolean
+  pollOptionId?: boolean
   supporterId?: boolean
   supporterName?: boolean
   supporterEmail?: boolean
   message?: boolean
+  isFeatureRequest?: boolean
   coffeeCount?: boolean
   amount?: boolean
   customAmount?: boolean
@@ -1460,20 +3522,38 @@ export type SupportSelectScalar = {
   updatedAt?: boolean
 }
 
-export type SupportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorProfileId" | "goalId" | "supporterId" | "supporterName" | "supporterEmail" | "message" | "coffeeCount" | "amount" | "customAmount" | "platformFee" | "netAmount" | "currency" | "chapaRef" | "chapaCheckoutUrl" | "status" | "paidAt" | "walletCredited" | "createdAt" | "updatedAt", ExtArgs["result"]["support"]>
+export type SupportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorProfileId" | "goalId" | "rewardId" | "campaignId" | "deepLinkId" | "pollId" | "pollOptionId" | "supporterId" | "supporterName" | "supporterEmail" | "message" | "isFeatureRequest" | "coffeeCount" | "amount" | "customAmount" | "platformFee" | "netAmount" | "currency" | "chapaRef" | "chapaCheckoutUrl" | "status" | "paidAt" | "walletCredited" | "createdAt" | "updatedAt", ExtArgs["result"]["support"]>
 export type SupportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
   goal?: boolean | Prisma.Support$goalArgs<ExtArgs>
+  reward?: boolean | Prisma.Support$rewardArgs<ExtArgs>
+  campaign?: boolean | Prisma.Support$campaignArgs<ExtArgs>
+  deepLink?: boolean | Prisma.Support$deepLinkArgs<ExtArgs>
+  poll?: boolean | Prisma.Support$pollArgs<ExtArgs>
+  pollOption?: boolean | Prisma.Support$pollOptionArgs<ExtArgs>
   supporter?: boolean | Prisma.Support$supporterArgs<ExtArgs>
+  unlockedReward?: boolean | Prisma.Support$unlockedRewardArgs<ExtArgs>
+  featureRequest?: boolean | Prisma.Support$featureRequestArgs<ExtArgs>
+  paidVote?: boolean | Prisma.Support$paidVoteArgs<ExtArgs>
 }
 export type SupportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
   goal?: boolean | Prisma.Support$goalArgs<ExtArgs>
+  reward?: boolean | Prisma.Support$rewardArgs<ExtArgs>
+  campaign?: boolean | Prisma.Support$campaignArgs<ExtArgs>
+  deepLink?: boolean | Prisma.Support$deepLinkArgs<ExtArgs>
+  poll?: boolean | Prisma.Support$pollArgs<ExtArgs>
+  pollOption?: boolean | Prisma.Support$pollOptionArgs<ExtArgs>
   supporter?: boolean | Prisma.Support$supporterArgs<ExtArgs>
 }
 export type SupportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
   goal?: boolean | Prisma.Support$goalArgs<ExtArgs>
+  reward?: boolean | Prisma.Support$rewardArgs<ExtArgs>
+  campaign?: boolean | Prisma.Support$campaignArgs<ExtArgs>
+  deepLink?: boolean | Prisma.Support$deepLinkArgs<ExtArgs>
+  poll?: boolean | Prisma.Support$pollArgs<ExtArgs>
+  pollOption?: boolean | Prisma.Support$pollOptionArgs<ExtArgs>
   supporter?: boolean | Prisma.Support$supporterArgs<ExtArgs>
 }
 
@@ -1482,16 +3562,30 @@ export type $SupportPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     creatorProfile: Prisma.$CreatorProfilePayload<ExtArgs>
     goal: Prisma.$CreatorGoalPayload<ExtArgs> | null
+    reward: Prisma.$RewardPayload<ExtArgs> | null
+    campaign: Prisma.$TikTokCampaignPayload<ExtArgs> | null
+    deepLink: Prisma.$DeepLinkPayload<ExtArgs> | null
+    poll: Prisma.$PollPayload<ExtArgs> | null
+    pollOption: Prisma.$PollOptionPayload<ExtArgs> | null
     supporter: Prisma.$UserPayload<ExtArgs> | null
+    unlockedReward: Prisma.$UnlockedRewardPayload<ExtArgs> | null
+    featureRequest: Prisma.$FeatureRequestPayload<ExtArgs> | null
+    paidVote: Prisma.$PaidVotePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     creatorProfileId: string
     goalId: string | null
+    rewardId: string | null
+    campaignId: string | null
+    deepLinkId: string | null
+    pollId: string | null
+    pollOptionId: string | null
     supporterId: string | null
     supporterName: string
     supporterEmail: string | null
     message: string | null
+    isFeatureRequest: boolean
     coffeeCount: number
     amount: runtime.Decimal
     customAmount: runtime.Decimal | null
@@ -1901,7 +3995,15 @@ export interface Prisma__SupportClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   creatorProfile<T extends Prisma.CreatorProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__CreatorProfileClient<runtime.Types.Result.GetResult<Prisma.$CreatorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   goal<T extends Prisma.Support$goalArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Support$goalArgs<ExtArgs>>): Prisma.Prisma__CreatorGoalClient<runtime.Types.Result.GetResult<Prisma.$CreatorGoalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  reward<T extends Prisma.Support$rewardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Support$rewardArgs<ExtArgs>>): Prisma.Prisma__RewardClient<runtime.Types.Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  campaign<T extends Prisma.Support$campaignArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Support$campaignArgs<ExtArgs>>): Prisma.Prisma__TikTokCampaignClient<runtime.Types.Result.GetResult<Prisma.$TikTokCampaignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  deepLink<T extends Prisma.Support$deepLinkArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Support$deepLinkArgs<ExtArgs>>): Prisma.Prisma__DeepLinkClient<runtime.Types.Result.GetResult<Prisma.$DeepLinkPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  poll<T extends Prisma.Support$pollArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Support$pollArgs<ExtArgs>>): Prisma.Prisma__PollClient<runtime.Types.Result.GetResult<Prisma.$PollPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  pollOption<T extends Prisma.Support$pollOptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Support$pollOptionArgs<ExtArgs>>): Prisma.Prisma__PollOptionClient<runtime.Types.Result.GetResult<Prisma.$PollOptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   supporter<T extends Prisma.Support$supporterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Support$supporterArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  unlockedReward<T extends Prisma.Support$unlockedRewardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Support$unlockedRewardArgs<ExtArgs>>): Prisma.Prisma__UnlockedRewardClient<runtime.Types.Result.GetResult<Prisma.$UnlockedRewardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  featureRequest<T extends Prisma.Support$featureRequestArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Support$featureRequestArgs<ExtArgs>>): Prisma.Prisma__FeatureRequestClient<runtime.Types.Result.GetResult<Prisma.$FeatureRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  paidVote<T extends Prisma.Support$paidVoteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Support$paidVoteArgs<ExtArgs>>): Prisma.Prisma__PaidVoteClient<runtime.Types.Result.GetResult<Prisma.$PaidVotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1934,10 +4036,16 @@ export interface SupportFieldRefs {
   readonly id: Prisma.FieldRef<"Support", 'String'>
   readonly creatorProfileId: Prisma.FieldRef<"Support", 'String'>
   readonly goalId: Prisma.FieldRef<"Support", 'String'>
+  readonly rewardId: Prisma.FieldRef<"Support", 'String'>
+  readonly campaignId: Prisma.FieldRef<"Support", 'String'>
+  readonly deepLinkId: Prisma.FieldRef<"Support", 'String'>
+  readonly pollId: Prisma.FieldRef<"Support", 'String'>
+  readonly pollOptionId: Prisma.FieldRef<"Support", 'String'>
   readonly supporterId: Prisma.FieldRef<"Support", 'String'>
   readonly supporterName: Prisma.FieldRef<"Support", 'String'>
   readonly supporterEmail: Prisma.FieldRef<"Support", 'String'>
   readonly message: Prisma.FieldRef<"Support", 'String'>
+  readonly isFeatureRequest: Prisma.FieldRef<"Support", 'Boolean'>
   readonly coffeeCount: Prisma.FieldRef<"Support", 'Int'>
   readonly amount: Prisma.FieldRef<"Support", 'Decimal'>
   readonly customAmount: Prisma.FieldRef<"Support", 'Decimal'>
@@ -2371,6 +4479,101 @@ export type Support$goalArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
+ * Support.reward
+ */
+export type Support$rewardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reward
+   */
+  select?: Prisma.RewardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reward
+   */
+  omit?: Prisma.RewardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RewardInclude<ExtArgs> | null
+  where?: Prisma.RewardWhereInput
+}
+
+/**
+ * Support.campaign
+ */
+export type Support$campaignArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TikTokCampaign
+   */
+  select?: Prisma.TikTokCampaignSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TikTokCampaign
+   */
+  omit?: Prisma.TikTokCampaignOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TikTokCampaignInclude<ExtArgs> | null
+  where?: Prisma.TikTokCampaignWhereInput
+}
+
+/**
+ * Support.deepLink
+ */
+export type Support$deepLinkArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeepLink
+   */
+  select?: Prisma.DeepLinkSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeepLink
+   */
+  omit?: Prisma.DeepLinkOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeepLinkInclude<ExtArgs> | null
+  where?: Prisma.DeepLinkWhereInput
+}
+
+/**
+ * Support.poll
+ */
+export type Support$pollArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Poll
+   */
+  select?: Prisma.PollSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Poll
+   */
+  omit?: Prisma.PollOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PollInclude<ExtArgs> | null
+  where?: Prisma.PollWhereInput
+}
+
+/**
+ * Support.pollOption
+ */
+export type Support$pollOptionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PollOption
+   */
+  select?: Prisma.PollOptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PollOption
+   */
+  omit?: Prisma.PollOptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PollOptionInclude<ExtArgs> | null
+  where?: Prisma.PollOptionWhereInput
+}
+
+/**
  * Support.supporter
  */
 export type Support$supporterArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2387,6 +4590,63 @@ export type Support$supporterArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.UserInclude<ExtArgs> | null
   where?: Prisma.UserWhereInput
+}
+
+/**
+ * Support.unlockedReward
+ */
+export type Support$unlockedRewardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UnlockedReward
+   */
+  select?: Prisma.UnlockedRewardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UnlockedReward
+   */
+  omit?: Prisma.UnlockedRewardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UnlockedRewardInclude<ExtArgs> | null
+  where?: Prisma.UnlockedRewardWhereInput
+}
+
+/**
+ * Support.featureRequest
+ */
+export type Support$featureRequestArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FeatureRequest
+   */
+  select?: Prisma.FeatureRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FeatureRequest
+   */
+  omit?: Prisma.FeatureRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FeatureRequestInclude<ExtArgs> | null
+  where?: Prisma.FeatureRequestWhereInput
+}
+
+/**
+ * Support.paidVote
+ */
+export type Support$paidVoteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaidVote
+   */
+  select?: Prisma.PaidVoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaidVote
+   */
+  omit?: Prisma.PaidVoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaidVoteInclude<ExtArgs> | null
+  where?: Prisma.PaidVoteWhereInput
 }
 
 /**

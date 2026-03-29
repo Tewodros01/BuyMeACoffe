@@ -294,6 +294,9 @@ export type UserWhereInput = {
   notifications?: Prisma.NotificationListRelationFilter
   otpCodes?: Prisma.OtpVerificationListRelationFilter
   supports?: Prisma.SupportListRelationFilter
+  unlockedRewards?: Prisma.UnlockedRewardListRelationFilter
+  paidVotes?: Prisma.PaidVoteListRelationFilter
+  fanBadges?: Prisma.FanBadgeListRelationFilter
   auditLogsActed?: Prisma.AuditLogListRelationFilter
   auditLogsTargeted?: Prisma.AuditLogListRelationFilter
 }
@@ -325,6 +328,9 @@ export type UserOrderByWithRelationInput = {
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   otpCodes?: Prisma.OtpVerificationOrderByRelationAggregateInput
   supports?: Prisma.SupportOrderByRelationAggregateInput
+  unlockedRewards?: Prisma.UnlockedRewardOrderByRelationAggregateInput
+  paidVotes?: Prisma.PaidVoteOrderByRelationAggregateInput
+  fanBadges?: Prisma.FanBadgeOrderByRelationAggregateInput
   auditLogsActed?: Prisma.AuditLogOrderByRelationAggregateInput
   auditLogsTargeted?: Prisma.AuditLogOrderByRelationAggregateInput
 }
@@ -359,6 +365,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   notifications?: Prisma.NotificationListRelationFilter
   otpCodes?: Prisma.OtpVerificationListRelationFilter
   supports?: Prisma.SupportListRelationFilter
+  unlockedRewards?: Prisma.UnlockedRewardListRelationFilter
+  paidVotes?: Prisma.PaidVoteListRelationFilter
+  fanBadges?: Prisma.FanBadgeListRelationFilter
   auditLogsActed?: Prisma.AuditLogListRelationFilter
   auditLogsTargeted?: Prisma.AuditLogListRelationFilter
 }, "id" | "username" | "email" | "phone" | "telegramId">
@@ -438,6 +447,9 @@ export type UserCreateInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
@@ -469,6 +481,9 @@ export type UserUncheckedCreateInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
@@ -500,6 +515,9 @@ export type UserUpdateInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
@@ -531,6 +549,9 @@ export type UserUncheckedUpdateInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
@@ -781,6 +802,48 @@ export type UserUpdateOneWithoutSupportsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSupportsInput, Prisma.UserUpdateWithoutSupportsInput>, Prisma.UserUncheckedUpdateWithoutSupportsInput>
 }
 
+export type UserCreateNestedOneWithoutUnlockedRewardsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUnlockedRewardsInput, Prisma.UserUncheckedCreateWithoutUnlockedRewardsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUnlockedRewardsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUnlockedRewardsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUnlockedRewardsInput, Prisma.UserUncheckedCreateWithoutUnlockedRewardsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUnlockedRewardsInput
+  upsert?: Prisma.UserUpsertWithoutUnlockedRewardsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUnlockedRewardsInput, Prisma.UserUpdateWithoutUnlockedRewardsInput>, Prisma.UserUncheckedUpdateWithoutUnlockedRewardsInput>
+}
+
+export type UserCreateNestedOneWithoutPaidVotesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaidVotesInput, Prisma.UserUncheckedCreateWithoutPaidVotesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaidVotesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPaidVotesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPaidVotesInput, Prisma.UserUncheckedCreateWithoutPaidVotesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaidVotesInput
+  upsert?: Prisma.UserUpsertWithoutPaidVotesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaidVotesInput, Prisma.UserUpdateWithoutPaidVotesInput>, Prisma.UserUncheckedUpdateWithoutPaidVotesInput>
+}
+
+export type UserCreateNestedOneWithoutFanBadgesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFanBadgesInput, Prisma.UserUncheckedCreateWithoutFanBadgesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFanBadgesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFanBadgesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFanBadgesInput, Prisma.UserUncheckedCreateWithoutFanBadgesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFanBadgesInput
+  upsert?: Prisma.UserUpsertWithoutFanBadgesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFanBadgesInput, Prisma.UserUpdateWithoutFanBadgesInput>, Prisma.UserUncheckedUpdateWithoutFanBadgesInput>
+}
+
 export type UserCreateNestedOneWithoutWithdrawalsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutWithdrawalsInput, Prisma.UserUncheckedCreateWithoutWithdrawalsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutWithdrawalsInput
@@ -865,6 +928,9 @@ export type UserCreateWithoutSessionsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
@@ -895,6 +961,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
@@ -941,6 +1010,9 @@ export type UserUpdateWithoutSessionsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
@@ -971,6 +1043,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
@@ -1001,6 +1076,9 @@ export type UserCreateWithoutOtpCodesInput = {
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
@@ -1031,6 +1109,9 @@ export type UserUncheckedCreateWithoutOtpCodesInput = {
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
@@ -1077,6 +1158,9 @@ export type UserUpdateWithoutOtpCodesInput = {
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
@@ -1107,6 +1191,9 @@ export type UserUncheckedUpdateWithoutOtpCodesInput = {
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
@@ -1137,6 +1224,9 @@ export type UserCreateWithoutWalletInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
@@ -1167,6 +1257,9 @@ export type UserUncheckedCreateWithoutWalletInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
@@ -1213,6 +1306,9 @@ export type UserUpdateWithoutWalletInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
@@ -1243,6 +1339,9 @@ export type UserUncheckedUpdateWithoutWalletInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
@@ -1273,6 +1372,9 @@ export type UserCreateWithoutFinancialAccountsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
@@ -1303,6 +1405,9 @@ export type UserUncheckedCreateWithoutFinancialAccountsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
@@ -1349,6 +1454,9 @@ export type UserUpdateWithoutFinancialAccountsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
@@ -1379,6 +1487,9 @@ export type UserUncheckedUpdateWithoutFinancialAccountsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
@@ -1409,6 +1520,9 @@ export type UserCreateWithoutCreatorProfileInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
@@ -1439,6 +1553,9 @@ export type UserUncheckedCreateWithoutCreatorProfileInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
@@ -1485,6 +1602,9 @@ export type UserUpdateWithoutCreatorProfileInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
@@ -1515,6 +1635,9 @@ export type UserUncheckedUpdateWithoutCreatorProfileInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
@@ -1545,6 +1668,9 @@ export type UserCreateWithoutSupportsInput = {
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
@@ -1575,6 +1701,9 @@ export type UserUncheckedCreateWithoutSupportsInput = {
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
@@ -1621,6 +1750,9 @@ export type UserUpdateWithoutSupportsInput = {
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
@@ -1651,6 +1783,453 @@ export type UserUncheckedUpdateWithoutSupportsInput = {
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserCreateWithoutUnlockedRewardsInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserUncheckedCreateWithoutUnlockedRewardsInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserCreateOrConnectWithoutUnlockedRewardsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUnlockedRewardsInput, Prisma.UserUncheckedCreateWithoutUnlockedRewardsInput>
+}
+
+export type UserUpsertWithoutUnlockedRewardsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUnlockedRewardsInput, Prisma.UserUncheckedUpdateWithoutUnlockedRewardsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUnlockedRewardsInput, Prisma.UserUncheckedCreateWithoutUnlockedRewardsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUnlockedRewardsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUnlockedRewardsInput, Prisma.UserUncheckedUpdateWithoutUnlockedRewardsInput>
+}
+
+export type UserUpdateWithoutUnlockedRewardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUnlockedRewardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserCreateWithoutPaidVotesInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserUncheckedCreateWithoutPaidVotesInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserCreateOrConnectWithoutPaidVotesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaidVotesInput, Prisma.UserUncheckedCreateWithoutPaidVotesInput>
+}
+
+export type UserUpsertWithoutPaidVotesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPaidVotesInput, Prisma.UserUncheckedUpdateWithoutPaidVotesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPaidVotesInput, Prisma.UserUncheckedCreateWithoutPaidVotesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPaidVotesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPaidVotesInput, Prisma.UserUncheckedUpdateWithoutPaidVotesInput>
+}
+
+export type UserUpdateWithoutPaidVotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPaidVotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserCreateWithoutFanBadgesInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserUncheckedCreateWithoutFanBadgesInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserCreateOrConnectWithoutFanBadgesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFanBadgesInput, Prisma.UserUncheckedCreateWithoutFanBadgesInput>
+}
+
+export type UserUpsertWithoutFanBadgesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFanBadgesInput, Prisma.UserUncheckedUpdateWithoutFanBadgesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFanBadgesInput, Prisma.UserUncheckedCreateWithoutFanBadgesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFanBadgesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFanBadgesInput, Prisma.UserUncheckedUpdateWithoutFanBadgesInput>
+}
+
+export type UserUpdateWithoutFanBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFanBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
@@ -1681,6 +2260,9 @@ export type UserCreateWithoutWithdrawalsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
@@ -1711,6 +2293,9 @@ export type UserUncheckedCreateWithoutWithdrawalsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
@@ -1757,6 +2342,9 @@ export type UserUpdateWithoutWithdrawalsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
@@ -1787,6 +2375,9 @@ export type UserUncheckedUpdateWithoutWithdrawalsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
@@ -1817,6 +2408,9 @@ export type UserCreateWithoutNotificationsInput = {
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
@@ -1847,6 +2441,9 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
@@ -1893,6 +2490,9 @@ export type UserUpdateWithoutNotificationsInput = {
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
@@ -1923,6 +2523,9 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
@@ -1954,6 +2557,9 @@ export type UserCreateWithoutAuditLogsActedInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
   auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
 }
 
@@ -1984,6 +2590,9 @@ export type UserUncheckedCreateWithoutAuditLogsActedInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
 }
 
@@ -2019,6 +2628,9 @@ export type UserCreateWithoutAuditLogsTargetedInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
 }
 
@@ -2049,6 +2661,9 @@ export type UserUncheckedCreateWithoutAuditLogsTargetedInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
   auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
 }
 
@@ -2095,6 +2710,9 @@ export type UserUpdateWithoutAuditLogsActedInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
   auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
 }
 
@@ -2125,6 +2743,9 @@ export type UserUncheckedUpdateWithoutAuditLogsActedInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
   auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
 
@@ -2166,6 +2787,9 @@ export type UserUpdateWithoutAuditLogsTargetedInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
 }
 
@@ -2196,6 +2820,9 @@ export type UserUncheckedUpdateWithoutAuditLogsTargetedInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
   auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
@@ -2211,6 +2838,9 @@ export type UserCountOutputType = {
   notifications: number
   otpCodes: number
   supports: number
+  unlockedRewards: number
+  paidVotes: number
+  fanBadges: number
   auditLogsActed: number
   auditLogsTargeted: number
 }
@@ -2222,6 +2852,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   otpCodes?: boolean | UserCountOutputTypeCountOtpCodesArgs
   supports?: boolean | UserCountOutputTypeCountSupportsArgs
+  unlockedRewards?: boolean | UserCountOutputTypeCountUnlockedRewardsArgs
+  paidVotes?: boolean | UserCountOutputTypeCountPaidVotesArgs
+  fanBadges?: boolean | UserCountOutputTypeCountFanBadgesArgs
   auditLogsActed?: boolean | UserCountOutputTypeCountAuditLogsActedArgs
   auditLogsTargeted?: boolean | UserCountOutputTypeCountAuditLogsTargetedArgs
 }
@@ -2281,6 +2914,27 @@ export type UserCountOutputTypeCountSupportsArgs<ExtArgs extends runtime.Types.E
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountUnlockedRewardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UnlockedRewardWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPaidVotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PaidVoteWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountFanBadgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FanBadgeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountAuditLogsActedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AuditLogWhereInput
 }
@@ -2320,6 +2974,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   otpCodes?: boolean | Prisma.User$otpCodesArgs<ExtArgs>
   supports?: boolean | Prisma.User$supportsArgs<ExtArgs>
+  unlockedRewards?: boolean | Prisma.User$unlockedRewardsArgs<ExtArgs>
+  paidVotes?: boolean | Prisma.User$paidVotesArgs<ExtArgs>
+  fanBadges?: boolean | Prisma.User$fanBadgesArgs<ExtArgs>
   auditLogsActed?: boolean | Prisma.User$auditLogsActedArgs<ExtArgs>
   auditLogsTargeted?: boolean | Prisma.User$auditLogsTargetedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2398,6 +3055,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   otpCodes?: boolean | Prisma.User$otpCodesArgs<ExtArgs>
   supports?: boolean | Prisma.User$supportsArgs<ExtArgs>
+  unlockedRewards?: boolean | Prisma.User$unlockedRewardsArgs<ExtArgs>
+  paidVotes?: boolean | Prisma.User$paidVotesArgs<ExtArgs>
+  fanBadges?: boolean | Prisma.User$fanBadgesArgs<ExtArgs>
   auditLogsActed?: boolean | Prisma.User$auditLogsActedArgs<ExtArgs>
   auditLogsTargeted?: boolean | Prisma.User$auditLogsTargetedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2416,6 +3076,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     otpCodes: Prisma.$OtpVerificationPayload<ExtArgs>[]
     supports: Prisma.$SupportPayload<ExtArgs>[]
+    unlockedRewards: Prisma.$UnlockedRewardPayload<ExtArgs>[]
+    paidVotes: Prisma.$PaidVotePayload<ExtArgs>[]
+    fanBadges: Prisma.$FanBadgePayload<ExtArgs>[]
     auditLogsActed: Prisma.$AuditLogPayload<ExtArgs>[]
     auditLogsTargeted: Prisma.$AuditLogPayload<ExtArgs>[]
   }
@@ -2840,6 +3503,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   otpCodes<T extends Prisma.User$otpCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$otpCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OtpVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   supports<T extends Prisma.User$supportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$supportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  unlockedRewards<T extends Prisma.User$unlockedRewardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$unlockedRewardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnlockedRewardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  paidVotes<T extends Prisma.User$paidVotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paidVotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaidVotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  fanBadges<T extends Prisma.User$fanBadgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$fanBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FanBadgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogsActed<T extends Prisma.User$auditLogsActedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsActedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogsTargeted<T extends Prisma.User$auditLogsTargetedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsTargetedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -3461,6 +4127,78 @@ export type User$supportsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.SupportScalarFieldEnum | Prisma.SupportScalarFieldEnum[]
+}
+
+/**
+ * User.unlockedRewards
+ */
+export type User$unlockedRewardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UnlockedReward
+   */
+  select?: Prisma.UnlockedRewardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UnlockedReward
+   */
+  omit?: Prisma.UnlockedRewardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UnlockedRewardInclude<ExtArgs> | null
+  where?: Prisma.UnlockedRewardWhereInput
+  orderBy?: Prisma.UnlockedRewardOrderByWithRelationInput | Prisma.UnlockedRewardOrderByWithRelationInput[]
+  cursor?: Prisma.UnlockedRewardWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UnlockedRewardScalarFieldEnum | Prisma.UnlockedRewardScalarFieldEnum[]
+}
+
+/**
+ * User.paidVotes
+ */
+export type User$paidVotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaidVote
+   */
+  select?: Prisma.PaidVoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaidVote
+   */
+  omit?: Prisma.PaidVoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaidVoteInclude<ExtArgs> | null
+  where?: Prisma.PaidVoteWhereInput
+  orderBy?: Prisma.PaidVoteOrderByWithRelationInput | Prisma.PaidVoteOrderByWithRelationInput[]
+  cursor?: Prisma.PaidVoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PaidVoteScalarFieldEnum | Prisma.PaidVoteScalarFieldEnum[]
+}
+
+/**
+ * User.fanBadges
+ */
+export type User$fanBadgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FanBadge
+   */
+  select?: Prisma.FanBadgeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FanBadge
+   */
+  omit?: Prisma.FanBadgeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FanBadgeInclude<ExtArgs> | null
+  where?: Prisma.FanBadgeWhereInput
+  orderBy?: Prisma.FanBadgeOrderByWithRelationInput | Prisma.FanBadgeOrderByWithRelationInput[]
+  cursor?: Prisma.FanBadgeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FanBadgeScalarFieldEnum | Prisma.FanBadgeScalarFieldEnum[]
 }
 
 /**

@@ -41,6 +41,7 @@ export type CreatorGoalMinAggregateOutputType = {
   creatorProfileId: string | null
   title: string | null
   description: string | null
+  type: $Enums.GoalType | null
   targetAmount: runtime.Decimal | null
   raisedAmount: runtime.Decimal | null
   currency: string | null
@@ -56,6 +57,7 @@ export type CreatorGoalMaxAggregateOutputType = {
   creatorProfileId: string | null
   title: string | null
   description: string | null
+  type: $Enums.GoalType | null
   targetAmount: runtime.Decimal | null
   raisedAmount: runtime.Decimal | null
   currency: string | null
@@ -71,6 +73,7 @@ export type CreatorGoalCountAggregateOutputType = {
   creatorProfileId: number
   title: number
   description: number
+  type: number
   targetAmount: number
   raisedAmount: number
   currency: number
@@ -98,6 +101,7 @@ export type CreatorGoalMinAggregateInputType = {
   creatorProfileId?: true
   title?: true
   description?: true
+  type?: true
   targetAmount?: true
   raisedAmount?: true
   currency?: true
@@ -113,6 +117,7 @@ export type CreatorGoalMaxAggregateInputType = {
   creatorProfileId?: true
   title?: true
   description?: true
+  type?: true
   targetAmount?: true
   raisedAmount?: true
   currency?: true
@@ -128,6 +133,7 @@ export type CreatorGoalCountAggregateInputType = {
   creatorProfileId?: true
   title?: true
   description?: true
+  type?: true
   targetAmount?: true
   raisedAmount?: true
   currency?: true
@@ -230,6 +236,7 @@ export type CreatorGoalGroupByOutputType = {
   creatorProfileId: string
   title: string
   description: string | null
+  type: $Enums.GoalType
   targetAmount: runtime.Decimal
   raisedAmount: runtime.Decimal
   currency: string
@@ -268,6 +275,7 @@ export type CreatorGoalWhereInput = {
   creatorProfileId?: Prisma.StringFilter<"CreatorGoal"> | string
   title?: Prisma.StringFilter<"CreatorGoal"> | string
   description?: Prisma.StringNullableFilter<"CreatorGoal"> | string | null
+  type?: Prisma.EnumGoalTypeFilter<"CreatorGoal"> | $Enums.GoalType
   targetAmount?: Prisma.DecimalFilter<"CreatorGoal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalFilter<"CreatorGoal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"CreatorGoal"> | string
@@ -285,6 +293,7 @@ export type CreatorGoalOrderByWithRelationInput = {
   creatorProfileId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrder
   targetAmount?: Prisma.SortOrder
   raisedAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -305,6 +314,7 @@ export type CreatorGoalWhereUniqueInput = Prisma.AtLeast<{
   creatorProfileId?: Prisma.StringFilter<"CreatorGoal"> | string
   title?: Prisma.StringFilter<"CreatorGoal"> | string
   description?: Prisma.StringNullableFilter<"CreatorGoal"> | string | null
+  type?: Prisma.EnumGoalTypeFilter<"CreatorGoal"> | $Enums.GoalType
   targetAmount?: Prisma.DecimalFilter<"CreatorGoal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalFilter<"CreatorGoal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"CreatorGoal"> | string
@@ -322,6 +332,7 @@ export type CreatorGoalOrderByWithAggregationInput = {
   creatorProfileId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrder
   targetAmount?: Prisma.SortOrder
   raisedAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -345,6 +356,7 @@ export type CreatorGoalScalarWhereWithAggregatesInput = {
   creatorProfileId?: Prisma.StringWithAggregatesFilter<"CreatorGoal"> | string
   title?: Prisma.StringWithAggregatesFilter<"CreatorGoal"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"CreatorGoal"> | string | null
+  type?: Prisma.EnumGoalTypeWithAggregatesFilter<"CreatorGoal"> | $Enums.GoalType
   targetAmount?: Prisma.DecimalWithAggregatesFilter<"CreatorGoal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalWithAggregatesFilter<"CreatorGoal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringWithAggregatesFilter<"CreatorGoal"> | string
@@ -359,6 +371,7 @@ export type CreatorGoalCreateInput = {
   id?: string
   title: string
   description?: string | null
+  type?: $Enums.GoalType
   targetAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
@@ -376,6 +389,7 @@ export type CreatorGoalUncheckedCreateInput = {
   creatorProfileId: string
   title: string
   description?: string | null
+  type?: $Enums.GoalType
   targetAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
@@ -391,6 +405,7 @@ export type CreatorGoalUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumGoalTypeFieldUpdateOperationsInput | $Enums.GoalType
   targetAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -408,6 +423,7 @@ export type CreatorGoalUncheckedUpdateInput = {
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumGoalTypeFieldUpdateOperationsInput | $Enums.GoalType
   targetAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -424,6 +440,7 @@ export type CreatorGoalCreateManyInput = {
   creatorProfileId: string
   title: string
   description?: string | null
+  type?: $Enums.GoalType
   targetAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
@@ -438,6 +455,7 @@ export type CreatorGoalUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumGoalTypeFieldUpdateOperationsInput | $Enums.GoalType
   targetAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -453,6 +471,7 @@ export type CreatorGoalUncheckedUpdateManyInput = {
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumGoalTypeFieldUpdateOperationsInput | $Enums.GoalType
   targetAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -478,6 +497,7 @@ export type CreatorGoalCountOrderByAggregateInput = {
   creatorProfileId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   targetAmount?: Prisma.SortOrder
   raisedAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -498,6 +518,7 @@ export type CreatorGoalMaxOrderByAggregateInput = {
   creatorProfileId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   targetAmount?: Prisma.SortOrder
   raisedAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -513,6 +534,7 @@ export type CreatorGoalMinOrderByAggregateInput = {
   creatorProfileId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   targetAmount?: Prisma.SortOrder
   raisedAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -575,6 +597,10 @@ export type CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput = {
   deleteMany?: Prisma.CreatorGoalScalarWhereInput | Prisma.CreatorGoalScalarWhereInput[]
 }
 
+export type EnumGoalTypeFieldUpdateOperationsInput = {
+  set?: $Enums.GoalType
+}
+
 export type CreatorGoalCreateNestedOneWithoutSupportsInput = {
   create?: Prisma.XOR<Prisma.CreatorGoalCreateWithoutSupportsInput, Prisma.CreatorGoalUncheckedCreateWithoutSupportsInput>
   connectOrCreate?: Prisma.CreatorGoalCreateOrConnectWithoutSupportsInput
@@ -595,6 +621,7 @@ export type CreatorGoalCreateWithoutCreatorProfileInput = {
   id?: string
   title: string
   description?: string | null
+  type?: $Enums.GoalType
   targetAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
@@ -610,6 +637,7 @@ export type CreatorGoalUncheckedCreateWithoutCreatorProfileInput = {
   id?: string
   title: string
   description?: string | null
+  type?: $Enums.GoalType
   targetAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
@@ -655,6 +683,7 @@ export type CreatorGoalScalarWhereInput = {
   creatorProfileId?: Prisma.StringFilter<"CreatorGoal"> | string
   title?: Prisma.StringFilter<"CreatorGoal"> | string
   description?: Prisma.StringNullableFilter<"CreatorGoal"> | string | null
+  type?: Prisma.EnumGoalTypeFilter<"CreatorGoal"> | $Enums.GoalType
   targetAmount?: Prisma.DecimalFilter<"CreatorGoal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalFilter<"CreatorGoal"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"CreatorGoal"> | string
@@ -669,6 +698,7 @@ export type CreatorGoalCreateWithoutSupportsInput = {
   id?: string
   title: string
   description?: string | null
+  type?: $Enums.GoalType
   targetAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
@@ -685,6 +715,7 @@ export type CreatorGoalUncheckedCreateWithoutSupportsInput = {
   creatorProfileId: string
   title: string
   description?: string | null
+  type?: $Enums.GoalType
   targetAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
@@ -715,6 +746,7 @@ export type CreatorGoalUpdateWithoutSupportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumGoalTypeFieldUpdateOperationsInput | $Enums.GoalType
   targetAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -731,6 +763,7 @@ export type CreatorGoalUncheckedUpdateWithoutSupportsInput = {
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumGoalTypeFieldUpdateOperationsInput | $Enums.GoalType
   targetAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -745,6 +778,7 @@ export type CreatorGoalCreateManyCreatorProfileInput = {
   id?: string
   title: string
   description?: string | null
+  type?: $Enums.GoalType
   targetAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
@@ -759,6 +793,7 @@ export type CreatorGoalUpdateWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumGoalTypeFieldUpdateOperationsInput | $Enums.GoalType
   targetAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -774,6 +809,7 @@ export type CreatorGoalUncheckedUpdateWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumGoalTypeFieldUpdateOperationsInput | $Enums.GoalType
   targetAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -789,6 +825,7 @@ export type CreatorGoalUncheckedUpdateManyWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumGoalTypeFieldUpdateOperationsInput | $Enums.GoalType
   targetAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   raisedAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -835,6 +872,7 @@ export type CreatorGoalSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   creatorProfileId?: boolean
   title?: boolean
   description?: boolean
+  type?: boolean
   targetAmount?: boolean
   raisedAmount?: boolean
   currency?: boolean
@@ -853,6 +891,7 @@ export type CreatorGoalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   creatorProfileId?: boolean
   title?: boolean
   description?: boolean
+  type?: boolean
   targetAmount?: boolean
   raisedAmount?: boolean
   currency?: boolean
@@ -869,6 +908,7 @@ export type CreatorGoalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   creatorProfileId?: boolean
   title?: boolean
   description?: boolean
+  type?: boolean
   targetAmount?: boolean
   raisedAmount?: boolean
   currency?: boolean
@@ -885,6 +925,7 @@ export type CreatorGoalSelectScalar = {
   creatorProfileId?: boolean
   title?: boolean
   description?: boolean
+  type?: boolean
   targetAmount?: boolean
   raisedAmount?: boolean
   currency?: boolean
@@ -895,7 +936,7 @@ export type CreatorGoalSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CreatorGoalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorProfileId" | "title" | "description" | "targetAmount" | "raisedAmount" | "currency" | "isActive" | "reachedAt" | "deadline" | "createdAt" | "updatedAt", ExtArgs["result"]["creatorGoal"]>
+export type CreatorGoalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorProfileId" | "title" | "description" | "type" | "targetAmount" | "raisedAmount" | "currency" | "isActive" | "reachedAt" | "deadline" | "createdAt" | "updatedAt", ExtArgs["result"]["creatorGoal"]>
 export type CreatorGoalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
   supports?: boolean | Prisma.CreatorGoal$supportsArgs<ExtArgs>
@@ -919,6 +960,7 @@ export type $CreatorGoalPayload<ExtArgs extends runtime.Types.Extensions.Interna
     creatorProfileId: string
     title: string
     description: string | null
+    type: $Enums.GoalType
     targetAmount: runtime.Decimal
     raisedAmount: runtime.Decimal
     currency: string
@@ -1356,6 +1398,7 @@ export interface CreatorGoalFieldRefs {
   readonly creatorProfileId: Prisma.FieldRef<"CreatorGoal", 'String'>
   readonly title: Prisma.FieldRef<"CreatorGoal", 'String'>
   readonly description: Prisma.FieldRef<"CreatorGoal", 'String'>
+  readonly type: Prisma.FieldRef<"CreatorGoal", 'GoalType'>
   readonly targetAmount: Prisma.FieldRef<"CreatorGoal", 'Decimal'>
   readonly raisedAmount: Prisma.FieldRef<"CreatorGoal", 'Decimal'>
   readonly currency: Prisma.FieldRef<"CreatorGoal", 'String'>

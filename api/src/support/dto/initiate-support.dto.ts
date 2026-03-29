@@ -49,6 +49,15 @@ export class InitiateSupportDto {
   campaignId?: string;
 
   @ApiPropertyOptional({
+    example: 'abebe-tiktok-part2',
+    description: 'Optional public deep link slug used for attribution',
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  deepLinkSlug?: string;
+
+  @ApiPropertyOptional({
     example: true,
     description: 'Whether this support should be added to the creator feature queue',
   })

@@ -78,6 +78,7 @@ export type TransactionReason = (typeof TransactionReason)[keyof typeof Transact
 
 export const NotificationType = {
   SUPPORT_RECEIVED: 'SUPPORT_RECEIVED',
+  REWARD_UNLOCKED: 'REWARD_UNLOCKED',
   WITHDRAWAL_PROCESSED: 'WITHDRAWAL_PROCESSED',
   WITHDRAWAL_REJECTED: 'WITHDRAWAL_REJECTED',
   GOAL_REACHED: 'GOAL_REACHED',
@@ -85,6 +86,33 @@ export const NotificationType = {
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const RewardType = {
+  CONTENT: 'CONTENT',
+  MESSAGE: 'MESSAGE',
+  TELEGRAM_ACCESS: 'TELEGRAM_ACCESS',
+  FILE: 'FILE',
+  CUSTOM: 'CUSTOM'
+} as const
+
+export type RewardType = (typeof RewardType)[keyof typeof RewardType]
+
+
+export const GoalType = {
+  FUNDING: 'FUNDING',
+  CHALLENGE: 'CHALLENGE'
+} as const
+
+export type GoalType = (typeof GoalType)[keyof typeof GoalType]
+
+
+export const FanBadgeType = {
+  VIP: 'VIP',
+  TOP_FAN: 'TOP_FAN'
+} as const
+
+export type FanBadgeType = (typeof FanBadgeType)[keyof typeof FanBadgeType]
 
 
 export const OtpPurpose = {

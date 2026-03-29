@@ -67,6 +67,26 @@ export class SupportService {
       throw new NotFoundException('Campaign not found');
     }
 
+    const deepLink = dto.deepLinkSlug
+      ? await this.prisma.deepLink.findFirst({
+          where: {
+            slug: dto.deepLinkSlug,
+            creatorProfileId: profile.id,
+          },
+          select: {
+            id: true,
+            slug: true,
+            source: true,
+            campaignTag: true,
+            videoId: true,
+          },
+        })
+      : null;
+
+    if (dto.deepLinkSlug && !deepLink) {
+      throw new NotFoundException('Deep link not found');
+    }
+
     if (dto.rewardId && dto.pollId) {
       throw new ConflictException(
         'A support cannot unlock a reward and cast a paid vote at the same time',
@@ -190,6 +210,7 @@ export class SupportService {
         creatorProfileId: profile.id,
         rewardId: reward?.id,
         campaignId: campaign?.id,
+        deepLinkId: deepLink?.id,
         pollId: poll?.id,
         pollOptionId: pollOption?.id,
         supporterId: supporterId ?? null,
@@ -302,6 +323,15 @@ export class SupportService {
             id: true,
             videoId: true,
             title: true,
+          },
+        },
+        deepLink: {
+          select: {
+            id: true,
+            slug: true,
+            source: true,
+            campaignTag: true,
+            videoId: true,
           },
         },
         poll: {
@@ -499,6 +529,16 @@ export class SupportService {
         });
       }
 
+      if (support.deepLinkId) {
+        await tx.deepLink.update({
+          where: { id: support.deepLinkId },
+          data: {
+            conversions: { increment: 1 },
+            revenue: { increment: support.amount },
+          },
+        });
+      }
+
       if (support.isFeatureRequest) {
         await tx.featureRequest.create({
           data: {
@@ -592,6 +632,7 @@ export class SupportService {
       rewardUnlocked: Boolean(support.rewardId && support.supporterId),
       rewardDelivery,
       campaign: support.campaign,
+      deepLink: support.deepLink,
       poll: support.poll,
       pollOption: support.pollOption,
       featureRequestQueued: support.isFeatureRequest,

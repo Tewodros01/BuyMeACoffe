@@ -59,7 +59,17 @@ export const ModelName = {
   FinancialAccount: 'FinancialAccount',
   CreatorProfile: 'CreatorProfile',
   CreatorGoal: 'CreatorGoal',
+  Reward: 'Reward',
   Support: 'Support',
+  TikTokCampaign: 'TikTokCampaign',
+  DeepLink: 'DeepLink',
+  DeepLinkVisit: 'DeepLinkVisit',
+  UnlockedReward: 'UnlockedReward',
+  FeatureRequest: 'FeatureRequest',
+  Poll: 'Poll',
+  PollOption: 'PollOption',
+  PaidVote: 'PaidVote',
+  FanBadge: 'FanBadge',
   PayoutBatch: 'PayoutBatch',
   Withdrawal: 'Withdrawal',
   Notification: 'Notification',
@@ -206,6 +216,7 @@ export const CreatorGoalScalarFieldEnum = {
   creatorProfileId: 'creatorProfileId',
   title: 'title',
   description: 'description',
+  type: 'type',
   targetAmount: 'targetAmount',
   raisedAmount: 'raisedAmount',
   currency: 'currency',
@@ -219,14 +230,40 @@ export const CreatorGoalScalarFieldEnum = {
 export type CreatorGoalScalarFieldEnum = (typeof CreatorGoalScalarFieldEnum)[keyof typeof CreatorGoalScalarFieldEnum]
 
 
+export const RewardScalarFieldEnum = {
+  id: 'id',
+  creatorProfileId: 'creatorProfileId',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  price: 'price',
+  contentUrl: 'contentUrl',
+  telegramLink: 'telegramLink',
+  maxQuantity: 'maxQuantity',
+  claimedCount: 'claimedCount',
+  isFeatured: 'isFeatured',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RewardScalarFieldEnum = (typeof RewardScalarFieldEnum)[keyof typeof RewardScalarFieldEnum]
+
+
 export const SupportScalarFieldEnum = {
   id: 'id',
   creatorProfileId: 'creatorProfileId',
   goalId: 'goalId',
+  rewardId: 'rewardId',
+  campaignId: 'campaignId',
+  deepLinkId: 'deepLinkId',
+  pollId: 'pollId',
+  pollOptionId: 'pollOptionId',
   supporterId: 'supporterId',
   supporterName: 'supporterName',
   supporterEmail: 'supporterEmail',
   message: 'message',
+  isFeatureRequest: 'isFeatureRequest',
   coffeeCount: 'coffeeCount',
   amount: 'amount',
   customAmount: 'customAmount',
@@ -243,6 +280,119 @@ export const SupportScalarFieldEnum = {
 } as const
 
 export type SupportScalarFieldEnum = (typeof SupportScalarFieldEnum)[keyof typeof SupportScalarFieldEnum]
+
+
+export const TikTokCampaignScalarFieldEnum = {
+  id: 'id',
+  creatorProfileId: 'creatorProfileId',
+  videoId: 'videoId',
+  title: 'title',
+  clicks: 'clicks',
+  revenue: 'revenue',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TikTokCampaignScalarFieldEnum = (typeof TikTokCampaignScalarFieldEnum)[keyof typeof TikTokCampaignScalarFieldEnum]
+
+
+export const DeepLinkScalarFieldEnum = {
+  id: 'id',
+  creatorProfileId: 'creatorProfileId',
+  slug: 'slug',
+  source: 'source',
+  clicks: 'clicks',
+  uniqueClicks: 'uniqueClicks',
+  conversions: 'conversions',
+  revenue: 'revenue',
+  campaignTag: 'campaignTag',
+  videoId: 'videoId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DeepLinkScalarFieldEnum = (typeof DeepLinkScalarFieldEnum)[keyof typeof DeepLinkScalarFieldEnum]
+
+
+export const DeepLinkVisitScalarFieldEnum = {
+  id: 'id',
+  deepLinkId: 'deepLinkId',
+  visitorKey: 'visitorKey',
+  createdAt: 'createdAt'
+} as const
+
+export type DeepLinkVisitScalarFieldEnum = (typeof DeepLinkVisitScalarFieldEnum)[keyof typeof DeepLinkVisitScalarFieldEnum]
+
+
+export const UnlockedRewardScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  rewardId: 'rewardId',
+  supportId: 'supportId',
+  unlockedAt: 'unlockedAt'
+} as const
+
+export type UnlockedRewardScalarFieldEnum = (typeof UnlockedRewardScalarFieldEnum)[keyof typeof UnlockedRewardScalarFieldEnum]
+
+
+export const FeatureRequestScalarFieldEnum = {
+  id: 'id',
+  supportId: 'supportId',
+  creatorProfileId: 'creatorProfileId',
+  message: 'message',
+  isUsed: 'isUsed',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type FeatureRequestScalarFieldEnum = (typeof FeatureRequestScalarFieldEnum)[keyof typeof FeatureRequestScalarFieldEnum]
+
+
+export const PollScalarFieldEnum = {
+  id: 'id',
+  creatorProfileId: 'creatorProfileId',
+  question: 'question',
+  price: 'price',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PollScalarFieldEnum = (typeof PollScalarFieldEnum)[keyof typeof PollScalarFieldEnum]
+
+
+export const PollOptionScalarFieldEnum = {
+  id: 'id',
+  pollId: 'pollId',
+  text: 'text',
+  votes: 'votes',
+  createdAt: 'createdAt'
+} as const
+
+export type PollOptionScalarFieldEnum = (typeof PollOptionScalarFieldEnum)[keyof typeof PollOptionScalarFieldEnum]
+
+
+export const PaidVoteScalarFieldEnum = {
+  id: 'id',
+  pollId: 'pollId',
+  optionId: 'optionId',
+  userId: 'userId',
+  supportId: 'supportId',
+  createdAt: 'createdAt'
+} as const
+
+export type PaidVoteScalarFieldEnum = (typeof PaidVoteScalarFieldEnum)[keyof typeof PaidVoteScalarFieldEnum]
+
+
+export const FanBadgeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  creatorProfileId: 'creatorProfileId',
+  badge: 'badge',
+  createdAt: 'createdAt'
+} as const
+
+export type FanBadgeScalarFieldEnum = (typeof FanBadgeScalarFieldEnum)[keyof typeof FanBadgeScalarFieldEnum]
 
 
 export const PayoutBatchScalarFieldEnum = {

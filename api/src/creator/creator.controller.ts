@@ -11,8 +11,10 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GetUser } from '../auth/decorators/get-user.decorators';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreatorService } from './creator.service';
+import { CreateDeepLinkDto } from './dto/create-deep-link.dto';
 import { CreateTikTokCampaignDto } from './dto/create-tiktok-campaign.dto';
 import { CreatePollDto } from './dto/create-poll.dto';
+import { TrackDeepLinkVisitDto } from './dto/track-deep-link-visit.dto';
 import { UpdateCreatorProfileDto } from './dto/update-creator-profile.dto';
 
 @ApiTags('creator')
@@ -68,6 +70,22 @@ export class CreatorController {
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
+  @ApiOperation({ summary: 'Create a deep link for creator attribution tracking' })
+  @Post('links')
+  createDeepLink(@GetUser('sub') userId: string, @Body() dto: CreateDeepLinkDto) {
+    return this.creatorService.createDeepLink(userId, dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get deep link analytics for the current creator' })
+  @Get('links')
+  getDeepLinks(@GetUser('sub') userId: string) {
+    return this.creatorService.getDeepLinks(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a paid poll for supporter participation' })
   @Post('polls')
   createPoll(@GetUser('sub') userId: string, @Body() dto: CreatePollDto) {
@@ -105,6 +123,15 @@ export class CreatorController {
     @Param('campaignId') campaignId: string,
   ) {
     return this.creatorService.trackCampaignClick(slug, campaignId);
+  }
+
+  @ApiOperation({ summary: 'Track and resolve a public deep link visit' })
+  @Post('links/:linkSlug/visit')
+  trackDeepLinkVisit(
+    @Param('linkSlug') linkSlug: string,
+    @Body() dto: TrackDeepLinkVisitDto,
+  ) {
+    return this.creatorService.trackDeepLinkVisit(linkSlug, dto);
   }
 
   @ApiOperation({ summary: 'Get public creator page by slug' })

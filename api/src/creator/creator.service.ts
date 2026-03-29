@@ -3,9 +3,12 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { Prisma } from 'generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreateDeepLinkDto } from './dto/create-deep-link.dto';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { CreateTikTokCampaignDto } from './dto/create-tiktok-campaign.dto';
+import { TrackDeepLinkVisitDto } from './dto/track-deep-link-visit.dto';
 import { UpdateCreatorProfileDto } from './dto/update-creator-profile.dto';
 
 const profileUserSelect = {
@@ -234,11 +237,29 @@ export class CreatorService {
         }),
       ]);
 
+    const topDeepLinks = await this.prisma.deepLink.findMany({
+      where: { creatorProfileId: profile.id },
+      orderBy: [{ revenue: 'desc' }, { conversions: 'desc' }, { clicks: 'desc' }],
+      take: 5,
+      select: {
+        id: true,
+        slug: true,
+        source: true,
+        campaignTag: true,
+        videoId: true,
+        clicks: true,
+        uniqueClicks: true,
+        conversions: true,
+        revenue: true,
+      },
+    });
+
     return {
       profile,
       wallet,
       recentSupports,
       topCampaigns,
+      topDeepLinks,
       participation: {
         pendingFeatureRequests: featureRequestCount,
         activePolls: activePollCount,
@@ -332,6 +353,91 @@ export class CreatorService {
             : 0,
         createdAt: campaign.createdAt,
         updatedAt: campaign.updatedAt,
+      })),
+    };
+  }
+
+  async createDeepLink(userId: string, dto: CreateDeepLinkDto) {
+    const profile = await this.getOrCreateProfile(userId);
+    const slug = dto.slug
+      ? await this.ensureDeepLinkSlugAvailable(dto.slug, profile.id)
+      : await this.generateUniqueDeepLinkSlug(profile.slug, dto.source);
+
+    return this.prisma.deepLink.create({
+      data: {
+        creatorProfileId: profile.id,
+        slug,
+        source: dto.source.toLowerCase(),
+        campaignTag: dto.campaignTag,
+        videoId: dto.videoId,
+      },
+      select: {
+        id: true,
+        slug: true,
+        source: true,
+        campaignTag: true,
+        videoId: true,
+        clicks: true,
+        uniqueClicks: true,
+        conversions: true,
+        revenue: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  }
+
+  async getDeepLinks(userId: string) {
+    const profile = await this.prisma.creatorProfile.findUnique({
+      where: { userId },
+      select: { id: true },
+    });
+    if (!profile) throw new NotFoundException('Creator profile not found');
+
+    const links = await this.prisma.deepLink.findMany({
+      where: { creatorProfileId: profile.id },
+      orderBy: [{ revenue: 'desc' }, { createdAt: 'desc' }],
+      select: {
+        id: true,
+        slug: true,
+        source: true,
+        campaignTag: true,
+        videoId: true,
+        clicks: true,
+        uniqueClicks: true,
+        conversions: true,
+        revenue: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    const summary = links.reduce(
+      (acc, link) => {
+        acc.totalLinks += 1;
+        acc.totalClicks += link.clicks;
+        acc.totalUniqueClicks += link.uniqueClicks;
+        acc.totalConversions += link.conversions;
+        acc.totalRevenue += Number(link.revenue);
+        return acc;
+      },
+      {
+        totalLinks: 0,
+        totalClicks: 0,
+        totalUniqueClicks: 0,
+        totalConversions: 0,
+        totalRevenue: 0,
+      },
+    );
+
+    return {
+      summary,
+      links: links.map((link) => ({
+        ...link,
+        conversionRate:
+          link.clicks > 0
+            ? Number(((link.conversions / link.clicks) * 100).toFixed(2))
+            : 0,
       })),
     };
   }
@@ -483,6 +589,86 @@ export class CreatorService {
     return { status: 'tracked' };
   }
 
+  async trackDeepLinkVisit(linkSlug: string, dto: TrackDeepLinkVisitDto) {
+    const deepLink = await this.prisma.deepLink.findUnique({
+      where: { slug: linkSlug },
+      select: {
+        id: true,
+        slug: true,
+        source: true,
+        campaignTag: true,
+        videoId: true,
+        creatorProfile: {
+          select: {
+            slug: true,
+            pageTitle: true,
+            isPublished: true,
+            user: { select: { deletedAt: true } },
+          },
+        },
+      },
+    });
+    if (
+      !deepLink ||
+      !deepLink.creatorProfile.isPublished ||
+      deepLink.creatorProfile.user.deletedAt != null
+    ) {
+      throw new NotFoundException('Deep link not found');
+    }
+
+    const visitorKey = dto.visitorKey?.trim();
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.deepLink.update({
+        where: { id: deepLink.id },
+        data: {
+          clicks: { increment: 1 },
+        },
+      });
+
+      if (visitorKey) {
+        try {
+          await tx.deepLinkVisit.create({
+            data: {
+              deepLinkId: deepLink.id,
+              visitorKey,
+            },
+          });
+
+          await tx.deepLink.update({
+            where: { id: deepLink.id },
+            data: {
+              uniqueClicks: { increment: 1 },
+            },
+          });
+        } catch (error) {
+          if (
+            !(
+              error instanceof Prisma.PrismaClientKnownRequestError &&
+              error.code === 'P2002'
+            )
+          ) {
+            throw error;
+          }
+        }
+      }
+    });
+
+    return {
+      status: 'tracked',
+      deepLink: {
+        slug: deepLink.slug,
+        source: deepLink.source,
+        campaignTag: deepLink.campaignTag,
+        videoId: deepLink.videoId,
+      },
+      creator: {
+        slug: deepLink.creatorProfile.slug,
+        pageTitle: deepLink.creatorProfile.pageTitle,
+      },
+    };
+  }
+
   private async generateUniqueSlug(base: string): Promise<string> {
     const sanitized = base
       .toLowerCase()
@@ -498,6 +684,52 @@ export class CreatorService {
       });
       if (!existing) return candidate;
       candidate = `${sanitized.slice(0, 27)}-${suffix++}`;
+    }
+  }
+
+  private async ensureDeepLinkSlugAvailable(
+    slug: string,
+    creatorProfileId: string,
+  ) {
+    const sanitized = slug
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]/g, '-')
+      .slice(0, 100);
+
+    const existing = await this.prisma.deepLink.findUnique({
+      where: { slug: sanitized },
+      select: { creatorProfileId: true },
+    });
+
+    if (existing && existing.creatorProfileId !== creatorProfileId) {
+      throw new ConflictException('This deep link slug is already taken');
+    }
+
+    if (existing && existing.creatorProfileId === creatorProfileId) {
+      throw new ConflictException('You already created this deep link slug');
+    }
+
+    return sanitized;
+  }
+
+  private async generateUniqueDeepLinkSlug(
+    creatorSlug: string,
+    source: string,
+  ): Promise<string> {
+    const base = `${creatorSlug}-${source}`
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]/g, '-')
+      .slice(0, 90);
+    let candidate = base;
+    let suffix = 1;
+
+    while (true) {
+      const existing = await this.prisma.deepLink.findUnique({
+        where: { slug: candidate },
+        select: { id: true },
+      });
+      if (!existing) return candidate;
+      candidate = `${base.slice(0, 86)}-${suffix++}`;
     }
   }
 }

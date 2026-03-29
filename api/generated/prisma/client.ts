@@ -80,10 +80,60 @@ export type CreatorProfile = Prisma.CreatorProfileModel
  */
 export type CreatorGoal = Prisma.CreatorGoalModel
 /**
+ * Model Reward
+ * 
+ */
+export type Reward = Prisma.RewardModel
+/**
  * Model Support
  * 
  */
 export type Support = Prisma.SupportModel
+/**
+ * Model TikTokCampaign
+ * 
+ */
+export type TikTokCampaign = Prisma.TikTokCampaignModel
+/**
+ * Model DeepLink
+ * 
+ */
+export type DeepLink = Prisma.DeepLinkModel
+/**
+ * Model DeepLinkVisit
+ * 
+ */
+export type DeepLinkVisit = Prisma.DeepLinkVisitModel
+/**
+ * Model UnlockedReward
+ * 
+ */
+export type UnlockedReward = Prisma.UnlockedRewardModel
+/**
+ * Model FeatureRequest
+ * 
+ */
+export type FeatureRequest = Prisma.FeatureRequestModel
+/**
+ * Model Poll
+ * 
+ */
+export type Poll = Prisma.PollModel
+/**
+ * Model PollOption
+ * 
+ */
+export type PollOption = Prisma.PollOptionModel
+/**
+ * Model PaidVote
+ * 
+ */
+export type PaidVote = Prisma.PaidVoteModel
+/**
+ * Model FanBadge
+ * 
+ */
+export type FanBadge = Prisma.FanBadgeModel
 /**
  * Model PayoutBatch
  * 
