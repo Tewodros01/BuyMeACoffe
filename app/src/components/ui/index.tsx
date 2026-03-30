@@ -36,7 +36,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           className={cn(
             'w-full h-[52px] rounded-2xl px-4 text-[15px] font-medium text-white',
-            'bg-white/[0.04] border border-white/[0.08]',
+            'bg-white/4 border border-white/8',
             'placeholder:text-white/20',
             'focus:outline-none focus:border-amber-500/50 focus:bg-white/[0.06]',
             'transition-all duration-200',
@@ -65,7 +65,7 @@ export function Badge({ variant = 'default', dot, className, children, ...props 
     danger:  'bg-red-500/10 text-red-400 border-red-500/20',
     warning: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
     info:    'bg-blue-500/10 text-blue-400 border-blue-500/20',
-    default: 'bg-white/[0.06] text-white/40 border-white/[0.08]',
+    default: 'bg-white/[0.06] text-white/40 border-white/8',
   }
   const d: Record<BadgeVariant, string> = {
     success: 'bg-emerald-400', danger: 'bg-red-400', warning: 'bg-amber-400', info: 'bg-blue-400', default: 'bg-white/30',
@@ -90,7 +90,7 @@ export function Avatar({ src, name, size = 'md', className }: AvatarProps) {
   const initials = name?.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase() ?? '?'
   return src
     ? <img src={src} alt={name} className={cn('rounded-full object-cover', s[size], className)} />
-    : <div className={cn('rounded-full flex items-center justify-center font-bold text-black bg-gradient-to-br from-amber-400 to-amber-600', s[size], className)}>{initials}</div>
+    : <div className={cn('rounded-full flex items-center justify-center font-bold text-black bg-linear-to-br from-amber-400 to-amber-600', s[size], className)}>{initials}</div>
 }
 
 // ─── Divider ──────────────────────────────────────────────────────────────────
@@ -102,7 +102,7 @@ export function Divider({ className }: { className?: string }) {
 export function Empty({ icon, title, description }: { icon?: React.ReactNode; title: string; description?: string }) {
   return (
     <div className="flex flex-col items-center justify-center py-14 gap-3 text-center">
-      {icon && <div className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-white/20 mb-1">{icon}</div>}
+      {icon && <div className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/6 flex items-center justify-center text-white/20 mb-1">{icon}</div>}
       <p className="text-[14px] font-semibold text-white/35">{title}</p>
       {description && <p className="text-[12px] text-white/20 max-w-[180px] leading-relaxed">{description}</p>}
     </div>

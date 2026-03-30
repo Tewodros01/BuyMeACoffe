@@ -40,6 +40,7 @@ export type UserMinAggregateOutputType = {
   role: $Enums.Role | null
   isVerified: boolean | null
   onboardingDone: boolean | null
+  defaultFinancialAccountId: string | null
   deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -61,6 +62,7 @@ export type UserMaxAggregateOutputType = {
   role: $Enums.Role | null
   isVerified: boolean | null
   onboardingDone: boolean | null
+  defaultFinancialAccountId: string | null
   deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -82,6 +84,7 @@ export type UserCountAggregateOutputType = {
   role: number
   isVerified: number
   onboardingDone: number
+  defaultFinancialAccountId: number
   deletedAt: number
   createdAt: number
   updatedAt: number
@@ -105,6 +108,7 @@ export type UserMinAggregateInputType = {
   role?: true
   isVerified?: true
   onboardingDone?: true
+  defaultFinancialAccountId?: true
   deletedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -126,6 +130,7 @@ export type UserMaxAggregateInputType = {
   role?: true
   isVerified?: true
   onboardingDone?: true
+  defaultFinancialAccountId?: true
   deletedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -147,6 +152,7 @@ export type UserCountAggregateInputType = {
   role?: true
   isVerified?: true
   onboardingDone?: true
+  defaultFinancialAccountId?: true
   deletedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -241,6 +247,7 @@ export type UserGroupByOutputType = {
   role: $Enums.Role
   isVerified: boolean
   onboardingDone: boolean
+  defaultFinancialAccountId: string | null
   deletedAt: Date | null
   createdAt: Date
   updatedAt: Date
@@ -249,7 +256,7 @@ export type UserGroupByOutputType = {
   _max: UserMaxAggregateOutputType | null
 }
 
-type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
+export type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UserGroupByOutputType, T['by']> &
       {
@@ -283,13 +290,16 @@ export type UserWhereInput = {
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   isVerified?: Prisma.BoolFilter<"User"> | boolean
   onboardingDone?: Prisma.BoolFilter<"User"> | boolean
+  defaultFinancialAccountId?: Prisma.StringNullableFilter<"User"> | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
   wallet?: Prisma.XOR<Prisma.WalletNullableScalarRelationFilter, Prisma.WalletWhereInput> | null
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileNullableScalarRelationFilter, Prisma.CreatorProfileWhereInput> | null
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationListRelationFilter
   financialAccounts?: Prisma.FinancialAccountListRelationFilter
+  defaultFinancialAccount?: Prisma.XOR<Prisma.FinancialAccountNullableScalarRelationFilter, Prisma.FinancialAccountWhereInput> | null
   withdrawals?: Prisma.WithdrawalListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   otpCodes?: Prisma.OtpVerificationListRelationFilter
@@ -317,13 +327,16 @@ export type UserOrderByWithRelationInput = {
   role?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
+  defaultFinancialAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   wallet?: Prisma.WalletOrderByWithRelationInput
   creatorProfile?: Prisma.CreatorProfileOrderByWithRelationInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationOrderByRelationAggregateInput
   financialAccounts?: Prisma.FinancialAccountOrderByRelationAggregateInput
+  defaultFinancialAccount?: Prisma.FinancialAccountOrderByWithRelationInput
   withdrawals?: Prisma.WithdrawalOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   otpCodes?: Prisma.OtpVerificationOrderByRelationAggregateInput
@@ -341,6 +354,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   email?: string
   phone?: string
   telegramId?: string
+  defaultFinancialAccountId_id?: Prisma.UserDefaultFinancialAccountIdIdCompoundUniqueInput
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -354,13 +368,16 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   isVerified?: Prisma.BoolFilter<"User"> | boolean
   onboardingDone?: Prisma.BoolFilter<"User"> | boolean
+  defaultFinancialAccountId?: Prisma.StringNullableFilter<"User"> | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   sessions?: Prisma.SessionListRelationFilter
   wallet?: Prisma.XOR<Prisma.WalletNullableScalarRelationFilter, Prisma.WalletWhereInput> | null
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileNullableScalarRelationFilter, Prisma.CreatorProfileWhereInput> | null
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationListRelationFilter
   financialAccounts?: Prisma.FinancialAccountListRelationFilter
+  defaultFinancialAccount?: Prisma.XOR<Prisma.FinancialAccountNullableScalarRelationFilter, Prisma.FinancialAccountWhereInput> | null
   withdrawals?: Prisma.WithdrawalListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   otpCodes?: Prisma.OtpVerificationListRelationFilter
@@ -370,7 +387,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   fanBadges?: Prisma.FanBadgeListRelationFilter
   auditLogsActed?: Prisma.AuditLogListRelationFilter
   auditLogsTargeted?: Prisma.AuditLogListRelationFilter
-}, "id" | "username" | "email" | "phone" | "telegramId">
+}, "id" | "username" | "email" | "phone" | "telegramId" | "defaultFinancialAccountId_id">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -388,6 +405,7 @@ export type UserOrderByWithAggregationInput = {
   role?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
+  defaultFinancialAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -415,13 +433,13 @@ export type UserScalarWhereWithAggregatesInput = {
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   isVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   onboardingDone?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  defaultFinancialAccountId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
 
 export type UserCreateInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -442,7 +460,9 @@ export type UserCreateInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
@@ -470,12 +490,14 @@ export type UserUncheckedCreateInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -489,7 +511,6 @@ export type UserUncheckedCreateInput = {
 }
 
 export type UserUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -510,7 +531,9 @@ export type UserUpdateInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
@@ -538,12 +561,14 @@ export type UserUncheckedUpdateInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -572,13 +597,13 @@ export type UserCreateManyInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type UserUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -614,9 +639,15 @@ export type UserUncheckedUpdateManyInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserDefaultFinancialAccountIdIdCompoundUniqueInput = {
+  defaultFinancialAccountId: string
+  id: string
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -635,6 +666,7 @@ export type UserCountOrderByAggregateInput = {
   role?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
+  defaultFinancialAccountId?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -656,6 +688,7 @@ export type UserMaxOrderByAggregateInput = {
   role?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
+  defaultFinancialAccountId?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -677,6 +710,7 @@ export type UserMinOrderByAggregateInput = {
   role?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   onboardingDone?: Prisma.SortOrder
+  defaultFinancialAccountId?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -764,12 +798,44 @@ export type UserCreateNestedOneWithoutFinancialAccountsInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
+export type UserCreateNestedOneWithoutDefaultFinancialAccountInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDefaultFinancialAccountInput, Prisma.UserUncheckedCreateWithoutDefaultFinancialAccountInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDefaultFinancialAccountInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUncheckedCreateNestedOneWithoutDefaultFinancialAccountInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDefaultFinancialAccountInput, Prisma.UserUncheckedCreateWithoutDefaultFinancialAccountInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDefaultFinancialAccountInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
 export type UserUpdateOneRequiredWithoutFinancialAccountsNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutFinancialAccountsInput, Prisma.UserUncheckedCreateWithoutFinancialAccountsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutFinancialAccountsInput
   upsert?: Prisma.UserUpsertWithoutFinancialAccountsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFinancialAccountsInput, Prisma.UserUpdateWithoutFinancialAccountsInput>, Prisma.UserUncheckedUpdateWithoutFinancialAccountsInput>
+}
+
+export type UserUpdateOneWithoutDefaultFinancialAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDefaultFinancialAccountInput, Prisma.UserUncheckedCreateWithoutDefaultFinancialAccountInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDefaultFinancialAccountInput
+  upsert?: Prisma.UserUpsertWithoutDefaultFinancialAccountInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDefaultFinancialAccountInput, Prisma.UserUpdateWithoutDefaultFinancialAccountInput>, Prisma.UserUncheckedUpdateWithoutDefaultFinancialAccountInput>
+}
+
+export type UserUncheckedUpdateOneWithoutDefaultFinancialAccountNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDefaultFinancialAccountInput, Prisma.UserUncheckedCreateWithoutDefaultFinancialAccountInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDefaultFinancialAccountInput
+  upsert?: Prisma.UserUpsertWithoutDefaultFinancialAccountInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDefaultFinancialAccountInput, Prisma.UserUpdateWithoutDefaultFinancialAccountInput>, Prisma.UserUncheckedUpdateWithoutDefaultFinancialAccountInput>
 }
 
 export type UserCreateNestedOneWithoutCreatorProfileInput = {
@@ -814,6 +880,22 @@ export type UserUpdateOneRequiredWithoutUnlockedRewardsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutUnlockedRewardsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUnlockedRewardsInput, Prisma.UserUpdateWithoutUnlockedRewardsInput>, Prisma.UserUncheckedUpdateWithoutUnlockedRewardsInput>
+}
+
+export type UserCreateNestedOneWithoutReviewedCreatorVerificationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewedCreatorVerificationsInput, Prisma.UserUncheckedCreateWithoutReviewedCreatorVerificationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewedCreatorVerificationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutReviewedCreatorVerificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewedCreatorVerificationsInput, Prisma.UserUncheckedCreateWithoutReviewedCreatorVerificationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewedCreatorVerificationsInput
+  upsert?: Prisma.UserUpsertWithoutReviewedCreatorVerificationsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewedCreatorVerificationsInput, Prisma.UserUpdateWithoutReviewedCreatorVerificationsInput>, Prisma.UserUncheckedUpdateWithoutReviewedCreatorVerificationsInput>
 }
 
 export type UserCreateNestedOneWithoutPaidVotesInput = {
@@ -903,7 +985,6 @@ export type UserUpdateOneWithoutAuditLogsTargetedNestedInput = {
 }
 
 export type UserCreateWithoutSessionsInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -923,7 +1004,9 @@ export type UserCreateWithoutSessionsInput = {
   updatedAt?: Date | string
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
@@ -951,11 +1034,13 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -985,7 +1070,6 @@ export type UserUpdateToOneWithWhereWithoutSessionsInput = {
 }
 
 export type UserUpdateWithoutSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1005,7 +1089,9 @@ export type UserUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
@@ -1033,11 +1119,13 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1051,7 +1139,6 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
 }
 
 export type UserCreateWithoutOtpCodesInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -1072,7 +1159,9 @@ export type UserCreateWithoutOtpCodesInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
@@ -1099,12 +1188,14 @@ export type UserUncheckedCreateWithoutOtpCodesInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -1133,7 +1224,6 @@ export type UserUpdateToOneWithWhereWithoutOtpCodesInput = {
 }
 
 export type UserUpdateWithoutOtpCodesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1154,7 +1244,9 @@ export type UserUpdateWithoutOtpCodesInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
@@ -1181,12 +1273,14 @@ export type UserUncheckedUpdateWithoutOtpCodesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1199,7 +1293,6 @@ export type UserUncheckedUpdateWithoutOtpCodesInput = {
 }
 
 export type UserCreateWithoutWalletInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -1219,7 +1312,9 @@ export type UserCreateWithoutWalletInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
@@ -1247,11 +1342,13 @@ export type UserUncheckedCreateWithoutWalletInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -1281,7 +1378,6 @@ export type UserUpdateToOneWithWhereWithoutWalletInput = {
 }
 
 export type UserUpdateWithoutWalletInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1301,7 +1397,9 @@ export type UserUpdateWithoutWalletInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
@@ -1329,11 +1427,13 @@ export type UserUncheckedUpdateWithoutWalletInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1347,7 +1447,6 @@ export type UserUncheckedUpdateWithoutWalletInput = {
 }
 
 export type UserCreateWithoutFinancialAccountsInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -1368,6 +1467,8 @@ export type UserCreateWithoutFinancialAccountsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
@@ -1395,12 +1496,14 @@ export type UserUncheckedCreateWithoutFinancialAccountsInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
@@ -1417,6 +1520,79 @@ export type UserCreateOrConnectWithoutFinancialAccountsInput = {
   create: Prisma.XOR<Prisma.UserCreateWithoutFinancialAccountsInput, Prisma.UserUncheckedCreateWithoutFinancialAccountsInput>
 }
 
+export type UserCreateWithoutDefaultFinancialAccountInput = {
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
+  financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserUncheckedCreateWithoutDefaultFinancialAccountInput = {
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserCreateOrConnectWithoutDefaultFinancialAccountInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDefaultFinancialAccountInput, Prisma.UserUncheckedCreateWithoutDefaultFinancialAccountInput>
+}
+
 export type UserUpsertWithoutFinancialAccountsInput = {
   update: Prisma.XOR<Prisma.UserUpdateWithoutFinancialAccountsInput, Prisma.UserUncheckedUpdateWithoutFinancialAccountsInput>
   create: Prisma.XOR<Prisma.UserCreateWithoutFinancialAccountsInput, Prisma.UserUncheckedCreateWithoutFinancialAccountsInput>
@@ -1429,7 +1605,6 @@ export type UserUpdateToOneWithWhereWithoutFinancialAccountsInput = {
 }
 
 export type UserUpdateWithoutFinancialAccountsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1450,6 +1625,8 @@ export type UserUpdateWithoutFinancialAccountsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
@@ -1477,12 +1654,93 @@ export type UserUncheckedUpdateWithoutFinancialAccountsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
+  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserUpsertWithoutDefaultFinancialAccountInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDefaultFinancialAccountInput, Prisma.UserUncheckedUpdateWithoutDefaultFinancialAccountInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDefaultFinancialAccountInput, Prisma.UserUncheckedCreateWithoutDefaultFinancialAccountInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDefaultFinancialAccountInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDefaultFinancialAccountInput, Prisma.UserUncheckedUpdateWithoutDefaultFinancialAccountInput>
+}
+
+export type UserUpdateWithoutDefaultFinancialAccountInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
+  financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDefaultFinancialAccountInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1495,7 +1753,6 @@ export type UserUncheckedUpdateWithoutFinancialAccountsInput = {
 }
 
 export type UserCreateWithoutCreatorProfileInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -1515,7 +1772,9 @@ export type UserCreateWithoutCreatorProfileInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
@@ -1543,11 +1802,13 @@ export type UserUncheckedCreateWithoutCreatorProfileInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -1577,7 +1838,6 @@ export type UserUpdateToOneWithWhereWithoutCreatorProfileInput = {
 }
 
 export type UserUpdateWithoutCreatorProfileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1597,7 +1857,9 @@ export type UserUpdateWithoutCreatorProfileInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
@@ -1625,11 +1887,13 @@ export type UserUncheckedUpdateWithoutCreatorProfileInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1643,7 +1907,6 @@ export type UserUncheckedUpdateWithoutCreatorProfileInput = {
 }
 
 export type UserCreateWithoutSupportsInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -1664,7 +1927,9 @@ export type UserCreateWithoutSupportsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
@@ -1691,12 +1956,14 @@ export type UserUncheckedCreateWithoutSupportsInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -1725,7 +1992,6 @@ export type UserUpdateToOneWithWhereWithoutSupportsInput = {
 }
 
 export type UserUpdateWithoutSupportsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1746,7 +2012,9 @@ export type UserUpdateWithoutSupportsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
@@ -1773,12 +2041,14 @@ export type UserUncheckedUpdateWithoutSupportsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1791,7 +2061,6 @@ export type UserUncheckedUpdateWithoutSupportsInput = {
 }
 
 export type UserCreateWithoutUnlockedRewardsInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -1812,7 +2081,9 @@ export type UserCreateWithoutUnlockedRewardsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
@@ -1839,12 +2110,14 @@ export type UserUncheckedCreateWithoutUnlockedRewardsInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -1873,7 +2146,6 @@ export type UserUpdateToOneWithWhereWithoutUnlockedRewardsInput = {
 }
 
 export type UserUpdateWithoutUnlockedRewardsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1894,7 +2166,9 @@ export type UserUpdateWithoutUnlockedRewardsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
@@ -1921,12 +2195,14 @@ export type UserUncheckedUpdateWithoutUnlockedRewardsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1938,8 +2214,7 @@ export type UserUncheckedUpdateWithoutUnlockedRewardsInput = {
   auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
 }
 
-export type UserCreateWithoutPaidVotesInput = {
-  id?: string
+export type UserCreateWithoutReviewedCreatorVerificationsInput = {
   username: string
   email: string
   password: string
@@ -1961,6 +2236,162 @@ export type UserCreateWithoutPaidVotesInput = {
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
+  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutUserInput
+  auditLogsActed?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserUncheckedCreateWithoutReviewedCreatorVerificationsInput = {
+  id?: string
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
+  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutSupporterInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedCreateNestedManyWithoutUserInput
+  paidVotes?: Prisma.PaidVoteUncheckedCreateNestedManyWithoutUserInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutUserInput
+  auditLogsActed?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedCreateNestedManyWithoutTargetUserInput
+}
+
+export type UserCreateOrConnectWithoutReviewedCreatorVerificationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewedCreatorVerificationsInput, Prisma.UserUncheckedCreateWithoutReviewedCreatorVerificationsInput>
+}
+
+export type UserUpsertWithoutReviewedCreatorVerificationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewedCreatorVerificationsInput, Prisma.UserUncheckedUpdateWithoutReviewedCreatorVerificationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewedCreatorVerificationsInput, Prisma.UserUncheckedCreateWithoutReviewedCreatorVerificationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewedCreatorVerificationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewedCreatorVerificationsInput, Prisma.UserUncheckedUpdateWithoutReviewedCreatorVerificationsInput>
+}
+
+export type UserUpdateWithoutReviewedCreatorVerificationsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
+  withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutUserNestedInput
+  auditLogsActed?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewedCreatorVerificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramPhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
+  creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
+  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutSupporterNestedInput
+  unlockedRewards?: Prisma.UnlockedRewardUncheckedUpdateManyWithoutUserNestedInput
+  paidVotes?: Prisma.PaidVoteUncheckedUpdateManyWithoutUserNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutUserNestedInput
+  auditLogsActed?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  auditLogsTargeted?: Prisma.AuditLogUncheckedUpdateManyWithoutTargetUserNestedInput
+}
+
+export type UserCreateWithoutPaidVotesInput = {
+  username: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  avatar?: string | null
+  bio?: string | null
+  telegramId?: string | null
+  telegramUsername?: string | null
+  telegramPhotoUrl?: string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  onboardingDone?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
+  creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
+  financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
@@ -1987,12 +2418,14 @@ export type UserUncheckedCreateWithoutPaidVotesInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -2021,7 +2454,6 @@ export type UserUpdateToOneWithWhereWithoutPaidVotesInput = {
 }
 
 export type UserUpdateWithoutPaidVotesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2042,7 +2474,9 @@ export type UserUpdateWithoutPaidVotesInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
@@ -2069,12 +2503,14 @@ export type UserUncheckedUpdateWithoutPaidVotesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2087,7 +2523,6 @@ export type UserUncheckedUpdateWithoutPaidVotesInput = {
 }
 
 export type UserCreateWithoutFanBadgesInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -2108,7 +2543,9 @@ export type UserCreateWithoutFanBadgesInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
@@ -2135,12 +2572,14 @@ export type UserUncheckedCreateWithoutFanBadgesInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -2169,7 +2608,6 @@ export type UserUpdateToOneWithWhereWithoutFanBadgesInput = {
 }
 
 export type UserUpdateWithoutFanBadgesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2190,7 +2628,9 @@ export type UserUpdateWithoutFanBadgesInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
@@ -2217,12 +2657,14 @@ export type UserUncheckedUpdateWithoutFanBadgesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2235,7 +2677,6 @@ export type UserUncheckedUpdateWithoutFanBadgesInput = {
 }
 
 export type UserCreateWithoutWithdrawalsInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -2256,7 +2697,9 @@ export type UserCreateWithoutWithdrawalsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
@@ -2283,12 +2726,14 @@ export type UserUncheckedCreateWithoutWithdrawalsInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
@@ -2317,7 +2762,6 @@ export type UserUpdateToOneWithWhereWithoutWithdrawalsInput = {
 }
 
 export type UserUpdateWithoutWithdrawalsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2338,7 +2782,9 @@ export type UserUpdateWithoutWithdrawalsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
@@ -2365,12 +2811,14 @@ export type UserUncheckedUpdateWithoutWithdrawalsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2383,7 +2831,6 @@ export type UserUncheckedUpdateWithoutWithdrawalsInput = {
 }
 
 export type UserCreateWithoutNotificationsInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -2404,7 +2851,9 @@ export type UserCreateWithoutNotificationsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
   supports?: Prisma.SupportCreateNestedManyWithoutSupporterInput
@@ -2431,12 +2880,14 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationUncheckedCreateNestedManyWithoutUserInput
@@ -2465,7 +2916,6 @@ export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
 }
 
 export type UserUpdateWithoutNotificationsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2486,7 +2936,9 @@ export type UserUpdateWithoutNotificationsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
   supports?: Prisma.SupportUpdateManyWithoutSupporterNestedInput
@@ -2513,12 +2965,14 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2531,7 +2985,6 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
 }
 
 export type UserCreateWithoutAuditLogsActedInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -2552,7 +3005,9 @@ export type UserCreateWithoutAuditLogsActedInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
@@ -2579,12 +3034,14 @@ export type UserUncheckedCreateWithoutAuditLogsActedInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -2602,7 +3059,6 @@ export type UserCreateOrConnectWithoutAuditLogsActedInput = {
 }
 
 export type UserCreateWithoutAuditLogsTargetedInput = {
-  id?: string
   username: string
   email: string
   password: string
@@ -2623,7 +3079,9 @@ export type UserCreateWithoutAuditLogsTargetedInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountCreateNestedManyWithoutUserInput
+  defaultFinancialAccount?: Prisma.FinancialAccountCreateNestedOneWithoutDefaultForUserInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   otpCodes?: Prisma.OtpVerificationCreateNestedManyWithoutUserInput
@@ -2650,12 +3108,14 @@ export type UserUncheckedCreateWithoutAuditLogsTargetedInput = {
   role?: $Enums.Role
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   creatorProfile?: Prisma.CreatorProfileUncheckedCreateNestedOneWithoutUserInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedCreateNestedManyWithoutReviewerInput
   financialAccounts?: Prisma.FinancialAccountUncheckedCreateNestedManyWithoutUserInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -2684,7 +3144,6 @@ export type UserUpdateToOneWithWhereWithoutAuditLogsActedInput = {
 }
 
 export type UserUpdateWithoutAuditLogsActedInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2705,7 +3164,9 @@ export type UserUpdateWithoutAuditLogsActedInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
@@ -2732,12 +3193,14 @@ export type UserUncheckedUpdateWithoutAuditLogsActedInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2761,7 +3224,6 @@ export type UserUpdateToOneWithWhereWithoutAuditLogsTargetedInput = {
 }
 
 export type UserUpdateWithoutAuditLogsTargetedInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2782,7 +3244,9 @@ export type UserUpdateWithoutAuditLogsTargetedInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUpdateManyWithoutUserNestedInput
+  defaultFinancialAccount?: Prisma.FinancialAccountUpdateOneWithoutDefaultForUserNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   otpCodes?: Prisma.OtpVerificationUpdateManyWithoutUserNestedInput
@@ -2809,12 +3273,14 @@ export type UserUncheckedUpdateWithoutAuditLogsTargetedInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingDone?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  defaultFinancialAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   creatorProfile?: Prisma.CreatorProfileUncheckedUpdateOneWithoutUserNestedInput
+  reviewedCreatorVerifications?: Prisma.CreatorVerificationUncheckedUpdateManyWithoutReviewerNestedInput
   financialAccounts?: Prisma.FinancialAccountUncheckedUpdateManyWithoutUserNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -2833,6 +3299,7 @@ export type UserUncheckedUpdateWithoutAuditLogsTargetedInput = {
 
 export type UserCountOutputType = {
   sessions: number
+  reviewedCreatorVerifications: number
   financialAccounts: number
   withdrawals: number
   notifications: number
@@ -2847,6 +3314,7 @@ export type UserCountOutputType = {
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+  reviewedCreatorVerifications?: boolean | UserCountOutputTypeCountReviewedCreatorVerificationsArgs
   financialAccounts?: boolean | UserCountOutputTypeCountFinancialAccountsArgs
   withdrawals?: boolean | UserCountOutputTypeCountWithdrawalsArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
@@ -2874,6 +3342,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  */
 export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReviewedCreatorVerificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CreatorVerificationWhereInput
 }
 
 /**
@@ -2963,13 +3438,16 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   role?: boolean
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: boolean
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   wallet?: boolean | Prisma.User$walletArgs<ExtArgs>
   creatorProfile?: boolean | Prisma.User$creatorProfileArgs<ExtArgs>
+  reviewedCreatorVerifications?: boolean | Prisma.User$reviewedCreatorVerificationsArgs<ExtArgs>
   financialAccounts?: boolean | Prisma.User$financialAccountsArgs<ExtArgs>
+  defaultFinancialAccount?: boolean | Prisma.User$defaultFinancialAccountArgs<ExtArgs>
   withdrawals?: boolean | Prisma.User$withdrawalsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   otpCodes?: boolean | Prisma.User$otpCodesArgs<ExtArgs>
@@ -2998,9 +3476,11 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: boolean
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  defaultFinancialAccount?: boolean | Prisma.User$defaultFinancialAccountArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -3019,9 +3499,11 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: boolean
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  defaultFinancialAccount?: boolean | Prisma.User$defaultFinancialAccountArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -3040,17 +3522,20 @@ export type UserSelectScalar = {
   role?: boolean
   isVerified?: boolean
   onboardingDone?: boolean
+  defaultFinancialAccountId?: boolean
   deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password" | "firstName" | "lastName" | "phone" | "avatar" | "bio" | "telegramId" | "telegramUsername" | "telegramPhotoUrl" | "role" | "isVerified" | "onboardingDone" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "password" | "firstName" | "lastName" | "phone" | "avatar" | "bio" | "telegramId" | "telegramUsername" | "telegramPhotoUrl" | "role" | "isVerified" | "onboardingDone" | "defaultFinancialAccountId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   wallet?: boolean | Prisma.User$walletArgs<ExtArgs>
   creatorProfile?: boolean | Prisma.User$creatorProfileArgs<ExtArgs>
+  reviewedCreatorVerifications?: boolean | Prisma.User$reviewedCreatorVerificationsArgs<ExtArgs>
   financialAccounts?: boolean | Prisma.User$financialAccountsArgs<ExtArgs>
+  defaultFinancialAccount?: boolean | Prisma.User$defaultFinancialAccountArgs<ExtArgs>
   withdrawals?: boolean | Prisma.User$withdrawalsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   otpCodes?: boolean | Prisma.User$otpCodesArgs<ExtArgs>
@@ -3062,8 +3547,12 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   auditLogsTargeted?: boolean | Prisma.User$auditLogsTargetedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  defaultFinancialAccount?: boolean | Prisma.User$defaultFinancialAccountArgs<ExtArgs>
+}
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  defaultFinancialAccount?: boolean | Prisma.User$defaultFinancialAccountArgs<ExtArgs>
+}
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
@@ -3071,7 +3560,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     wallet: Prisma.$WalletPayload<ExtArgs> | null
     creatorProfile: Prisma.$CreatorProfilePayload<ExtArgs> | null
+    reviewedCreatorVerifications: Prisma.$CreatorVerificationPayload<ExtArgs>[]
     financialAccounts: Prisma.$FinancialAccountPayload<ExtArgs>[]
+    defaultFinancialAccount: Prisma.$FinancialAccountPayload<ExtArgs> | null
     withdrawals: Prisma.$WithdrawalPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     otpCodes: Prisma.$OtpVerificationPayload<ExtArgs>[]
@@ -3098,6 +3589,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     role: $Enums.Role
     isVerified: boolean
     onboardingDone: boolean
+    defaultFinancialAccountId: string | null
     deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -3498,7 +3990,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wallet<T extends Prisma.User$walletArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$walletArgs<ExtArgs>>): Prisma.Prisma__WalletClient<runtime.Types.Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   creatorProfile<T extends Prisma.User$creatorProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$creatorProfileArgs<ExtArgs>>): Prisma.Prisma__CreatorProfileClient<runtime.Types.Result.GetResult<Prisma.$CreatorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  reviewedCreatorVerifications<T extends Prisma.User$reviewedCreatorVerificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewedCreatorVerificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreatorVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   financialAccounts<T extends Prisma.User$financialAccountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$financialAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FinancialAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  defaultFinancialAccount<T extends Prisma.User$defaultFinancialAccountArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$defaultFinancialAccountArgs<ExtArgs>>): Prisma.Prisma__FinancialAccountClient<runtime.Types.Result.GetResult<Prisma.$FinancialAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   withdrawals<T extends Prisma.User$withdrawalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$withdrawalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   otpCodes<T extends Prisma.User$otpCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$otpCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OtpVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3552,6 +4046,7 @@ export interface UserFieldRefs {
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly isVerified: Prisma.FieldRef<"User", 'Boolean'>
   readonly onboardingDone: Prisma.FieldRef<"User", 'Boolean'>
+  readonly defaultFinancialAccountId: Prisma.FieldRef<"User", 'String'>
   readonly deletedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
@@ -3809,6 +4304,10 @@ export type UserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    */
   data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -3879,6 +4378,10 @@ export type UserUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many Users to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -4010,6 +4513,30 @@ export type User$creatorProfileArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * User.reviewedCreatorVerifications
+ */
+export type User$reviewedCreatorVerificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CreatorVerification
+   */
+  select?: Prisma.CreatorVerificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CreatorVerification
+   */
+  omit?: Prisma.CreatorVerificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CreatorVerificationInclude<ExtArgs> | null
+  where?: Prisma.CreatorVerificationWhereInput
+  orderBy?: Prisma.CreatorVerificationOrderByWithRelationInput | Prisma.CreatorVerificationOrderByWithRelationInput[]
+  cursor?: Prisma.CreatorVerificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CreatorVerificationScalarFieldEnum | Prisma.CreatorVerificationScalarFieldEnum[]
+}
+
+/**
  * User.financialAccounts
  */
 export type User$financialAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4031,6 +4558,25 @@ export type User$financialAccountsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.FinancialAccountScalarFieldEnum | Prisma.FinancialAccountScalarFieldEnum[]
+}
+
+/**
+ * User.defaultFinancialAccount
+ */
+export type User$defaultFinancialAccountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FinancialAccount
+   */
+  select?: Prisma.FinancialAccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FinancialAccount
+   */
+  omit?: Prisma.FinancialAccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FinancialAccountInclude<ExtArgs> | null
+  where?: Prisma.FinancialAccountWhereInput
 }
 
 /**

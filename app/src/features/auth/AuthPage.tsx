@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query'
 import { authApi, LoginSchema, RegisterSchema, type LoginInput, type RegisterInput } from './authApi'
 import { useAuthStore } from '../../store/authStore'
 import { getInitData, isInsideTelegram, haptic } from '../../lib/telegram'
+import { getApiErrorMessage } from '../../lib/api'
 import { Button } from '../../components/ui/Button'
 import { Input, Spinner } from '../../components/ui/index'
 
@@ -18,19 +19,19 @@ export default function AuthPage() {
   const [tab, setTab] = useState<'login' | 'register'>('login')
   const [showPassword, setShowPassword] = useState(false)
 
+  const { mutate: loginWithTelegram, isPending: isTelegramPending } = useMutation({
+    mutationFn: authApi.loginWithTelegram,
+    onSuccess: (data) => { setAuth(data); haptic('success'); navigate(data.user.onboardingDone ? '/home' : '/onboarding', { replace: true }) },
+  })
+
   useEffect(() => {
     if (!authReady) return
     if (isAuthenticated) { navigate('/home', { replace: true }); return }
     if (isInsideTelegram()) {
       const initData = getInitData()
-      if (initData) telegramMutation.mutate(initData)
+      if (initData) loginWithTelegram(initData)
     }
-  }, [authReady, isAuthenticated, navigate])
-
-  const telegramMutation = useMutation({
-    mutationFn: authApi.loginWithTelegram,
-    onSuccess: (data) => { setAuth(data); haptic('success'); navigate(data.user.onboardingDone ? '/home' : '/onboarding', { replace: true }) },
-  })
+  }, [authReady, isAuthenticated, loginWithTelegram, navigate])
 
   const loginForm = useForm<LoginInput>({ resolver: zodResolver(LoginSchema) })
   const registerForm = useForm<RegisterInput>({ resolver: zodResolver(RegisterSchema) })
@@ -45,11 +46,11 @@ export default function AuthPage() {
     onSuccess: (data) => { setAuth(data); haptic('success'); navigate('/onboarding', { replace: true }) },
   })
 
-  if (telegramMutation.isPending) {
+  if (isTelegramPending) {
     return (
       <div className="flex min-h-screen items-center justify-center px-6">
-        <div className="w-full max-w-sm rounded-[28px] border border-white/[0.08] bg-[#0e0e1c]/95 p-8 text-center shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
-        <div className="w-20 h-20 rounded-[24px] bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-[0_0_40px_rgba(245,158,11,0.4)] pulse-glow float">
+        <div className="w-full max-w-sm rounded-[28px] border border-white/8 bg-surface-2/95 p-8 text-center shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+        <div className="w-20 h-20 rounded-3xl bg-linear-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-[0_0_40px_rgba(245,158,11,0.4)] pulse-glow float">
           <Coffee className="w-10 h-10 text-black" strokeWidth={2.5} />
         </div>
         <div className="mt-6 text-center">
@@ -66,7 +67,7 @@ export default function AuthPage() {
     <div className="relative flex min-h-screen flex-col overflow-hidden px-5 py-10">
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
         <div className="mb-10 flex flex-col items-center gap-4 text-center fade-up">
-          <div className="w-[68px] h-[68px] rounded-[20px] bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-[0_8px_32px_rgba(245,158,11,0.3)]">
+          <div className="w-17 h-17 rounded-[20px] bg-linear-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-[0_8px_32px_rgba(245,158,11,0.3)]">
             <Coffee className="w-8 h-8 text-black" strokeWidth={2.5} />
           </div>
           <div>
@@ -75,8 +76,8 @@ export default function AuthPage() {
           </div>
         </div>
 
-        <div className="rounded-[30px] border border-white/[0.08] bg-[#0e0e1c]/95 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
-          <div className="mb-6 flex rounded-2xl border border-white/[0.06] bg-white/[0.04] p-1">
+        <div className="rounded-[30px] border border-white/8 bg-surface-2/95 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+          <div className="mb-6 flex rounded-2xl border border-white/6 bg-white/4 p-1">
             {(['login', 'register'] as const).map((t) => (
               <button
                 key={t}
@@ -108,7 +109,7 @@ export default function AuthPage() {
                 {...loginForm.register('password')} />
               {loginMutation.error && (
                 <p className="text-[13px] text-red-400 text-center bg-red-500/[0.07] border border-red-500/15 rounded-xl py-3 px-4">
-                  {(loginMutation.error as any)?.response?.data?.message ?? 'Invalid credentials'}
+                  {getApiErrorMessage(loginMutation.error, 'Invalid credentials')}
                 </p>
               )}
               <Button type="submit" fullWidth size="lg" loading={loginMutation.isPending} className="mt-1">Sign In</Button>
@@ -129,7 +130,7 @@ export default function AuthPage() {
                 error={registerForm.formState.errors.password?.message} {...registerForm.register('password')} />
               {registerMutation.error && (
                 <p className="text-[13px] text-red-400 text-center bg-red-500/[0.07] border border-red-500/15 rounded-xl py-3 px-4">
-                  {(registerMutation.error as any)?.response?.data?.message ?? 'Registration failed'}
+                  {getApiErrorMessage(registerMutation.error, 'Registration failed')}
                 </p>
               )}
               <Button type="submit" fullWidth size="lg" loading={registerMutation.isPending} className="mt-1">Create Account</Button>

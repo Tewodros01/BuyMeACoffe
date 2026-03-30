@@ -31,8 +31,11 @@ export type FinancialAccountMinAggregateOutputType = {
   provider: string | null
   accountName: string | null
   accountNumber: string | null
+  countryCode: string | null
+  bankCode: string | null
+  branchName: string | null
+  mobileNumber: string | null
   label: string | null
-  isDefault: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -45,8 +48,11 @@ export type FinancialAccountMaxAggregateOutputType = {
   provider: string | null
   accountName: string | null
   accountNumber: string | null
+  countryCode: string | null
+  bankCode: string | null
+  branchName: string | null
+  mobileNumber: string | null
   label: string | null
-  isDefault: boolean | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -59,9 +65,13 @@ export type FinancialAccountCountAggregateOutputType = {
   provider: number
   accountName: number
   accountNumber: number
+  countryCode: number
+  bankCode: number
+  branchName: number
+  mobileNumber: number
   label: number
-  isDefault: number
   isActive: number
+  metadata: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -75,8 +85,11 @@ export type FinancialAccountMinAggregateInputType = {
   provider?: true
   accountName?: true
   accountNumber?: true
+  countryCode?: true
+  bankCode?: true
+  branchName?: true
+  mobileNumber?: true
   label?: true
-  isDefault?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -89,8 +102,11 @@ export type FinancialAccountMaxAggregateInputType = {
   provider?: true
   accountName?: true
   accountNumber?: true
+  countryCode?: true
+  bankCode?: true
+  branchName?: true
+  mobileNumber?: true
   label?: true
-  isDefault?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -103,9 +119,13 @@ export type FinancialAccountCountAggregateInputType = {
   provider?: true
   accountName?: true
   accountNumber?: true
+  countryCode?: true
+  bankCode?: true
+  branchName?: true
+  mobileNumber?: true
   label?: true
-  isDefault?: true
   isActive?: true
+  metadata?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -190,9 +210,13 @@ export type FinancialAccountGroupByOutputType = {
   provider: string
   accountName: string
   accountNumber: string
+  countryCode: string
+  bankCode: string | null
+  branchName: string | null
+  mobileNumber: string | null
   label: string | null
-  isDefault: boolean
   isActive: boolean
+  metadata: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
   _count: FinancialAccountCountAggregateOutputType | null
@@ -200,7 +224,7 @@ export type FinancialAccountGroupByOutputType = {
   _max: FinancialAccountMaxAggregateOutputType | null
 }
 
-type GetFinancialAccountGroupByPayload<T extends FinancialAccountGroupByArgs> = Prisma.PrismaPromise<
+export type GetFinancialAccountGroupByPayload<T extends FinancialAccountGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<FinancialAccountGroupByOutputType, T['by']> &
       {
@@ -225,13 +249,18 @@ export type FinancialAccountWhereInput = {
   provider?: Prisma.StringFilter<"FinancialAccount"> | string
   accountName?: Prisma.StringFilter<"FinancialAccount"> | string
   accountNumber?: Prisma.StringFilter<"FinancialAccount"> | string
+  countryCode?: Prisma.StringFilter<"FinancialAccount"> | string
+  bankCode?: Prisma.StringNullableFilter<"FinancialAccount"> | string | null
+  branchName?: Prisma.StringNullableFilter<"FinancialAccount"> | string | null
+  mobileNumber?: Prisma.StringNullableFilter<"FinancialAccount"> | string | null
   label?: Prisma.StringNullableFilter<"FinancialAccount"> | string | null
-  isDefault?: Prisma.BoolFilter<"FinancialAccount"> | boolean
   isActive?: Prisma.BoolFilter<"FinancialAccount"> | boolean
+  metadata?: Prisma.JsonNullableFilter<"FinancialAccount">
   createdAt?: Prisma.DateTimeFilter<"FinancialAccount"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FinancialAccount"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   withdrawals?: Prisma.WithdrawalListRelationFilter
+  defaultForUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type FinancialAccountOrderByWithRelationInput = {
@@ -241,17 +270,23 @@ export type FinancialAccountOrderByWithRelationInput = {
   provider?: Prisma.SortOrder
   accountName?: Prisma.SortOrder
   accountNumber?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  bankCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  branchName?: Prisma.SortOrderInput | Prisma.SortOrder
+  mobileNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   label?: Prisma.SortOrderInput | Prisma.SortOrder
-  isDefault?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   withdrawals?: Prisma.WithdrawalOrderByRelationAggregateInput
+  defaultForUser?: Prisma.UserOrderByWithRelationInput
 }
 
 export type FinancialAccountWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  id_userId?: Prisma.FinancialAccountIdUserIdCompoundUniqueInput
   AND?: Prisma.FinancialAccountWhereInput | Prisma.FinancialAccountWhereInput[]
   OR?: Prisma.FinancialAccountWhereInput[]
   NOT?: Prisma.FinancialAccountWhereInput | Prisma.FinancialAccountWhereInput[]
@@ -260,14 +295,19 @@ export type FinancialAccountWhereUniqueInput = Prisma.AtLeast<{
   provider?: Prisma.StringFilter<"FinancialAccount"> | string
   accountName?: Prisma.StringFilter<"FinancialAccount"> | string
   accountNumber?: Prisma.StringFilter<"FinancialAccount"> | string
+  countryCode?: Prisma.StringFilter<"FinancialAccount"> | string
+  bankCode?: Prisma.StringNullableFilter<"FinancialAccount"> | string | null
+  branchName?: Prisma.StringNullableFilter<"FinancialAccount"> | string | null
+  mobileNumber?: Prisma.StringNullableFilter<"FinancialAccount"> | string | null
   label?: Prisma.StringNullableFilter<"FinancialAccount"> | string | null
-  isDefault?: Prisma.BoolFilter<"FinancialAccount"> | boolean
   isActive?: Prisma.BoolFilter<"FinancialAccount"> | boolean
+  metadata?: Prisma.JsonNullableFilter<"FinancialAccount">
   createdAt?: Prisma.DateTimeFilter<"FinancialAccount"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FinancialAccount"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   withdrawals?: Prisma.WithdrawalListRelationFilter
-}, "id">
+  defaultForUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+}, "id" | "id_userId">
 
 export type FinancialAccountOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -276,9 +316,13 @@ export type FinancialAccountOrderByWithAggregationInput = {
   provider?: Prisma.SortOrder
   accountName?: Prisma.SortOrder
   accountNumber?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  bankCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  branchName?: Prisma.SortOrderInput | Prisma.SortOrder
+  mobileNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   label?: Prisma.SortOrderInput | Prisma.SortOrder
-  isDefault?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.FinancialAccountCountOrderByAggregateInput
@@ -296,9 +340,13 @@ export type FinancialAccountScalarWhereWithAggregatesInput = {
   provider?: Prisma.StringWithAggregatesFilter<"FinancialAccount"> | string
   accountName?: Prisma.StringWithAggregatesFilter<"FinancialAccount"> | string
   accountNumber?: Prisma.StringWithAggregatesFilter<"FinancialAccount"> | string
+  countryCode?: Prisma.StringWithAggregatesFilter<"FinancialAccount"> | string
+  bankCode?: Prisma.StringNullableWithAggregatesFilter<"FinancialAccount"> | string | null
+  branchName?: Prisma.StringNullableWithAggregatesFilter<"FinancialAccount"> | string | null
+  mobileNumber?: Prisma.StringNullableWithAggregatesFilter<"FinancialAccount"> | string | null
   label?: Prisma.StringNullableWithAggregatesFilter<"FinancialAccount"> | string | null
-  isDefault?: Prisma.BoolWithAggregatesFilter<"FinancialAccount"> | boolean
   isActive?: Prisma.BoolWithAggregatesFilter<"FinancialAccount"> | boolean
+  metadata?: Prisma.JsonNullableWithAggregatesFilter<"FinancialAccount">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"FinancialAccount"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"FinancialAccount"> | Date | string
 }
@@ -309,13 +357,18 @@ export type FinancialAccountCreateInput = {
   provider: string
   accountName: string
   accountNumber: string
+  countryCode?: string
+  bankCode?: string | null
+  branchName?: string | null
+  mobileNumber?: string | null
   label?: string | null
-  isDefault?: boolean
   isActive?: boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutFinancialAccountsInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutFinancialAccountInput
+  defaultForUser?: Prisma.UserCreateNestedOneWithoutDefaultFinancialAccountInput
 }
 
 export type FinancialAccountUncheckedCreateInput = {
@@ -325,12 +378,17 @@ export type FinancialAccountUncheckedCreateInput = {
   provider: string
   accountName: string
   accountNumber: string
+  countryCode?: string
+  bankCode?: string | null
+  branchName?: string | null
+  mobileNumber?: string | null
   label?: string | null
-  isDefault?: boolean
   isActive?: boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutFinancialAccountInput
+  defaultForUser?: Prisma.UserUncheckedCreateNestedOneWithoutDefaultFinancialAccountInput
 }
 
 export type FinancialAccountUpdateInput = {
@@ -339,13 +397,18 @@ export type FinancialAccountUpdateInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  bankCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branchName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutFinancialAccountsNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutFinancialAccountNestedInput
+  defaultForUser?: Prisma.UserUpdateOneWithoutDefaultFinancialAccountNestedInput
 }
 
 export type FinancialAccountUncheckedUpdateInput = {
@@ -355,12 +418,17 @@ export type FinancialAccountUncheckedUpdateInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  bankCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branchName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutFinancialAccountNestedInput
+  defaultForUser?: Prisma.UserUncheckedUpdateOneWithoutDefaultFinancialAccountNestedInput
 }
 
 export type FinancialAccountCreateManyInput = {
@@ -370,9 +438,13 @@ export type FinancialAccountCreateManyInput = {
   provider: string
   accountName: string
   accountNumber: string
+  countryCode?: string
+  bankCode?: string | null
+  branchName?: string | null
+  mobileNumber?: string | null
   label?: string | null
-  isDefault?: boolean
   isActive?: boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -383,9 +455,13 @@ export type FinancialAccountUpdateManyMutationInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  bankCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branchName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -397,9 +473,13 @@ export type FinancialAccountUncheckedUpdateManyInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  bankCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branchName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -410,8 +490,18 @@ export type FinancialAccountListRelationFilter = {
   none?: Prisma.FinancialAccountWhereInput
 }
 
+export type FinancialAccountNullableScalarRelationFilter = {
+  is?: Prisma.FinancialAccountWhereInput | null
+  isNot?: Prisma.FinancialAccountWhereInput | null
+}
+
 export type FinancialAccountOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type FinancialAccountIdUserIdCompoundUniqueInput = {
+  id: string
+  userId: string
 }
 
 export type FinancialAccountCountOrderByAggregateInput = {
@@ -421,9 +511,13 @@ export type FinancialAccountCountOrderByAggregateInput = {
   provider?: Prisma.SortOrder
   accountName?: Prisma.SortOrder
   accountNumber?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  bankCode?: Prisma.SortOrder
+  branchName?: Prisma.SortOrder
+  mobileNumber?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  isDefault?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -435,8 +529,11 @@ export type FinancialAccountMaxOrderByAggregateInput = {
   provider?: Prisma.SortOrder
   accountName?: Prisma.SortOrder
   accountNumber?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  bankCode?: Prisma.SortOrder
+  branchName?: Prisma.SortOrder
+  mobileNumber?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  isDefault?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -449,8 +546,11 @@ export type FinancialAccountMinOrderByAggregateInput = {
   provider?: Prisma.SortOrder
   accountName?: Prisma.SortOrder
   accountNumber?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  bankCode?: Prisma.SortOrder
+  branchName?: Prisma.SortOrder
+  mobileNumber?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  isDefault?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -466,6 +566,12 @@ export type FinancialAccountCreateNestedManyWithoutUserInput = {
   connectOrCreate?: Prisma.FinancialAccountCreateOrConnectWithoutUserInput | Prisma.FinancialAccountCreateOrConnectWithoutUserInput[]
   createMany?: Prisma.FinancialAccountCreateManyUserInputEnvelope
   connect?: Prisma.FinancialAccountWhereUniqueInput | Prisma.FinancialAccountWhereUniqueInput[]
+}
+
+export type FinancialAccountCreateNestedOneWithoutDefaultForUserInput = {
+  create?: Prisma.XOR<Prisma.FinancialAccountCreateWithoutDefaultForUserInput, Prisma.FinancialAccountUncheckedCreateWithoutDefaultForUserInput>
+  connectOrCreate?: Prisma.FinancialAccountCreateOrConnectWithoutDefaultForUserInput
+  connect?: Prisma.FinancialAccountWhereUniqueInput
 }
 
 export type FinancialAccountUncheckedCreateNestedManyWithoutUserInput = {
@@ -487,6 +593,16 @@ export type FinancialAccountUpdateManyWithoutUserNestedInput = {
   update?: Prisma.FinancialAccountUpdateWithWhereUniqueWithoutUserInput | Prisma.FinancialAccountUpdateWithWhereUniqueWithoutUserInput[]
   updateMany?: Prisma.FinancialAccountUpdateManyWithWhereWithoutUserInput | Prisma.FinancialAccountUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.FinancialAccountScalarWhereInput | Prisma.FinancialAccountScalarWhereInput[]
+}
+
+export type FinancialAccountUpdateOneWithoutDefaultForUserNestedInput = {
+  create?: Prisma.XOR<Prisma.FinancialAccountCreateWithoutDefaultForUserInput, Prisma.FinancialAccountUncheckedCreateWithoutDefaultForUserInput>
+  connectOrCreate?: Prisma.FinancialAccountCreateOrConnectWithoutDefaultForUserInput
+  upsert?: Prisma.FinancialAccountUpsertWithoutDefaultForUserInput
+  disconnect?: Prisma.FinancialAccountWhereInput | boolean
+  delete?: Prisma.FinancialAccountWhereInput | boolean
+  connect?: Prisma.FinancialAccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FinancialAccountUpdateToOneWithWhereWithoutDefaultForUserInput, Prisma.FinancialAccountUpdateWithoutDefaultForUserInput>, Prisma.FinancialAccountUncheckedUpdateWithoutDefaultForUserInput>
 }
 
 export type FinancialAccountUncheckedUpdateManyWithoutUserNestedInput = {
@@ -527,12 +643,17 @@ export type FinancialAccountCreateWithoutUserInput = {
   provider: string
   accountName: string
   accountNumber: string
+  countryCode?: string
+  bankCode?: string | null
+  branchName?: string | null
+  mobileNumber?: string | null
   label?: string | null
-  isDefault?: boolean
   isActive?: boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutFinancialAccountInput
+  defaultForUser?: Prisma.UserCreateNestedOneWithoutDefaultFinancialAccountInput
 }
 
 export type FinancialAccountUncheckedCreateWithoutUserInput = {
@@ -541,12 +662,17 @@ export type FinancialAccountUncheckedCreateWithoutUserInput = {
   provider: string
   accountName: string
   accountNumber: string
+  countryCode?: string
+  bankCode?: string | null
+  branchName?: string | null
+  mobileNumber?: string | null
   label?: string | null
-  isDefault?: boolean
   isActive?: boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutFinancialAccountInput
+  defaultForUser?: Prisma.UserUncheckedCreateNestedOneWithoutDefaultFinancialAccountInput
 }
 
 export type FinancialAccountCreateOrConnectWithoutUserInput = {
@@ -557,6 +683,49 @@ export type FinancialAccountCreateOrConnectWithoutUserInput = {
 export type FinancialAccountCreateManyUserInputEnvelope = {
   data: Prisma.FinancialAccountCreateManyUserInput | Prisma.FinancialAccountCreateManyUserInput[]
   skipDuplicates?: boolean
+}
+
+export type FinancialAccountCreateWithoutDefaultForUserInput = {
+  id?: string
+  type: $Enums.FinancialAccountType
+  provider: string
+  accountName: string
+  accountNumber: string
+  countryCode?: string
+  bankCode?: string | null
+  branchName?: string | null
+  mobileNumber?: string | null
+  label?: string | null
+  isActive?: boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutFinancialAccountsInput
+  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutFinancialAccountInput
+}
+
+export type FinancialAccountUncheckedCreateWithoutDefaultForUserInput = {
+  id?: string
+  userId: string
+  type: $Enums.FinancialAccountType
+  provider: string
+  accountName: string
+  accountNumber: string
+  countryCode?: string
+  bankCode?: string | null
+  branchName?: string | null
+  mobileNumber?: string | null
+  label?: string | null
+  isActive?: boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutFinancialAccountInput
+}
+
+export type FinancialAccountCreateOrConnectWithoutDefaultForUserInput = {
+  where: Prisma.FinancialAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.FinancialAccountCreateWithoutDefaultForUserInput, Prisma.FinancialAccountUncheckedCreateWithoutDefaultForUserInput>
 }
 
 export type FinancialAccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -585,11 +754,64 @@ export type FinancialAccountScalarWhereInput = {
   provider?: Prisma.StringFilter<"FinancialAccount"> | string
   accountName?: Prisma.StringFilter<"FinancialAccount"> | string
   accountNumber?: Prisma.StringFilter<"FinancialAccount"> | string
+  countryCode?: Prisma.StringFilter<"FinancialAccount"> | string
+  bankCode?: Prisma.StringNullableFilter<"FinancialAccount"> | string | null
+  branchName?: Prisma.StringNullableFilter<"FinancialAccount"> | string | null
+  mobileNumber?: Prisma.StringNullableFilter<"FinancialAccount"> | string | null
   label?: Prisma.StringNullableFilter<"FinancialAccount"> | string | null
-  isDefault?: Prisma.BoolFilter<"FinancialAccount"> | boolean
   isActive?: Prisma.BoolFilter<"FinancialAccount"> | boolean
+  metadata?: Prisma.JsonNullableFilter<"FinancialAccount">
   createdAt?: Prisma.DateTimeFilter<"FinancialAccount"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FinancialAccount"> | Date | string
+}
+
+export type FinancialAccountUpsertWithoutDefaultForUserInput = {
+  update: Prisma.XOR<Prisma.FinancialAccountUpdateWithoutDefaultForUserInput, Prisma.FinancialAccountUncheckedUpdateWithoutDefaultForUserInput>
+  create: Prisma.XOR<Prisma.FinancialAccountCreateWithoutDefaultForUserInput, Prisma.FinancialAccountUncheckedCreateWithoutDefaultForUserInput>
+  where?: Prisma.FinancialAccountWhereInput
+}
+
+export type FinancialAccountUpdateToOneWithWhereWithoutDefaultForUserInput = {
+  where?: Prisma.FinancialAccountWhereInput
+  data: Prisma.XOR<Prisma.FinancialAccountUpdateWithoutDefaultForUserInput, Prisma.FinancialAccountUncheckedUpdateWithoutDefaultForUserInput>
+}
+
+export type FinancialAccountUpdateWithoutDefaultForUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumFinancialAccountTypeFieldUpdateOperationsInput | $Enums.FinancialAccountType
+  provider?: Prisma.StringFieldUpdateOperationsInput | string
+  accountName?: Prisma.StringFieldUpdateOperationsInput | string
+  accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  bankCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branchName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutFinancialAccountsNestedInput
+  withdrawals?: Prisma.WithdrawalUpdateManyWithoutFinancialAccountNestedInput
+}
+
+export type FinancialAccountUncheckedUpdateWithoutDefaultForUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumFinancialAccountTypeFieldUpdateOperationsInput | $Enums.FinancialAccountType
+  provider?: Prisma.StringFieldUpdateOperationsInput | string
+  accountName?: Prisma.StringFieldUpdateOperationsInput | string
+  accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  bankCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branchName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutFinancialAccountNestedInput
 }
 
 export type FinancialAccountCreateWithoutWithdrawalsInput = {
@@ -598,12 +820,17 @@ export type FinancialAccountCreateWithoutWithdrawalsInput = {
   provider: string
   accountName: string
   accountNumber: string
+  countryCode?: string
+  bankCode?: string | null
+  branchName?: string | null
+  mobileNumber?: string | null
   label?: string | null
-  isDefault?: boolean
   isActive?: boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutFinancialAccountsInput
+  defaultForUser?: Prisma.UserCreateNestedOneWithoutDefaultFinancialAccountInput
 }
 
 export type FinancialAccountUncheckedCreateWithoutWithdrawalsInput = {
@@ -613,11 +840,16 @@ export type FinancialAccountUncheckedCreateWithoutWithdrawalsInput = {
   provider: string
   accountName: string
   accountNumber: string
+  countryCode?: string
+  bankCode?: string | null
+  branchName?: string | null
+  mobileNumber?: string | null
   label?: string | null
-  isDefault?: boolean
   isActive?: boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  defaultForUser?: Prisma.UserUncheckedCreateNestedOneWithoutDefaultFinancialAccountInput
 }
 
 export type FinancialAccountCreateOrConnectWithoutWithdrawalsInput = {
@@ -642,12 +874,17 @@ export type FinancialAccountUpdateWithoutWithdrawalsInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  bankCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branchName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutFinancialAccountsNestedInput
+  defaultForUser?: Prisma.UserUpdateOneWithoutDefaultFinancialAccountNestedInput
 }
 
 export type FinancialAccountUncheckedUpdateWithoutWithdrawalsInput = {
@@ -657,11 +894,16 @@ export type FinancialAccountUncheckedUpdateWithoutWithdrawalsInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  bankCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branchName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  defaultForUser?: Prisma.UserUncheckedUpdateOneWithoutDefaultFinancialAccountNestedInput
 }
 
 export type FinancialAccountCreateManyUserInput = {
@@ -670,9 +912,13 @@ export type FinancialAccountCreateManyUserInput = {
   provider: string
   accountName: string
   accountNumber: string
+  countryCode?: string
+  bankCode?: string | null
+  branchName?: string | null
+  mobileNumber?: string | null
   label?: string | null
-  isDefault?: boolean
   isActive?: boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -683,12 +929,17 @@ export type FinancialAccountUpdateWithoutUserInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  bankCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branchName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutFinancialAccountNestedInput
+  defaultForUser?: Prisma.UserUpdateOneWithoutDefaultFinancialAccountNestedInput
 }
 
 export type FinancialAccountUncheckedUpdateWithoutUserInput = {
@@ -697,12 +948,17 @@ export type FinancialAccountUncheckedUpdateWithoutUserInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  bankCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branchName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutFinancialAccountNestedInput
+  defaultForUser?: Prisma.UserUncheckedUpdateOneWithoutDefaultFinancialAccountNestedInput
 }
 
 export type FinancialAccountUncheckedUpdateManyWithoutUserInput = {
@@ -711,9 +967,13 @@ export type FinancialAccountUncheckedUpdateManyWithoutUserInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
   accountNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.StringFieldUpdateOperationsInput | string
+  bankCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branchName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   label?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -756,13 +1016,18 @@ export type FinancialAccountSelect<ExtArgs extends runtime.Types.Extensions.Inte
   provider?: boolean
   accountName?: boolean
   accountNumber?: boolean
+  countryCode?: boolean
+  bankCode?: boolean
+  branchName?: boolean
+  mobileNumber?: boolean
   label?: boolean
-  isDefault?: boolean
   isActive?: boolean
+  metadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   withdrawals?: boolean | Prisma.FinancialAccount$withdrawalsArgs<ExtArgs>
+  defaultForUser?: boolean | Prisma.FinancialAccount$defaultForUserArgs<ExtArgs>
   _count?: boolean | Prisma.FinancialAccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["financialAccount"]>
 
@@ -773,9 +1038,13 @@ export type FinancialAccountSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   provider?: boolean
   accountName?: boolean
   accountNumber?: boolean
+  countryCode?: boolean
+  bankCode?: boolean
+  branchName?: boolean
+  mobileNumber?: boolean
   label?: boolean
-  isDefault?: boolean
   isActive?: boolean
+  metadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -788,9 +1057,13 @@ export type FinancialAccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   provider?: boolean
   accountName?: boolean
   accountNumber?: boolean
+  countryCode?: boolean
+  bankCode?: boolean
+  branchName?: boolean
+  mobileNumber?: boolean
   label?: boolean
-  isDefault?: boolean
   isActive?: boolean
+  metadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -803,17 +1076,22 @@ export type FinancialAccountSelectScalar = {
   provider?: boolean
   accountName?: boolean
   accountNumber?: boolean
+  countryCode?: boolean
+  bankCode?: boolean
+  branchName?: boolean
+  mobileNumber?: boolean
   label?: boolean
-  isDefault?: boolean
   isActive?: boolean
+  metadata?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type FinancialAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "type" | "provider" | "accountName" | "accountNumber" | "label" | "isDefault" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["financialAccount"]>
+export type FinancialAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "type" | "provider" | "accountName" | "accountNumber" | "countryCode" | "bankCode" | "branchName" | "mobileNumber" | "label" | "isActive" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["financialAccount"]>
 export type FinancialAccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   withdrawals?: boolean | Prisma.FinancialAccount$withdrawalsArgs<ExtArgs>
+  defaultForUser?: boolean | Prisma.FinancialAccount$defaultForUserArgs<ExtArgs>
   _count?: boolean | Prisma.FinancialAccountCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FinancialAccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -828,6 +1106,7 @@ export type $FinancialAccountPayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     withdrawals: Prisma.$WithdrawalPayload<ExtArgs>[]
+    defaultForUser: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -836,9 +1115,13 @@ export type $FinancialAccountPayload<ExtArgs extends runtime.Types.Extensions.In
     provider: string
     accountName: string
     accountNumber: string
+    countryCode: string
+    bankCode: string | null
+    branchName: string | null
+    mobileNumber: string | null
     label: string | null
-    isDefault: boolean
     isActive: boolean
+    metadata: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["financialAccount"]>
@@ -1237,6 +1520,7 @@ export interface Prisma__FinancialAccountClient<T, Null = never, ExtArgs extends
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   withdrawals<T extends Prisma.FinancialAccount$withdrawalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FinancialAccount$withdrawalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  defaultForUser<T extends Prisma.FinancialAccount$defaultForUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FinancialAccount$defaultForUserArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1272,9 +1556,13 @@ export interface FinancialAccountFieldRefs {
   readonly provider: Prisma.FieldRef<"FinancialAccount", 'String'>
   readonly accountName: Prisma.FieldRef<"FinancialAccount", 'String'>
   readonly accountNumber: Prisma.FieldRef<"FinancialAccount", 'String'>
+  readonly countryCode: Prisma.FieldRef<"FinancialAccount", 'String'>
+  readonly bankCode: Prisma.FieldRef<"FinancialAccount", 'String'>
+  readonly branchName: Prisma.FieldRef<"FinancialAccount", 'String'>
+  readonly mobileNumber: Prisma.FieldRef<"FinancialAccount", 'String'>
   readonly label: Prisma.FieldRef<"FinancialAccount", 'String'>
-  readonly isDefault: Prisma.FieldRef<"FinancialAccount", 'Boolean'>
   readonly isActive: Prisma.FieldRef<"FinancialAccount", 'Boolean'>
+  readonly metadata: Prisma.FieldRef<"FinancialAccount", 'Json'>
   readonly createdAt: Prisma.FieldRef<"FinancialAccount", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"FinancialAccount", 'DateTime'>
 }
@@ -1699,6 +1987,25 @@ export type FinancialAccount$withdrawalsArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.WithdrawalScalarFieldEnum | Prisma.WithdrawalScalarFieldEnum[]
+}
+
+/**
+ * FinancialAccount.defaultForUser
+ */
+export type FinancialAccount$defaultForUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

@@ -3,6 +3,12 @@ import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
 import { PrismaService } from '../prisma/prisma.service';
 
+export type TelegramDeliveryResult = {
+  ok: boolean;
+  retryable: boolean;
+  reason: string;
+};
+
 @Injectable()
 export class TelegramService {
   private readonly logger = new Logger(TelegramService.name);
@@ -21,10 +27,14 @@ export class TelegramService {
     userId: string,
     text: string,
     options?: { parseMode?: 'HTML' | 'MarkdownV2' },
-  ): Promise<boolean> {
+  ): Promise<TelegramDeliveryResult> {
     if (!this.botToken) {
       this.logger.warn('Telegram bot token not configured');
-      return false;
+      return {
+        ok: false,
+        retryable: false,
+        reason: 'Telegram bot token not configured',
+      };
     }
 
     const user = await this.prisma.user.findUnique({
@@ -32,7 +42,13 @@ export class TelegramService {
       select: { telegramId: true },
     });
 
-    if (!user?.telegramId) return false;
+    if (!user?.telegramId) {
+      return {
+        ok: false,
+        retryable: false,
+        reason: `User ${userId} has no linked Telegram account`,
+      };
+    }
 
     return this.sendMessage(user.telegramId, text, options);
   }
@@ -41,8 +57,14 @@ export class TelegramService {
     chatId: string,
     text: string,
     options?: { parseMode?: 'HTML' | 'MarkdownV2' },
-  ): Promise<boolean> {
-    if (!this.botToken) return false;
+  ): Promise<TelegramDeliveryResult> {
+    if (!this.botToken) {
+      return {
+        ok: false,
+        retryable: false,
+        reason: 'Telegram bot token not configured',
+      };
+    }
 
     try {
       await axios.post(`${this.apiBase}/sendMessage`, {
@@ -50,10 +72,24 @@ export class TelegramService {
         text,
         parse_mode: options?.parseMode ?? 'HTML',
       });
-      return true;
+      return { ok: true, retryable: false, reason: 'sent' };
     } catch (error) {
       this.logger.error('Failed to send Telegram message', error);
-      return false;
+      const status = axios.isAxiosError(error) ? error.response?.status : null;
+
+      if (status === 400 || status === 403 || status === 404) {
+        return {
+          ok: false,
+          retryable: false,
+          reason: `Telegram rejected delivery for chat ${chatId}`,
+        };
+      }
+
+      return {
+        ok: false,
+        retryable: true,
+        reason: 'Telegram delivery failed',
+      };
     }
   }
 
@@ -63,7 +99,7 @@ export class TelegramService {
     coffeeCount: number;
     amount: number;
     message?: string;
-  }): Promise<void> {
+  }): Promise<TelegramDeliveryResult> {
     const coffeeEmoji = '☕'.repeat(Math.min(params.coffeeCount, 5));
     const amountFormatted = new Intl.NumberFormat('am-ET', {
       style: 'currency',
@@ -78,7 +114,7 @@ export class TelegramService {
       text += `\n💬 "${params.message}"`;
     }
 
-    await this.sendMessageToUser(params.creatorUserId, text, {
+    return this.sendMessageToUser(params.creatorUserId, text, {
       parseMode: 'HTML',
     });
   }

@@ -6,21 +6,13 @@ import { SupportService } from './support.service';
 describe('SupportService', () => {
   const prisma = {
     support: {
-      findUnique: jest.fn(),
-      update: jest.fn(),
-      updateMany: jest.fn(),
-      count: jest.fn(),
+      findFirst: jest.fn(),
     },
-    wallet: { update: jest.fn() },
-    walletTransaction: { create: jest.fn() },
-    notification: { create: jest.fn() },
-    creatorProfile: { update: jest.fn() },
     webhookEvent: {
       create: jest.fn(),
       findUnique: jest.fn(),
       update: jest.fn(),
     },
-    $transaction: jest.fn(),
   } as any;
 
   const chapa = {
@@ -30,8 +22,14 @@ describe('SupportService', () => {
     verifyPayment: jest.fn(),
   } as any;
 
-  const telegram = {
-    notifyCreatorOfSupport: jest.fn().mockResolvedValue(undefined),
+  const supportValidation = {
+    prepareInitiationContext: jest.fn(),
+  } as any;
+
+  const supportPayment = {
+    getSupportForPayment: jest.fn(),
+    markPaymentFailed: jest.fn(),
+    applyCompletedPayment: jest.fn(),
   } as any;
 
   let service: SupportService;
@@ -41,7 +39,6 @@ describe('SupportService', () => {
     service = new SupportService(
       prisma,
       chapa,
-      telegram,
       {
         get: jest.fn((key: string) => {
           if (key === 'apiUrl') return 'http://localhost:3000';
@@ -49,18 +46,23 @@ describe('SupportService', () => {
           return undefined;
         }),
       } as unknown as ConfigService,
+      supportValidation,
+      supportPayment,
     );
   });
 
   it('rejects verified payments whose amount does not match the original support', async () => {
-    prisma.support.findUnique.mockResolvedValue({
+    prisma.support.findFirst.mockResolvedValue({ status: 'PENDING' });
+    supportPayment.getSupportForPayment.mockResolvedValue({
       id: 'support_1',
       creatorProfileId: 'creator_profile_1',
-      creatorProfile: { user: { id: 'creator_1' } },
+      creatorProfile: { payoutHoldDays: 3, user: { id: 'creator_1' } },
+      paymentIntent: { id: 'pi_1' },
       amount: new Prisma.Decimal(150),
       netAmount: new Prisma.Decimal(142.5),
       currency: 'ETB',
       status: 'PENDING',
+      paymentAppliedAt: null,
       walletCredited: false,
       supporterId: null,
       supporterEmail: 'fan@example.com',
@@ -83,23 +85,24 @@ describe('SupportService', () => {
   });
 
   it('treats concurrent completion as already completed instead of double-crediting', async () => {
-    prisma.support.findUnique
-      .mockResolvedValueOnce({ status: 'PENDING' })
-      .mockResolvedValueOnce({
-        id: 'support_1',
-        creatorProfileId: 'creator_profile_1',
-        creatorProfile: { user: { id: 'creator_1' } },
-        amount: new Prisma.Decimal(150),
-        netAmount: new Prisma.Decimal(142.5),
-        currency: 'ETB',
-        status: 'PENDING',
-        walletCredited: false,
-        supporterId: 'supporter_1',
-        supporterEmail: 'fan@example.com',
-        supporterName: 'Fan',
-        coffeeCount: 3,
-        message: 'Love your work',
-      });
+    prisma.support.findFirst.mockResolvedValue({ status: 'PENDING' });
+    supportPayment.getSupportForPayment.mockResolvedValue({
+      id: 'support_1',
+      creatorProfileId: 'creator_profile_1',
+      creatorProfile: { payoutHoldDays: 3, user: { id: 'creator_1' } },
+      paymentIntent: { id: 'pi_1' },
+      amount: new Prisma.Decimal(150),
+      netAmount: new Prisma.Decimal(142.5),
+      currency: 'ETB',
+      status: 'PENDING',
+      paymentAppliedAt: null,
+      walletCredited: false,
+      supporterId: 'supporter_1',
+      supporterEmail: 'fan@example.com',
+      supporterName: 'Fan',
+      coffeeCount: 3,
+      message: 'Love your work',
+    });
     chapa.verifyPayment.mockResolvedValue({
       data: {
         status: 'success',
@@ -108,11 +111,73 @@ describe('SupportService', () => {
         tx_ref: 'tx_1',
       },
     });
-    prisma.$transaction.mockResolvedValue(false);
+    supportPayment.applyCompletedPayment.mockResolvedValue({
+      paymentApplied: false,
+      creatorUserId: 'creator_1',
+      rewardDelivery: null,
+    });
 
     const result = await service.verifyAndComplete('tx_1');
 
     expect(result).toEqual({ status: 'already_completed' });
-    expect(telegram.notifyCreatorOfSupport).not.toHaveBeenCalled();
+    expect(supportPayment.applyCompletedPayment).toHaveBeenCalled();
+  });
+
+  it('treats supports with paymentAppliedAt set as already completed', async () => {
+    prisma.support.findFirst.mockResolvedValue({ status: 'PENDING' });
+    supportPayment.getSupportForPayment.mockResolvedValue({
+      id: 'support_1',
+      creatorProfileId: 'creator_profile_1',
+      creatorProfile: { payoutHoldDays: 3, user: { id: 'creator_1' } },
+      paymentIntent: { id: 'pi_1' },
+      amount: new Prisma.Decimal(150),
+      netAmount: new Prisma.Decimal(142.5),
+      currency: 'ETB',
+      status: 'COMPLETED',
+      paymentAppliedAt: new Date('2026-03-01T10:00:00.000Z'),
+      walletCredited: false,
+      supporterId: 'supporter_1',
+      supporterEmail: 'fan@example.com',
+      supporterName: 'Fan',
+      coffeeCount: 3,
+      message: 'Love your work',
+    });
+
+    const result = await service.verifyAndComplete('tx_1');
+
+    expect(result).toEqual({ status: 'already_completed' });
+    expect(chapa.verifyPayment).not.toHaveBeenCalled();
+    expect(supportPayment.applyCompletedPayment).not.toHaveBeenCalled();
+  });
+
+  it('treats already failed supports as failed without replaying the transition', async () => {
+    prisma.support.findFirst.mockResolvedValue({ status: 'FAILED' });
+    supportPayment.getSupportForPayment.mockResolvedValue({
+      id: 'support_1',
+      creatorProfileId: 'creator_profile_1',
+      creatorProfile: { payoutHoldDays: 3, user: { id: 'creator_1' } },
+      paymentIntent: { id: 'pi_1', status: 'FAILED' },
+      amount: new Prisma.Decimal(150),
+      netAmount: new Prisma.Decimal(142.5),
+      currency: 'ETB',
+      status: 'FAILED',
+      paymentAppliedAt: null,
+      walletCredited: false,
+      supporterId: null,
+      supporterEmail: 'fan@example.com',
+      supporterName: 'Fan',
+      coffeeCount: 3,
+      message: 'Love your work',
+    });
+
+    const result = await service.verifyAndComplete('tx_1');
+
+    expect(result).toEqual({
+      status: 'failed',
+      message:
+        'This payment was already marked as failed. In test mode, use one of Chapa’s approved sandbox numbers for the selected payment method.',
+    });
+    expect(chapa.verifyPayment).not.toHaveBeenCalled();
+    expect(supportPayment.markPaymentFailed).not.toHaveBeenCalled();
   });
 });

@@ -165,7 +165,7 @@ export type PaidVoteGroupByOutputType = {
   _max: PaidVoteMaxAggregateOutputType | null
 }
 
-type GetPaidVoteGroupByPayload<T extends PaidVoteGroupByArgs> = Prisma.PrismaPromise<
+export type GetPaidVoteGroupByPayload<T extends PaidVoteGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PaidVoteGroupByOutputType, T['by']> &
       {
@@ -212,6 +212,7 @@ export type PaidVoteOrderByWithRelationInput = {
 export type PaidVoteWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   supportId?: string
+  supportId_pollId_optionId?: Prisma.PaidVoteSupportIdPollIdOptionIdCompoundUniqueInput
   AND?: Prisma.PaidVoteWhereInput | Prisma.PaidVoteWhereInput[]
   OR?: Prisma.PaidVoteWhereInput[]
   NOT?: Prisma.PaidVoteWhereInput | Prisma.PaidVoteWhereInput[]
@@ -223,7 +224,7 @@ export type PaidVoteWhereUniqueInput = Prisma.AtLeast<{
   option?: Prisma.XOR<Prisma.PollOptionScalarRelationFilter, Prisma.PollOptionWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   support?: Prisma.XOR<Prisma.SupportScalarRelationFilter, Prisma.SupportWhereInput>
-}, "id" | "supportId">
+}, "id" | "supportId" | "supportId_pollId_optionId">
 
 export type PaidVoteOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -321,6 +322,12 @@ export type PaidVoteOrderByRelationAggregateInput = {
 export type PaidVoteNullableScalarRelationFilter = {
   is?: Prisma.PaidVoteWhereInput | null
   isNot?: Prisma.PaidVoteWhereInput | null
+}
+
+export type PaidVoteSupportIdPollIdOptionIdCompoundUniqueInput = {
+  supportId: string
+  pollId: string
+  optionId: string
 }
 
 export type PaidVoteCountOrderByAggregateInput = {
@@ -662,7 +669,6 @@ export type PaidVoteCreateWithoutOptionInput = {
 
 export type PaidVoteUncheckedCreateWithoutOptionInput = {
   id?: string
-  pollId: string
   userId: string
   supportId: string
   createdAt?: Date | string
@@ -760,7 +766,6 @@ export type PaidVoteUncheckedUpdateManyWithoutPollInput = {
 
 export type PaidVoteCreateManyOptionInput = {
   id?: string
-  pollId: string
   userId: string
   supportId: string
   createdAt?: Date | string
@@ -776,7 +781,6 @@ export type PaidVoteUpdateWithoutOptionInput = {
 
 export type PaidVoteUncheckedUpdateWithoutOptionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  pollId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   supportId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -784,7 +788,6 @@ export type PaidVoteUncheckedUpdateWithoutOptionInput = {
 
 export type PaidVoteUncheckedUpdateManyWithoutOptionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  pollId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   supportId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string

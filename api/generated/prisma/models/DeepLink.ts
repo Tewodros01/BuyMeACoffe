@@ -45,12 +45,15 @@ export type DeepLinkMinAggregateOutputType = {
   creatorProfileId: string | null
   slug: string | null
   source: string | null
+  destinationUrl: string | null
+  isActive: boolean | null
   clicks: number | null
   uniqueClicks: number | null
   conversions: number | null
   revenue: runtime.Decimal | null
   campaignTag: string | null
   videoId: string | null
+  lastClickedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -60,12 +63,15 @@ export type DeepLinkMaxAggregateOutputType = {
   creatorProfileId: string | null
   slug: string | null
   source: string | null
+  destinationUrl: string | null
+  isActive: boolean | null
   clicks: number | null
   uniqueClicks: number | null
   conversions: number | null
   revenue: runtime.Decimal | null
   campaignTag: string | null
   videoId: string | null
+  lastClickedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -75,12 +81,15 @@ export type DeepLinkCountAggregateOutputType = {
   creatorProfileId: number
   slug: number
   source: number
+  destinationUrl: number
+  isActive: number
   clicks: number
   uniqueClicks: number
   conversions: number
   revenue: number
   campaignTag: number
   videoId: number
+  lastClickedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -106,12 +115,15 @@ export type DeepLinkMinAggregateInputType = {
   creatorProfileId?: true
   slug?: true
   source?: true
+  destinationUrl?: true
+  isActive?: true
   clicks?: true
   uniqueClicks?: true
   conversions?: true
   revenue?: true
   campaignTag?: true
   videoId?: true
+  lastClickedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -121,12 +133,15 @@ export type DeepLinkMaxAggregateInputType = {
   creatorProfileId?: true
   slug?: true
   source?: true
+  destinationUrl?: true
+  isActive?: true
   clicks?: true
   uniqueClicks?: true
   conversions?: true
   revenue?: true
   campaignTag?: true
   videoId?: true
+  lastClickedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -136,12 +151,15 @@ export type DeepLinkCountAggregateInputType = {
   creatorProfileId?: true
   slug?: true
   source?: true
+  destinationUrl?: true
+  isActive?: true
   clicks?: true
   uniqueClicks?: true
   conversions?: true
   revenue?: true
   campaignTag?: true
   videoId?: true
+  lastClickedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -238,12 +256,15 @@ export type DeepLinkGroupByOutputType = {
   creatorProfileId: string
   slug: string
   source: string
+  destinationUrl: string | null
+  isActive: boolean
   clicks: number
   uniqueClicks: number
   conversions: number
   revenue: runtime.Decimal
   campaignTag: string | null
   videoId: string | null
+  lastClickedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: DeepLinkCountAggregateOutputType | null
@@ -253,7 +274,7 @@ export type DeepLinkGroupByOutputType = {
   _max: DeepLinkMaxAggregateOutputType | null
 }
 
-type GetDeepLinkGroupByPayload<T extends DeepLinkGroupByArgs> = Prisma.PrismaPromise<
+export type GetDeepLinkGroupByPayload<T extends DeepLinkGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<DeepLinkGroupByOutputType, T['by']> &
       {
@@ -276,12 +297,15 @@ export type DeepLinkWhereInput = {
   creatorProfileId?: Prisma.StringFilter<"DeepLink"> | string
   slug?: Prisma.StringFilter<"DeepLink"> | string
   source?: Prisma.StringFilter<"DeepLink"> | string
+  destinationUrl?: Prisma.StringNullableFilter<"DeepLink"> | string | null
+  isActive?: Prisma.BoolFilter<"DeepLink"> | boolean
   clicks?: Prisma.IntFilter<"DeepLink"> | number
   uniqueClicks?: Prisma.IntFilter<"DeepLink"> | number
   conversions?: Prisma.IntFilter<"DeepLink"> | number
   revenue?: Prisma.DecimalFilter<"DeepLink"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.StringNullableFilter<"DeepLink"> | string | null
   videoId?: Prisma.StringNullableFilter<"DeepLink"> | string | null
+  lastClickedAt?: Prisma.DateTimeNullableFilter<"DeepLink"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"DeepLink"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DeepLink"> | Date | string
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileScalarRelationFilter, Prisma.CreatorProfileWhereInput>
@@ -294,12 +318,15 @@ export type DeepLinkOrderByWithRelationInput = {
   creatorProfileId?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   source?: Prisma.SortOrder
+  destinationUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   clicks?: Prisma.SortOrder
   uniqueClicks?: Prisma.SortOrder
   conversions?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
   campaignTag?: Prisma.SortOrderInput | Prisma.SortOrder
   videoId?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastClickedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   creatorProfile?: Prisma.CreatorProfileOrderByWithRelationInput
@@ -310,35 +337,42 @@ export type DeepLinkOrderByWithRelationInput = {
 export type DeepLinkWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   slug?: string
+  id_creatorProfileId?: Prisma.DeepLinkIdCreatorProfileIdCompoundUniqueInput
   AND?: Prisma.DeepLinkWhereInput | Prisma.DeepLinkWhereInput[]
   OR?: Prisma.DeepLinkWhereInput[]
   NOT?: Prisma.DeepLinkWhereInput | Prisma.DeepLinkWhereInput[]
   creatorProfileId?: Prisma.StringFilter<"DeepLink"> | string
   source?: Prisma.StringFilter<"DeepLink"> | string
+  destinationUrl?: Prisma.StringNullableFilter<"DeepLink"> | string | null
+  isActive?: Prisma.BoolFilter<"DeepLink"> | boolean
   clicks?: Prisma.IntFilter<"DeepLink"> | number
   uniqueClicks?: Prisma.IntFilter<"DeepLink"> | number
   conversions?: Prisma.IntFilter<"DeepLink"> | number
   revenue?: Prisma.DecimalFilter<"DeepLink"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.StringNullableFilter<"DeepLink"> | string | null
   videoId?: Prisma.StringNullableFilter<"DeepLink"> | string | null
+  lastClickedAt?: Prisma.DateTimeNullableFilter<"DeepLink"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"DeepLink"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DeepLink"> | Date | string
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileScalarRelationFilter, Prisma.CreatorProfileWhereInput>
   supports?: Prisma.SupportListRelationFilter
   visits?: Prisma.DeepLinkVisitListRelationFilter
-}, "id" | "slug">
+}, "id" | "slug" | "id_creatorProfileId">
 
 export type DeepLinkOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   source?: Prisma.SortOrder
+  destinationUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   clicks?: Prisma.SortOrder
   uniqueClicks?: Prisma.SortOrder
   conversions?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
   campaignTag?: Prisma.SortOrderInput | Prisma.SortOrder
   videoId?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastClickedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DeepLinkCountOrderByAggregateInput
@@ -356,12 +390,15 @@ export type DeepLinkScalarWhereWithAggregatesInput = {
   creatorProfileId?: Prisma.StringWithAggregatesFilter<"DeepLink"> | string
   slug?: Prisma.StringWithAggregatesFilter<"DeepLink"> | string
   source?: Prisma.StringWithAggregatesFilter<"DeepLink"> | string
+  destinationUrl?: Prisma.StringNullableWithAggregatesFilter<"DeepLink"> | string | null
+  isActive?: Prisma.BoolWithAggregatesFilter<"DeepLink"> | boolean
   clicks?: Prisma.IntWithAggregatesFilter<"DeepLink"> | number
   uniqueClicks?: Prisma.IntWithAggregatesFilter<"DeepLink"> | number
   conversions?: Prisma.IntWithAggregatesFilter<"DeepLink"> | number
   revenue?: Prisma.DecimalWithAggregatesFilter<"DeepLink"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.StringNullableWithAggregatesFilter<"DeepLink"> | string | null
   videoId?: Prisma.StringNullableWithAggregatesFilter<"DeepLink"> | string | null
+  lastClickedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"DeepLink"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DeepLink"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"DeepLink"> | Date | string
 }
@@ -370,12 +407,15 @@ export type DeepLinkCreateInput = {
   id?: string
   slug: string
   source: string
+  destinationUrl?: string | null
+  isActive?: boolean
   clicks?: number
   uniqueClicks?: number
   conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: string | null
   videoId?: string | null
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutDeepLinksInput
@@ -388,12 +428,15 @@ export type DeepLinkUncheckedCreateInput = {
   creatorProfileId: string
   slug: string
   source: string
+  destinationUrl?: string | null
+  isActive?: boolean
   clicks?: number
   uniqueClicks?: number
   conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: string | null
   videoId?: string | null
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutDeepLinkInput
@@ -404,12 +447,15 @@ export type DeepLinkUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   uniqueClicks?: Prisma.IntFieldUpdateOperationsInput | number
   conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutDeepLinksNestedInput
@@ -422,12 +468,15 @@ export type DeepLinkUncheckedUpdateInput = {
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   uniqueClicks?: Prisma.IntFieldUpdateOperationsInput | number
   conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUncheckedUpdateManyWithoutDeepLinkNestedInput
@@ -439,12 +488,15 @@ export type DeepLinkCreateManyInput = {
   creatorProfileId: string
   slug: string
   source: string
+  destinationUrl?: string | null
+  isActive?: boolean
   clicks?: number
   uniqueClicks?: number
   conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: string | null
   videoId?: string | null
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -453,12 +505,15 @@ export type DeepLinkUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   uniqueClicks?: Prisma.IntFieldUpdateOperationsInput | number
   conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -468,12 +523,15 @@ export type DeepLinkUncheckedUpdateManyInput = {
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   uniqueClicks?: Prisma.IntFieldUpdateOperationsInput | number
   conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -493,17 +551,25 @@ export type DeepLinkNullableScalarRelationFilter = {
   isNot?: Prisma.DeepLinkWhereInput | null
 }
 
+export type DeepLinkIdCreatorProfileIdCompoundUniqueInput = {
+  id: string
+  creatorProfileId: string
+}
+
 export type DeepLinkCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   source?: Prisma.SortOrder
+  destinationUrl?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   clicks?: Prisma.SortOrder
   uniqueClicks?: Prisma.SortOrder
   conversions?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
   campaignTag?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
+  lastClickedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -520,12 +586,15 @@ export type DeepLinkMaxOrderByAggregateInput = {
   creatorProfileId?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   source?: Prisma.SortOrder
+  destinationUrl?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   clicks?: Prisma.SortOrder
   uniqueClicks?: Prisma.SortOrder
   conversions?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
   campaignTag?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
+  lastClickedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -535,12 +604,15 @@ export type DeepLinkMinOrderByAggregateInput = {
   creatorProfileId?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   source?: Prisma.SortOrder
+  destinationUrl?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   clicks?: Prisma.SortOrder
   uniqueClicks?: Prisma.SortOrder
   conversions?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
   campaignTag?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
+  lastClickedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -633,12 +705,15 @@ export type DeepLinkCreateWithoutCreatorProfileInput = {
   id?: string
   slug: string
   source: string
+  destinationUrl?: string | null
+  isActive?: boolean
   clicks?: number
   uniqueClicks?: number
   conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: string | null
   videoId?: string | null
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   supports?: Prisma.SupportCreateNestedManyWithoutDeepLinkInput
@@ -649,12 +724,15 @@ export type DeepLinkUncheckedCreateWithoutCreatorProfileInput = {
   id?: string
   slug: string
   source: string
+  destinationUrl?: string | null
+  isActive?: boolean
   clicks?: number
   uniqueClicks?: number
   conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: string | null
   videoId?: string | null
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutDeepLinkInput
@@ -695,12 +773,15 @@ export type DeepLinkScalarWhereInput = {
   creatorProfileId?: Prisma.StringFilter<"DeepLink"> | string
   slug?: Prisma.StringFilter<"DeepLink"> | string
   source?: Prisma.StringFilter<"DeepLink"> | string
+  destinationUrl?: Prisma.StringNullableFilter<"DeepLink"> | string | null
+  isActive?: Prisma.BoolFilter<"DeepLink"> | boolean
   clicks?: Prisma.IntFilter<"DeepLink"> | number
   uniqueClicks?: Prisma.IntFilter<"DeepLink"> | number
   conversions?: Prisma.IntFilter<"DeepLink"> | number
   revenue?: Prisma.DecimalFilter<"DeepLink"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.StringNullableFilter<"DeepLink"> | string | null
   videoId?: Prisma.StringNullableFilter<"DeepLink"> | string | null
+  lastClickedAt?: Prisma.DateTimeNullableFilter<"DeepLink"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"DeepLink"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DeepLink"> | Date | string
 }
@@ -709,12 +790,15 @@ export type DeepLinkCreateWithoutSupportsInput = {
   id?: string
   slug: string
   source: string
+  destinationUrl?: string | null
+  isActive?: boolean
   clicks?: number
   uniqueClicks?: number
   conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: string | null
   videoId?: string | null
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutDeepLinksInput
@@ -726,12 +810,15 @@ export type DeepLinkUncheckedCreateWithoutSupportsInput = {
   creatorProfileId: string
   slug: string
   source: string
+  destinationUrl?: string | null
+  isActive?: boolean
   clicks?: number
   uniqueClicks?: number
   conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: string | null
   videoId?: string | null
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   visits?: Prisma.DeepLinkVisitUncheckedCreateNestedManyWithoutDeepLinkInput
@@ -757,12 +844,15 @@ export type DeepLinkUpdateWithoutSupportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   uniqueClicks?: Prisma.IntFieldUpdateOperationsInput | number
   conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutDeepLinksNestedInput
@@ -774,12 +864,15 @@ export type DeepLinkUncheckedUpdateWithoutSupportsInput = {
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   uniqueClicks?: Prisma.IntFieldUpdateOperationsInput | number
   conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   visits?: Prisma.DeepLinkVisitUncheckedUpdateManyWithoutDeepLinkNestedInput
@@ -789,12 +882,15 @@ export type DeepLinkCreateWithoutVisitsInput = {
   id?: string
   slug: string
   source: string
+  destinationUrl?: string | null
+  isActive?: boolean
   clicks?: number
   uniqueClicks?: number
   conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: string | null
   videoId?: string | null
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutDeepLinksInput
@@ -806,12 +902,15 @@ export type DeepLinkUncheckedCreateWithoutVisitsInput = {
   creatorProfileId: string
   slug: string
   source: string
+  destinationUrl?: string | null
+  isActive?: boolean
   clicks?: number
   uniqueClicks?: number
   conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: string | null
   videoId?: string | null
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutDeepLinkInput
@@ -837,12 +936,15 @@ export type DeepLinkUpdateWithoutVisitsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   uniqueClicks?: Prisma.IntFieldUpdateOperationsInput | number
   conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutDeepLinksNestedInput
@@ -854,12 +956,15 @@ export type DeepLinkUncheckedUpdateWithoutVisitsInput = {
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   uniqueClicks?: Prisma.IntFieldUpdateOperationsInput | number
   conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUncheckedUpdateManyWithoutDeepLinkNestedInput
@@ -869,12 +974,15 @@ export type DeepLinkCreateManyCreatorProfileInput = {
   id?: string
   slug: string
   source: string
+  destinationUrl?: string | null
+  isActive?: boolean
   clicks?: number
   uniqueClicks?: number
   conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: string | null
   videoId?: string | null
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -883,12 +991,15 @@ export type DeepLinkUpdateWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   uniqueClicks?: Prisma.IntFieldUpdateOperationsInput | number
   conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUpdateManyWithoutDeepLinkNestedInput
@@ -899,12 +1010,15 @@ export type DeepLinkUncheckedUpdateWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   uniqueClicks?: Prisma.IntFieldUpdateOperationsInput | number
   conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUncheckedUpdateManyWithoutDeepLinkNestedInput
@@ -915,12 +1029,15 @@ export type DeepLinkUncheckedUpdateManyWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
   uniqueClicks?: Prisma.IntFieldUpdateOperationsInput | number
   conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   campaignTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -970,12 +1087,15 @@ export type DeepLinkSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   creatorProfileId?: boolean
   slug?: boolean
   source?: boolean
+  destinationUrl?: boolean
+  isActive?: boolean
   clicks?: boolean
   uniqueClicks?: boolean
   conversions?: boolean
   revenue?: boolean
   campaignTag?: boolean
   videoId?: boolean
+  lastClickedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
@@ -989,12 +1109,15 @@ export type DeepLinkSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   creatorProfileId?: boolean
   slug?: boolean
   source?: boolean
+  destinationUrl?: boolean
+  isActive?: boolean
   clicks?: boolean
   uniqueClicks?: boolean
   conversions?: boolean
   revenue?: boolean
   campaignTag?: boolean
   videoId?: boolean
+  lastClickedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
@@ -1005,12 +1128,15 @@ export type DeepLinkSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   creatorProfileId?: boolean
   slug?: boolean
   source?: boolean
+  destinationUrl?: boolean
+  isActive?: boolean
   clicks?: boolean
   uniqueClicks?: boolean
   conversions?: boolean
   revenue?: boolean
   campaignTag?: boolean
   videoId?: boolean
+  lastClickedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
@@ -1021,17 +1147,20 @@ export type DeepLinkSelectScalar = {
   creatorProfileId?: boolean
   slug?: boolean
   source?: boolean
+  destinationUrl?: boolean
+  isActive?: boolean
   clicks?: boolean
   uniqueClicks?: boolean
   conversions?: boolean
   revenue?: boolean
   campaignTag?: boolean
   videoId?: boolean
+  lastClickedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DeepLinkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorProfileId" | "slug" | "source" | "clicks" | "uniqueClicks" | "conversions" | "revenue" | "campaignTag" | "videoId" | "createdAt" | "updatedAt", ExtArgs["result"]["deepLink"]>
+export type DeepLinkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorProfileId" | "slug" | "source" | "destinationUrl" | "isActive" | "clicks" | "uniqueClicks" | "conversions" | "revenue" | "campaignTag" | "videoId" | "lastClickedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["deepLink"]>
 export type DeepLinkInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
   supports?: boolean | Prisma.DeepLink$supportsArgs<ExtArgs>
@@ -1057,12 +1186,15 @@ export type $DeepLinkPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     creatorProfileId: string
     slug: string
     source: string
+    destinationUrl: string | null
+    isActive: boolean
     clicks: number
     uniqueClicks: number
     conversions: number
     revenue: runtime.Decimal
     campaignTag: string | null
     videoId: string | null
+    lastClickedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["deepLink"]>
@@ -1495,12 +1627,15 @@ export interface DeepLinkFieldRefs {
   readonly creatorProfileId: Prisma.FieldRef<"DeepLink", 'String'>
   readonly slug: Prisma.FieldRef<"DeepLink", 'String'>
   readonly source: Prisma.FieldRef<"DeepLink", 'String'>
+  readonly destinationUrl: Prisma.FieldRef<"DeepLink", 'String'>
+  readonly isActive: Prisma.FieldRef<"DeepLink", 'Boolean'>
   readonly clicks: Prisma.FieldRef<"DeepLink", 'Int'>
   readonly uniqueClicks: Prisma.FieldRef<"DeepLink", 'Int'>
   readonly conversions: Prisma.FieldRef<"DeepLink", 'Int'>
   readonly revenue: Prisma.FieldRef<"DeepLink", 'Decimal'>
   readonly campaignTag: Prisma.FieldRef<"DeepLink", 'String'>
   readonly videoId: Prisma.FieldRef<"DeepLink", 'String'>
+  readonly lastClickedAt: Prisma.FieldRef<"DeepLink", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"DeepLink", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"DeepLink", 'DateTime'>
 }

@@ -90,6 +90,31 @@ export type Reward = Prisma.RewardModel
  */
 export type Support = Prisma.SupportModel
 /**
+ * Model SupportEventOutbox
+ * 
+ */
+export type SupportEventOutbox = Prisma.SupportEventOutboxModel
+/**
+ * Model PlatformEarning
+ * 
+ */
+export type PlatformEarning = Prisma.PlatformEarningModel
+/**
+ * Model PaymentIntent
+ * 
+ */
+export type PaymentIntent = Prisma.PaymentIntentModel
+/**
+ * Model PaymentAttempt
+ * 
+ */
+export type PaymentAttempt = Prisma.PaymentAttemptModel
+/**
+ * Model PaymentProviderTransaction
+ * 
+ */
+export type PaymentProviderTransaction = Prisma.PaymentProviderTransactionModel
+/**
  * Model TikTokCampaign
  * 
  */
@@ -115,6 +140,11 @@ export type UnlockedReward = Prisma.UnlockedRewardModel
  */
 export type FeatureRequest = Prisma.FeatureRequestModel
 /**
+ * Model CreatorVerification
+ * 
+ */
+export type CreatorVerification = Prisma.CreatorVerificationModel
+/**
  * Model Poll
  * 
  */
@@ -134,6 +164,11 @@ export type PaidVote = Prisma.PaidVoteModel
  * 
  */
 export type FanBadge = Prisma.FanBadgeModel
+/**
+ * Model CampaignDailyMetric
+ * 
+ */
+export type CampaignDailyMetric = Prisma.CampaignDailyMetricModel
 /**
  * Model PayoutBatch
  * 
@@ -159,3 +194,13 @@ export type WebhookEvent = Prisma.WebhookEventModel
  * 
  */
 export type AuditLog = Prisma.AuditLogModel
+/**
+ * Model AccountingPostingBatch
+ * 
+ */
+export type AccountingPostingBatch = Prisma.AccountingPostingBatchModel
+/**
+ * Model AccountingEntry
+ * 
+ */
+export type AccountingEntry = Prisma.AccountingEntryModel

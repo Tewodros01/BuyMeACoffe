@@ -14,9 +14,22 @@ export const WalletSchema = z.object({
 export const TransactionSchema = z.object({
   id: z.string(),
   type: z.enum(['CREDIT', 'DEBIT']),
-  reason: z.enum(['SUPPORT_RECEIVED', 'WITHDRAWAL', 'WITHDRAWAL_FAILED', 'REFUND', 'ADJUSTMENT']),
+  reason: z.enum([
+    'SUPPORT_RECEIVED',
+    'SUPPORT_PENDING',
+    'SUPPORT_SETTLED',
+    'WITHDRAWAL',
+    'WITHDRAWAL_RESERVED',
+    'WITHDRAWAL_COMPLETED',
+    'WITHDRAWAL_RELEASED',
+    'WITHDRAWAL_FAILED',
+    'REFUND',
+    'ADJUSTMENT',
+  ]),
   amount: z.union([z.string(), z.number()]).transform(Number),
-  balanceAfter: z.union([z.string(), z.number()]).transform(Number),
+  availableBalanceAfter: z.union([z.string(), z.number()]).transform(Number),
+  pendingBalanceAfter: z.union([z.string(), z.number()]).transform(Number),
+  lockedBalanceAfter: z.union([z.string(), z.number()]).transform(Number),
   referenceType: z.string().nullable(),
   referenceId: z.string().nullable(),
   note: z.string().nullable(),
@@ -30,6 +43,7 @@ export const WithdrawalSchema = z.object({
   method: z.string(),
   status: z.enum(['PENDING', 'PROCESSING', 'COMPLETED', 'REJECTED']),
   note: z.string().nullable(),
+  processingStartedAt: z.string().nullable(),
   processedAt: z.string().nullable(),
   createdAt: z.string(),
   financialAccount: z.object({
@@ -40,7 +54,7 @@ export const WithdrawalSchema = z.object({
 })
 
 export const RequestWithdrawalSchema = z.object({
-  amount: z.number().int().min(100).max(100000),
+  amount: z.number().positive().min(100).max(100000),
   method: z.enum(['TELEBIRR', 'CBE_BIRR', 'BANK_TRANSFER', 'AWASH_BANK', 'DASHEN_BANK']),
   financialAccountId: z.string().min(1, 'Select an account'),
   note: z.string().max(200).optional(),

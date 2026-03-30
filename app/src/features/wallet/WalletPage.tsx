@@ -5,9 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowDownLeft, ArrowUpRight, Clock, Lock, AlertCircle, Send, X } from 'lucide-react'
 import { walletApi, RequestWithdrawalSchema, type RequestWithdrawalInput } from './walletApi'
 import { financialAccountApi } from '../settings/financialAccountApi'
-import { AppBar, Badge, Spinner, Empty, Divider, SectionHeader } from '../../components/ui/index'
+import { AppBar, Badge, Spinner, Empty, Divider } from '../../components/ui/index'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/index'
+import { getApiErrorMessage } from '../../lib/api'
 import { formatETB, timeAgo } from '../creator/utils'
 import { haptic } from '../../lib/telegram'
 
@@ -18,6 +19,32 @@ const METHODS = [
   { value: 'DASHEN_BANK', label: '🏦 Dashen Bank' },
   { value: 'BANK_TRANSFER', label: '💳 Bank Transfer' },
 ]
+
+function formatTransactionReason(reason: string) {
+  return reason.replace(/_/g, ' ').toLowerCase()
+}
+
+function transactionBalanceLabel(reason: string) {
+  if (reason === 'SUPPORT_PENDING') return 'Pending'
+  if (reason === 'SUPPORT_SETTLED') return 'Available'
+  if (reason === 'WITHDRAWAL_RESERVED') return 'Locked'
+  if (reason === 'WITHDRAWAL_COMPLETED') return 'Locked'
+  if (reason === 'WITHDRAWAL_FAILED' || reason === 'WITHDRAWAL_RELEASED') return 'Available'
+  return 'Available'
+}
+
+function transactionBalanceValue(tx: {
+  reason: string
+  availableBalanceAfter: number
+  pendingBalanceAfter: number
+  lockedBalanceAfter: number
+}) {
+  if (tx.reason === 'SUPPORT_PENDING') return tx.pendingBalanceAfter
+  if (tx.reason === 'WITHDRAWAL_RESERVED' || tx.reason === 'WITHDRAWAL_COMPLETED') {
+    return tx.lockedBalanceAfter
+  }
+  return tx.availableBalanceAfter
+}
 
 export default function WalletPage() {
   const qc = useQueryClient()
@@ -60,9 +87,9 @@ export default function WalletPage() {
         <AppBar title="Wallet" trailing={<Badge variant="success" dot>ETB</Badge>} className="fade-up" />
 
         {/* Balance Card */}
-        <div className="relative rounded-[24px] overflow-hidden fade-up" style={{ animationDelay: '40ms' }}>
-          <div className="absolute inset-0 bg-gradient-to-br from-[#081a10] via-[#060f09] to-[#07070f]" />
-          <div className="absolute inset-0 border border-emerald-500/[0.18] rounded-[24px]" />
+        <div className="relative rounded-3xl overflow-hidden fade-up" style={{ animationDelay: '40ms' }}>
+          <div className="absolute inset-0 bg-linear-to-br from-[#081a10] via-[#060f09] to-[#07070f]" />
+          <div className="absolute inset-0 border border-emerald-500/[0.18] rounded-3xl" />
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-emerald-500/[0.1] rounded-full blur-3xl" />
 
           <div className="relative p-5">
@@ -99,7 +126,7 @@ export default function WalletPage() {
 
         {/* Withdraw form */}
         {showWithdraw && (
-          <div className="rounded-[24px] bg-[#0e0e1c] border border-amber-500/[0.15] p-5 scale-in">
+          <div className="rounded-3xl bg-[#0e0e1c] border border-amber-500/[0.15] p-5 scale-in">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-[16px] font-bold text-white">Withdraw Funds</h2>
               <button onClick={() => setShowWithdraw(false)} className="w-8 h-8 rounded-xl bg-white/[0.05] flex items-center justify-center text-white/30 hover:text-white/60 transition-colors">
@@ -114,7 +141,7 @@ export default function WalletPage() {
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-[11px] font-semibold text-white/35 uppercase tracking-widest">Method</label>
-                <select className="w-full h-[52px] rounded-2xl px-4 text-[15px] font-medium text-white bg-white/[0.04] border border-white/[0.08] focus:outline-none focus:border-amber-500/50 transition-all appearance-none" {...form.register('method')}>
+                <select className="w-full h-[52px] rounded-2xl px-4 text-[15px] font-medium text-white bg-white/4 border border-white/8 focus:outline-none focus:border-amber-500/50 transition-all appearance-none" {...form.register('method')}>
                   <option value="" className="bg-[#0e0e1c]">Select method</option>
                   {METHODS.map((m) => <option key={m.value} value={m.value} className="bg-[#0e0e1c]">{m.label}</option>)}
                 </select>
@@ -123,7 +150,7 @@ export default function WalletPage() {
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-[11px] font-semibold text-white/35 uppercase tracking-widest">Account</label>
-                <select className="w-full h-[52px] rounded-2xl px-4 text-[15px] font-medium text-white bg-white/[0.04] border border-white/[0.08] focus:outline-none focus:border-amber-500/50 transition-all appearance-none" {...form.register('financialAccountId')}>
+                <select className="w-full h-[52px] rounded-2xl px-4 text-[15px] font-medium text-white bg-white/4 border border-white/8 focus:outline-none focus:border-amber-500/50 transition-all appearance-none" {...form.register('financialAccountId')}>
                   <option value="" className="bg-[#0e0e1c]">Select account</option>
                   {accounts?.map((a) => <option key={a.id} value={a.id} className="bg-[#0e0e1c]">{a.label ?? a.accountName} · {a.accountNumber}</option>)}
                 </select>
@@ -133,7 +160,7 @@ export default function WalletPage() {
               {withdrawMutation.error && (
                 <div className="flex items-center gap-3 p-3.5 bg-red-500/[0.07] rounded-xl border border-red-500/15">
                   <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
-                  <p className="text-[13px] text-red-400">{(withdrawMutation.error as any)?.response?.data?.message ?? 'Withdrawal failed'}</p>
+                  <p className="text-[13px] text-red-400">{getApiErrorMessage(withdrawMutation.error, 'Withdrawal failed')}</p>
                 </div>
               )}
 
@@ -146,7 +173,7 @@ export default function WalletPage() {
         )}
 
         {/* Tabs */}
-        <div className="flex bg-white/[0.04] rounded-2xl p-1 border border-white/[0.06]">
+        <div className="flex bg-white/4 rounded-2xl p-1 border border-white/6">
           {(['transactions', 'history'] as const).map((t) => (
             <button key={t} onClick={() => { setTab(t); haptic('light') }}
               className={['flex-1 py-2.5 text-[13px] font-semibold rounded-xl transition-all duration-200', tab === t ? 'bg-white/[0.09] text-white' : 'text-white/30'].join(' ')}>
@@ -161,19 +188,21 @@ export default function WalletPage() {
             {!transactions?.length
               ? <Empty icon={<ArrowDownLeft className="w-6 h-6" />} title="No transactions yet" description="Transactions appear after you receive support" />
               : transactions.map((tx, i) => (
-                <div key={tx.id} className="rounded-2xl bg-[#0e0e1c] border border-white/[0.06] p-4 flex items-center gap-3 fade-up" style={{ animationDelay: `${i * 30}ms` }}>
+                <div key={tx.id} className="rounded-2xl bg-[#0e0e1c] border border-white/6 p-4 flex items-center gap-3 fade-up" style={{ animationDelay: `${i * 30}ms` }}>
                   <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 ${tx.type === 'CREDIT' ? 'bg-emerald-500/[0.1] border border-emerald-500/[0.12]' : 'bg-red-500/[0.1] border border-red-500/[0.12]'}`}>
                     {tx.type === 'CREDIT' ? <ArrowDownLeft className="w-4 h-4 text-emerald-400" /> : <ArrowUpRight className="w-4 h-4 text-red-400" />}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[14px] font-semibold text-white capitalize">{tx.reason.replace(/_/g, ' ').toLowerCase()}</p>
+                    <p className="text-[14px] font-semibold text-white capitalize">{formatTransactionReason(tx.reason)}</p>
                     <p className="text-[12px] text-white/25 mt-0.5">{timeAgo(tx.createdAt)}</p>
                   </div>
                   <div className="text-right">
                     <p className={`text-[15px] font-bold ${tx.type === 'CREDIT' ? 'text-emerald-400' : 'text-red-400'}`}>
                       {tx.type === 'CREDIT' ? '+' : '−'}{formatETB(tx.amount)}
                     </p>
-                    <p className="text-[11px] text-white/20 mt-0.5">{formatETB(tx.balanceAfter)}</p>
+                    <p className="text-[11px] text-white/20 mt-0.5">
+                      {transactionBalanceLabel(tx.reason)}: {formatETB(transactionBalanceValue(tx))}
+                    </p>
                   </div>
                 </div>
               ))
@@ -187,7 +216,7 @@ export default function WalletPage() {
             {!withdrawals?.length
               ? <Empty icon={<Send className="w-6 h-6" />} title="No withdrawals yet" />
               : withdrawals.map((w, i) => (
-                <div key={w.id} className="rounded-2xl bg-[#0e0e1c] border border-white/[0.06] p-4 fade-up" style={{ animationDelay: `${i * 30}ms` }}>
+                <div key={w.id} className="rounded-2xl bg-[#0e0e1c] border border-white/6 p-4 fade-up" style={{ animationDelay: `${i * 30}ms` }}>
                   <div className="flex items-center justify-between mb-3">
                     <div>
                       <p className="text-[17px] font-bold text-white">{formatETB(w.amount)} <span className="text-white/25 text-[13px] font-medium">ETB</span></p>
@@ -202,6 +231,12 @@ export default function WalletPage() {
                     <span>{w.method.replace(/_/g, ' ')}</span>
                     <span>{timeAgo(w.createdAt)}</span>
                   </div>
+                  {(w.processingStartedAt || w.processedAt) && (
+                    <div className="mt-3 space-y-1 text-[11px] text-white/28">
+                      {w.processingStartedAt && <p>Started: {timeAgo(w.processingStartedAt)}</p>}
+                      {w.processedAt && <p>Finalized: {timeAgo(w.processedAt)}</p>}
+                    </div>
+                  )}
                 </div>
               ))
             }

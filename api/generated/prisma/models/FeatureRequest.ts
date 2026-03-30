@@ -172,7 +172,7 @@ export type FeatureRequestGroupByOutputType = {
   _max: FeatureRequestMaxAggregateOutputType | null
 }
 
-type GetFeatureRequestGroupByPayload<T extends FeatureRequestGroupByArgs> = Prisma.PrismaPromise<
+export type GetFeatureRequestGroupByPayload<T extends FeatureRequestGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<FeatureRequestGroupByOutputType, T['by']> &
       {
@@ -217,6 +217,7 @@ export type FeatureRequestOrderByWithRelationInput = {
 export type FeatureRequestWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   supportId?: string
+  supportId_creatorProfileId?: Prisma.FeatureRequestSupportIdCreatorProfileIdCompoundUniqueInput
   AND?: Prisma.FeatureRequestWhereInput | Prisma.FeatureRequestWhereInput[]
   OR?: Prisma.FeatureRequestWhereInput[]
   NOT?: Prisma.FeatureRequestWhereInput | Prisma.FeatureRequestWhereInput[]
@@ -227,7 +228,7 @@ export type FeatureRequestWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"FeatureRequest"> | Date | string
   support?: Prisma.XOR<Prisma.SupportScalarRelationFilter, Prisma.SupportWhereInput>
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileScalarRelationFilter, Prisma.CreatorProfileWhereInput>
-}, "id" | "supportId">
+}, "id" | "supportId" | "supportId_creatorProfileId">
 
 export type FeatureRequestOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -336,6 +337,11 @@ export type FeatureRequestOrderByRelationAggregateInput = {
 export type FeatureRequestNullableScalarRelationFilter = {
   is?: Prisma.FeatureRequestWhereInput | null
   isNot?: Prisma.FeatureRequestWhereInput | null
+}
+
+export type FeatureRequestSupportIdCreatorProfileIdCompoundUniqueInput = {
+  supportId: string
+  creatorProfileId: string
 }
 
 export type FeatureRequestCountOrderByAggregateInput = {
@@ -510,7 +516,6 @@ export type FeatureRequestCreateWithoutSupportInput = {
 
 export type FeatureRequestUncheckedCreateWithoutSupportInput = {
   id?: string
-  creatorProfileId: string
   message?: string | null
   isUsed?: boolean
   usedAt?: Date | string | null
@@ -544,7 +549,6 @@ export type FeatureRequestUpdateWithoutSupportInput = {
 
 export type FeatureRequestUncheckedUpdateWithoutSupportInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null

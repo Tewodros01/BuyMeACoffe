@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { FinancialAccountType } from 'generated/prisma/client';
 import {
   encryptFinancialAccountNumber,
   maskFinancialAccountNumber,
@@ -21,19 +22,34 @@ const accountSelect = {
   type: true,
   provider: true,
   accountName: true,
-  accountNumber: true, // masked before returning — see maskAccount()
+  accountNumber: true,
   label: true,
-  isDefault: true,
   isActive: true,
   createdAt: true,
 } as const;
 
-function maskAccount(account: {
+type SelectedAccount = {
+  id: string;
+  type: FinancialAccountType;
+  provider: string;
+  accountName: string;
   accountNumber: string;
-  [key: string]: unknown;
-}) {
+  label: string | null;
+  isActive: boolean;
+  createdAt: Date;
+};
+
+type AccountResponse = SelectedAccount & {
+  isDefault: boolean;
+};
+
+function toAccountResponse(
+  account: SelectedAccount,
+  defaultFinancialAccountId: string | null,
+): AccountResponse {
   return {
     ...account,
+    isDefault: account.id === defaultFinancialAccountId,
     accountNumber: maskFinancialAccountNumber(account.accountNumber),
   };
 }
@@ -43,18 +59,33 @@ export class FinancialAccountService {
   constructor(private readonly prisma: PrismaService) {}
 
   async list(userId: string) {
-    const accounts = await this.prisma.financialAccount.findMany({
-      where: { userId, isActive: true },
-      select: accountSelect,
-      orderBy: [{ isDefault: 'desc' }, { createdAt: 'asc' }],
-    });
-    return accounts.map(maskAccount);
+    const [user, accounts] = await Promise.all([
+      this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { defaultFinancialAccountId: true },
+      }),
+      this.prisma.financialAccount.findMany({
+        where: { userId, isActive: true },
+        select: accountSelect,
+        orderBy: [{ createdAt: 'asc' }],
+      }),
+    ]);
+
+    const defaultFinancialAccountId = user?.defaultFinancialAccountId ?? null;
+
+    return accounts
+      .map((account) => toAccountResponse(account, defaultFinancialAccountId))
+      .sort(
+        (a, b) =>
+          Number(b.isDefault) - Number(a.isDefault) ||
+          a.createdAt.getTime() - b.createdAt.getTime(),
+      );
   }
 
   async create(userId: string, dto: CreateFinancialAccountDto) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      select: { isVerified: true },
+      select: { isVerified: true, defaultFinancialAccountId: true },
     });
     if (!user) throw new NotFoundException('User not found');
     if (!user.isVerified) {
@@ -73,29 +104,31 @@ export class FinancialAccountService {
     }
 
     return this.prisma.$transaction(async (tx) => {
-      // If this is set as default, unset all others first
-      if (dto.isDefault) {
-        await tx.financialAccount.updateMany({
-          where: { userId, isDefault: true },
-          data: { isDefault: false },
+      const { isDefault: shouldBeDefaultInput, ...accountData } = dto;
+      const shouldBeDefault =
+        shouldBeDefaultInput ?? !user.defaultFinancialAccountId;
+
+      const createdAccount = await tx.financialAccount.create({
+        data: {
+          ...accountData,
+          userId,
+          accountNumber: encryptFinancialAccountNumber(
+            normalizeAccountNumber(dto.accountNumber),
+          ),
+        },
+        select: accountSelect,
+      });
+
+      if (shouldBeDefault) {
+        await tx.user.update({
+          where: { id: userId },
+          data: { defaultFinancialAccountId: createdAccount.id },
         });
       }
 
-      // First account is always default
-      const isDefault = dto.isDefault ?? count === 0;
-
-      return maskAccount(
-        await tx.financialAccount.create({
-          data: {
-            ...dto,
-            userId,
-            isDefault,
-            accountNumber: encryptFinancialAccountNumber(
-              normalizeAccountNumber(dto.accountNumber),
-            ),
-          },
-          select: accountSelect,
-        }),
+      return toAccountResponse(
+        createdAccount,
+        shouldBeDefault ? createdAccount.id : user.defaultFinancialAccountId,
       );
     });
   }
@@ -108,27 +141,38 @@ export class FinancialAccountService {
     await this.findActiveOrThrow(userId, accountId);
 
     return this.prisma.$transaction(async (tx) => {
-      if (dto.isDefault) {
-        await tx.financialAccount.updateMany({
-          where: { userId, isDefault: true },
-          data: { isDefault: false },
+      const { isDefault, ...accountData } = dto;
+
+      const updatedAccount = await tx.financialAccount.update({
+        where: { id: accountId },
+        data: accountData,
+        select: accountSelect,
+      });
+
+      let defaultFinancialAccountId: string | null;
+
+      if (isDefault) {
+        const user = await tx.user.update({
+          where: { id: userId },
+          data: { defaultFinancialAccountId: accountId },
+          select: { defaultFinancialAccountId: true },
         });
+        defaultFinancialAccountId = user.defaultFinancialAccountId;
+      } else {
+        const user = await tx.user.findUnique({
+          where: { id: userId },
+          select: { defaultFinancialAccountId: true },
+        });
+        defaultFinancialAccountId = user?.defaultFinancialAccountId ?? null;
       }
 
-      return maskAccount(
-        await tx.financialAccount.update({
-          where: { id: accountId },
-          data: dto,
-          select: accountSelect,
-        }),
-      );
+      return toAccountResponse(updatedAccount, defaultFinancialAccountId);
     });
   }
 
   async remove(userId: string, accountId: string) {
     await this.findActiveOrThrow(userId, accountId);
 
-    // Block deletion if there are pending/processing withdrawals on this account
     const pendingWithdrawals = await this.prisma.withdrawal.count({
       where: {
         financialAccountId: accountId,
@@ -141,10 +185,35 @@ export class FinancialAccountService {
       );
     }
 
-    // Soft delete — preserve history for completed withdrawals
-    await this.prisma.financialAccount.update({
-      where: { id: accountId },
-      data: { isActive: false, isDefault: false },
+    await this.prisma.$transaction(async (tx) => {
+      const user = await tx.user.findUnique({
+        where: { id: userId },
+        select: { defaultFinancialAccountId: true },
+      });
+
+      await tx.financialAccount.update({
+        where: { id: accountId },
+        data: { isActive: false },
+      });
+
+      if (user?.defaultFinancialAccountId !== accountId) {
+        return;
+      }
+
+      const nextDefault = await tx.financialAccount.findFirst({
+        where: {
+          userId,
+          isActive: true,
+          id: { not: accountId },
+        },
+        orderBy: { createdAt: 'asc' },
+        select: { id: true },
+      });
+
+      await tx.user.update({
+        where: { id: userId },
+        data: { defaultFinancialAccountId: nextDefault?.id ?? null },
+      });
     });
 
     return { success: true };

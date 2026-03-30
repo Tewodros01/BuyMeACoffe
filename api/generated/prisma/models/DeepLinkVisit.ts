@@ -151,7 +151,7 @@ export type DeepLinkVisitGroupByOutputType = {
   _max: DeepLinkVisitMaxAggregateOutputType | null
 }
 
-type GetDeepLinkVisitGroupByPayload<T extends DeepLinkVisitGroupByArgs> = Prisma.PrismaPromise<
+export type GetDeepLinkVisitGroupByPayload<T extends DeepLinkVisitGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<DeepLinkVisitGroupByOutputType, T['by']> &
       {

@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ChapaModule } from '../chapa/chapa.module';
-import { TelegramModule } from '../telegram/telegram.module';
+import { WalletModule } from '../wallet/wallet.module';
 import { SupportController } from './support.controller';
+import { SupportProcessingModule } from './support-processing.module';
+import { SupportSettlementService } from './support-settlement.service';
 import { SupportService } from './support.service';
 
 @Module({
-  imports: [ChapaModule, TelegramModule],
+  imports: [ChapaModule, SupportProcessingModule, WalletModule],
   controllers: [SupportController],
-  providers: [SupportService],
+  providers: [SupportService, SupportSettlementService],
 })
 export class SupportModule {}

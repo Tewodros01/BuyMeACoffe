@@ -10,10 +10,9 @@ import { ConfigService } from '@nestjs/config';
 import { Prisma } from 'generated/prisma/client';
 import { ChapaService } from '../chapa/chapa.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { TelegramService } from '../telegram/telegram.service';
 import { InitiateSupportDto } from './dto/initiate-support.dto';
-
-const PLATFORM_FEE_RATE = 0.05;
+import { SupportPaymentService } from './support-payment.service';
+import { SupportValidationService } from './support-validation.service';
 
 @Injectable()
 export class SupportService {
@@ -22,159 +21,17 @@ export class SupportService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly chapa: ChapaService,
-    private readonly telegram: TelegramService,
     private readonly config: ConfigService,
+    private readonly supportValidation: SupportValidationService,
+    private readonly supportPayment: SupportPaymentService,
   ) {}
 
   async initiate(slug: string, dto: InitiateSupportDto, supporterId?: string) {
-    const profile = await this.prisma.creatorProfile.findFirst({
-      where: { slug, isPublished: true, user: { deletedAt: null } },
-      include: {
-        user: { select: { id: true, firstName: true } },
-      },
-    });
-    if (!profile) throw new NotFoundException('Creator not found');
-
-    const reward = dto.rewardId
-      ? await this.prisma.reward.findFirst({
-          where: {
-            id: dto.rewardId,
-            creatorProfileId: profile.id,
-            isActive: true,
-          },
-        })
-      : null;
-
-    if (dto.rewardId && !reward) {
-      throw new NotFoundException('Reward not found');
-    }
-
-    const campaign = dto.campaignId
-      ? await this.prisma.tikTokCampaign.findFirst({
-          where: {
-            id: dto.campaignId,
-            creatorProfileId: profile.id,
-          },
-          select: {
-            id: true,
-            videoId: true,
-            title: true,
-          },
-        })
-      : null;
-
-    if (dto.campaignId && !campaign) {
-      throw new NotFoundException('Campaign not found');
-    }
-
-    const deepLink = dto.deepLinkSlug
-      ? await this.prisma.deepLink.findFirst({
-          where: {
-            slug: dto.deepLinkSlug,
-            creatorProfileId: profile.id,
-          },
-          select: {
-            id: true,
-            slug: true,
-            source: true,
-            campaignTag: true,
-            videoId: true,
-          },
-        })
-      : null;
-
-    if (dto.deepLinkSlug && !deepLink) {
-      throw new NotFoundException('Deep link not found');
-    }
-
-    if (dto.rewardId && dto.pollId) {
-      throw new ConflictException(
-        'A support cannot unlock a reward and cast a paid vote at the same time',
-      );
-    }
-
-    const poll = dto.pollId
-      ? await this.prisma.poll.findFirst({
-          where: {
-            id: dto.pollId,
-            creatorProfileId: profile.id,
-            isActive: true,
-          },
-          select: {
-            id: true,
-            question: true,
-            price: true,
-          },
-        })
-      : null;
-
-    if (dto.pollId && !poll) {
-      throw new NotFoundException('Poll not found');
-    }
-
-    if ((dto.pollId && !dto.pollOptionId) || (!dto.pollId && dto.pollOptionId)) {
-      throw new BadRequestException('Both pollId and pollOptionId are required');
-    }
-
-    const pollOption = dto.pollOptionId
-      ? await this.prisma.pollOption.findFirst({
-          where: {
-            id: dto.pollOptionId,
-            pollId: dto.pollId,
-          },
-          select: {
-            id: true,
-            text: true,
-          },
-        })
-      : null;
-
-    if (dto.pollOptionId && !pollOption) {
-      throw new NotFoundException('Poll option not found');
-    }
-
-    if ((reward || poll) && supporterId == null) {
-      throw new UnauthorizedException(
-        'You must be signed in to unlock rewards or cast paid votes',
-      );
-    }
-
-    if (
-      reward?.maxQuantity != null &&
-      reward.claimedCount >= reward.maxQuantity
-    ) {
-      throw new ConflictException('This reward is sold out');
-    }
-
-    if (reward && supporterId) {
-      const existingUnlock = await this.prisma.unlockedReward.findFirst({
-        where: {
-          userId: supporterId,
-          rewardId: reward.id,
-        },
-        select: { id: true },
-      });
-
-      if (existingUnlock) {
-        throw new ConflictException('You have already unlocked this reward');
-      }
-    }
-
-    if (dto.isFeatureRequest && !dto.message?.trim()) {
-      throw new BadRequestException(
-        'A feature request must include a message for the creator',
-      );
-    }
-
-    const coffeePrice = Number(profile.coffeePrice);
-    const coffeeCount = reward || poll ? 1 : dto.coffeeCount ?? 1;
-    const amount = reward
-      ? Number(reward.price)
-      : poll
-        ? Number(poll.price)
-        : coffeePrice * coffeeCount;
-    const platformFee = parseFloat((amount * PLATFORM_FEE_RATE).toFixed(2));
-    const netAmount = parseFloat((amount - platformFee).toFixed(2));
+    const context = await this.supportValidation.prepareInitiationContext(
+      slug,
+      dto,
+      supporterId,
+    );
 
     const txRef = this.chapa.generateTxRef('bmac');
     const apiUrl = this.config.get<string>('apiUrl') ?? 'http://localhost:3000';
@@ -185,7 +42,7 @@ export class SupportService {
     const lastName = rest.join(' ') || 'Supporter';
 
     const chapaRes = await this.chapa.initializePayment({
-      amount,
+      amount: context.amount,
       currency: 'ETB',
       email: dto.supporterEmail ?? `${txRef}@guest.bmac.et`,
       first_name: firstName,
@@ -194,46 +51,63 @@ export class SupportService {
       callback_url: `${apiUrl}/api/v1/supports/webhook`,
       return_url: `${frontendUrl}/payment/success?ref=${txRef}`,
       customization: {
-        title: profile.pageTitle,
-        description: reward
-          ? `Unlock "${reward.title}" from ${profile.user.firstName}`
-          : poll
-            ? `Vote on "${poll.question}" for ${profile.user.firstName}`
+        title: context.profile.pageTitle,
+        description: context.reward
+          ? `Unlock "${context.reward.title}" from ${context.profile.user.firstName}`
+          : context.poll
+            ? `Vote on "${context.poll.question}" for ${context.profile.user.firstName}`
             : dto.isFeatureRequest
-              ? `Send a feature request to ${profile.user.firstName}`
-              : `${coffeeCount} coffee${coffeeCount > 1 ? 's' : ''} for ${profile.user.firstName}`,
+              ? `Send a feature request to ${context.profile.user.firstName}`
+              : `${context.coffeeCount} coffee${context.coffeeCount > 1 ? 's' : ''} for ${context.profile.user.firstName}`,
       },
     });
 
     await this.prisma.support.create({
       data: {
-        creatorProfileId: profile.id,
-        rewardId: reward?.id,
-        campaignId: campaign?.id,
-        deepLinkId: deepLink?.id,
-        pollId: poll?.id,
-        pollOptionId: pollOption?.id,
+        creatorProfileId: context.profile.id,
+        rewardId: context.reward?.id,
+        campaignId: context.campaign?.id,
+        deepLinkId: context.deepLink?.id,
+        pollId: context.poll?.id,
+        pollOptionId: context.pollOption?.id,
         supporterId: supporterId ?? null,
         supporterName: dto.supporterName,
         supporterEmail: dto.supporterEmail,
+        sourcePlatform:
+          context.campaign || context.deepLink ? 'TIKTOK' : 'DIRECT',
         message: dto.message,
         isFeatureRequest: dto.isFeatureRequest ?? false,
-        coffeeCount,
-        amount: new Prisma.Decimal(amount),
-        platformFee: new Prisma.Decimal(platformFee),
-        netAmount: new Prisma.Decimal(netAmount),
-        chapaRef: txRef,
-        chapaCheckoutUrl: chapaRes.data.checkout_url,
+        coffeeCount: context.coffeeCount,
+        amount: new Prisma.Decimal(context.amount),
+        platformFee: new Prisma.Decimal(context.platformFee),
+        netAmount: new Prisma.Decimal(context.netAmount),
         status: 'PENDING',
+        paymentIntent: {
+          create: {
+            provider: 'CHAPA',
+            amount: new Prisma.Decimal(context.amount),
+            currency: 'ETB',
+            status: 'PENDING',
+            attempts: {
+              create: {
+                attemptNumber: 1,
+                status: 'PENDING',
+                providerRef: txRef,
+                checkoutUrl: chapaRes.data.checkout_url,
+                idempotencyKey: txRef,
+              },
+            },
+          },
+        },
       },
     });
 
     return {
       checkoutUrl: chapaRes.data.checkout_url,
       txRef,
-      amount,
-      platformFee,
-      netAmount,
+      amount: context.amount,
+      platformFee: context.platformFee,
+      netAmount: context.netAmount,
       currency: 'ETB',
     };
   }
@@ -269,7 +143,7 @@ export class SupportService {
         error.code === 'P2002'
       ) {
         const existingEvent = await this.prisma.webhookEvent.findUnique({
-          where: { externalId: txRef },
+          where: { source_externalId: { source: 'CHAPA', externalId: txRef } },
           select: { processedAt: true },
         });
         if (existingEvent?.processedAt) {
@@ -281,17 +155,20 @@ export class SupportService {
     }
 
     try {
-      const result = await this.processPayment(txRef);
+      const result = await this.processPayment(
+        txRef,
+        payload as Prisma.InputJsonValue,
+      );
 
       await this.prisma.webhookEvent.update({
-        where: { externalId: txRef },
+        where: { source_externalId: { source: 'CHAPA', externalId: txRef } },
         data: { processedAt: new Date(), error: null },
       });
 
       return result;
     } catch (error) {
       await this.prisma.webhookEvent.update({
-        where: { externalId: txRef },
+        where: { source_externalId: { source: 'CHAPA', externalId: txRef } },
         data: {
           error:
             error instanceof Error ? error.message : 'Unknown webhook error',
@@ -302,65 +179,40 @@ export class SupportService {
   }
 
   async verifyAndComplete(txRef: string) {
-    const support = await this.prisma.support.findUnique({
-      where: { chapaRef: txRef },
-      select: { status: true },
-    });
-    if (!support) throw new NotFoundException('Support record not found');
-    if (support.status === 'COMPLETED') return { status: 'completed' };
-    return this.processPayment(txRef);
-  }
-
-  private async processPayment(txRef: string) {
-    const support = await this.prisma.support.findUnique({
-      where: { chapaRef: txRef },
-      include: {
-        creatorProfile: {
-          select: { id: true, user: { select: { id: true } } },
-        },
-        campaign: {
-          select: {
-            id: true,
-            videoId: true,
-            title: true,
-          },
-        },
-        deepLink: {
-          select: {
-            id: true,
-            slug: true,
-            source: true,
-            campaignTag: true,
-            videoId: true,
-          },
-        },
-        poll: {
-          select: {
-            id: true,
-            question: true,
-          },
-        },
-        pollOption: {
-          select: {
-            id: true,
-            text: true,
-          },
-        },
-        reward: {
-          select: {
-            id: true,
-            title: true,
-            maxQuantity: true,
-            claimedCount: true,
-            contentUrl: true,
-            telegramLink: true,
+    const support = await this.prisma.support.findFirst({
+      where: {
+        paymentIntent: {
+          attempts: {
+            some: { providerRef: txRef },
           },
         },
       },
+      select: { status: true },
     });
-
     if (!support) throw new NotFoundException('Support record not found');
-    if (support.status === 'COMPLETED' && support.walletCredited) {
+    if (support.status === 'COMPLETED') {
+      return {
+        status: 'completed',
+        message: 'Your payment has already been confirmed.',
+      };
+    }
+    return this.processPayment(txRef);
+  }
+
+  private async processPayment(
+    txRef: string,
+    rawPayload?: Prisma.InputJsonValue,
+  ) {
+    const support = await this.supportPayment.getSupportForPayment(txRef);
+    if (support.status === 'FAILED') {
+      return {
+        status: 'failed',
+        message:
+          'This payment was already marked as failed. In test mode, use one of Chapa’s approved sandbox numbers for the selected payment method.',
+      };
+    }
+
+    if (support.paymentAppliedAt) {
       return { status: 'already_completed' };
     }
 
@@ -371,11 +223,12 @@ export class SupportService {
       verification.data.status !== 'success' ||
       verification.data.tx_ref !== txRef
     ) {
-      await this.prisma.support.update({
-        where: { chapaRef: txRef },
-        data: { status: 'FAILED' },
-      });
-      return { status: 'failed' };
+      await this.supportPayment.markPaymentFailed(support, txRef, rawPayload);
+      return {
+        status: 'failed',
+        message:
+          'Chapa reported that the payment was not successful. In test mode, use one of Chapa’s approved sandbox numbers for the selected payment method.',
+      };
     }
 
     if (
@@ -387,248 +240,26 @@ export class SupportService {
       );
     }
 
-    const creatorUserId = support.creatorProfile.user.id;
-    const netAmount = support.netAmount;
-    const rewardDelivery =
-      support.rewardId != null && support.supporterId != null
-        ? this.buildRewardDeliveryPayload(support.reward)
-        : null;
-
-    const paymentApplied = await this.prisma.$transaction(async (tx) => {
-      if (support.rewardId && support.supporterId) {
-        const unlockExists = await tx.unlockedReward.findFirst({
-          where: {
-            userId: support.supporterId,
-            rewardId: support.rewardId,
-          },
-          select: { id: true },
-        });
-
-        if (unlockExists) {
-          throw new ConflictException('Reward already unlocked for this user');
-        }
-      }
-
-      if (support.pollId && support.supporterId) {
-        const voteExists = await tx.paidVote.findFirst({
-          where: {
-            supportId: support.id,
-          },
-          select: { id: true },
-        });
-
-        if (voteExists) {
-          throw new ConflictException('This paid vote has already been recorded');
-        }
-      }
-
-      const completion = await tx.support.updateMany({
-        where: {
-          chapaRef: txRef,
-          walletCredited: false,
-        },
-        data: {
-          status: 'COMPLETED',
-          paidAt: new Date(),
-          walletCredited: true,
-        },
-      });
-      if (completion.count !== 1) {
-        return false;
-      }
-
-      if (support.rewardId) {
-        const rewardClaimCount = await tx.$executeRaw(Prisma.sql`
-          UPDATE "rewards"
-          SET "claimedCount" = "claimedCount" + 1
-          WHERE "id" = ${support.rewardId}
-            AND "isActive" = true
-            AND (
-              "maxQuantity" IS NULL
-              OR "claimedCount" < "maxQuantity"
-            )
-        `);
-
-        if (rewardClaimCount !== 1) {
-          throw new ConflictException('This reward is no longer available');
-        }
-      }
-
-      if (support.pollId && support.pollOptionId && support.supporterId) {
-        await tx.pollOption.update({
-          where: { id: support.pollOptionId },
-          data: {
-            votes: { increment: 1 },
-          },
-        });
-
-        await tx.paidVote.create({
-          data: {
-            pollId: support.pollId,
-            optionId: support.pollOptionId,
-            userId: support.supporterId,
-            supportId: support.id,
-          },
-        });
-      }
-
-      const wallet = await tx.wallet.update({
-        where: { userId: creatorUserId },
-        data: {
-          availableBalance: { increment: netAmount },
-          totalEarned: { increment: netAmount },
-        },
-        select: { availableBalance: true },
-      });
-
-      await tx.walletTransaction.create({
-        data: {
-          wallet: { connect: { userId: creatorUserId } },
-          type: 'CREDIT',
-          reason: 'SUPPORT_RECEIVED',
-          amount: netAmount,
-          balanceAfter: wallet.availableBalance,
-          referenceId: support.id,
-          referenceType: 'support',
-        },
-      });
-
-      const supporterIdentityFilter =
-        support.supporterId != null
-          ? { supporterId: support.supporterId }
-          : support.supporterEmail
-            ? { supporterEmail: support.supporterEmail }
-            : {
-                supporterName: support.supporterName,
-              };
-
-      const previousCompletedSupport = await tx.support.count({
-        where: {
-          creatorProfileId: support.creatorProfileId,
-          status: 'COMPLETED',
-          id: { not: support.id },
-          ...supporterIdentityFilter,
-        },
-      });
-
-      await tx.creatorProfile.update({
-        where: { id: support.creatorProfileId },
-        data: {
-          totalSupports: { increment: 1 },
-          totalSupporters:
-            previousCompletedSupport === 0 ? { increment: 1 } : undefined,
-        },
-      });
-
-      if (support.campaignId) {
-        await tx.tikTokCampaign.update({
-          where: { id: support.campaignId },
-          data: {
-            revenue: { increment: support.amount },
-          },
-        });
-      }
-
-      if (support.deepLinkId) {
-        await tx.deepLink.update({
-          where: { id: support.deepLinkId },
-          data: {
-            conversions: { increment: 1 },
-            revenue: { increment: support.amount },
-          },
-        });
-      }
-
-      if (support.isFeatureRequest) {
-        await tx.featureRequest.create({
-          data: {
-            supportId: support.id,
-            creatorProfileId: support.creatorProfileId,
-            message: support.message,
-          },
-        });
-      }
-
-      await tx.notification.create({
-        data: {
-          userId: creatorUserId,
-          type: 'SUPPORT_RECEIVED',
-          title: support.reward
-            ? `${support.supporterName} unlocked "${support.reward.title}"!`
-            : support.poll
-              ? `${support.supporterName} voted in "${support.poll.question}"!`
-              : support.isFeatureRequest
-                ? `${support.supporterName} sent a feature request!`
-                : `${support.supporterName} bought you ${support.coffeeCount} coffee${support.coffeeCount > 1 ? 's' : ''}! ☕`,
-          body:
-            support.message ??
-            `ETB ${Number(support.amount).toFixed(2)} received`,
-          referenceId: support.id,
-        },
-      });
-
-      if (support.rewardId && support.supporterId) {
-        await tx.unlockedReward.create({
-          data: {
-            userId: support.supporterId,
-            rewardId: support.rewardId,
-            supportId: support.id,
-          },
-        });
-
-        await tx.notification.create({
-          data: {
-            userId: support.supporterId,
-            type: 'REWARD_UNLOCKED',
-            title: `Reward unlocked: ${support.reward?.title ?? 'Reward'}`,
-            body:
-              rewardDelivery?.deliveryMessage ??
-              'Your reward is now available in your account.',
-            referenceId: support.rewardId,
-          },
-        });
-      }
-
-      if (support.supporterId && support.rewardId) {
-        await this.ensureFanBadge(
-          tx,
-          support.supporterId,
-          support.creatorProfileId,
-          'VIP',
-        );
-      }
-
-      if (support.supporterId && previousCompletedSupport + 1 >= 3) {
-        await this.ensureFanBadge(
-          tx,
-          support.supporterId,
-          support.creatorProfileId,
-          'TOP_FAN',
-        );
-      }
-
-      return true;
-    });
+    const { paymentApplied, rewardDelivery } =
+      await this.supportPayment.applyCompletedPayment(
+        support,
+        txRef,
+        rawPayload ?? (verification as unknown as Prisma.InputJsonValue),
+      );
 
     if (!paymentApplied) {
-      return { status: 'already_completed' };
+      return {
+        status: 'already_completed',
+        message: 'This payment has already been processed.',
+      };
     }
-
-    this.telegram
-      .notifyCreatorOfSupport({
-        creatorUserId,
-        supporterName: support.supporterName,
-        coffeeCount: support.coffeeCount,
-        amount: Number(support.amount),
-        message: support.message ?? undefined,
-      })
-      .catch((err) => this.logger.error('Telegram notify failed', err));
 
     this.logger.log(
       `Payment completed: ${txRef} — ETB ${support.amount.toFixed(2)}`,
     );
     return {
       status: 'completed',
+      message: 'Your payment was verified successfully.',
       rewardUnlocked: Boolean(support.rewardId && support.supporterId),
       rewardDelivery,
       campaign: support.campaign,
@@ -636,57 +267,6 @@ export class SupportService {
       poll: support.poll,
       pollOption: support.pollOption,
       featureRequestQueued: support.isFeatureRequest,
-    };
-  }
-
-  private async ensureFanBadge(
-    tx: Prisma.TransactionClient,
-    userId: string,
-    creatorProfileId: string,
-    badge: 'VIP' | 'TOP_FAN',
-  ) {
-    const existingBadge = await tx.fanBadge.findFirst({
-      where: {
-        userId,
-        creatorProfileId,
-        badge,
-      },
-      select: { id: true },
-    });
-
-    if (!existingBadge) {
-      await tx.fanBadge.create({
-        data: {
-          userId,
-          creatorProfileId,
-          badge,
-        },
-      });
-    }
-  }
-
-  private buildRewardDeliveryPayload(
-    reward:
-      | {
-          contentUrl: string | null;
-          telegramLink: string | null;
-          title: string;
-        }
-      | null,
-  ) {
-    if (!reward) {
-      return null;
-    }
-
-    return {
-      title: reward.title,
-      contentUrl: reward.contentUrl,
-      telegramLink: reward.telegramLink,
-      deliveryMessage: reward.contentUrl
-        ? 'Your content is ready to view now.'
-        : reward.telegramLink
-          ? 'Your Telegram access is ready now.'
-          : 'The creator has been notified to deliver your reward.',
     };
   }
 }

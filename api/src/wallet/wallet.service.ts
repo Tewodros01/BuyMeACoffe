@@ -15,14 +15,21 @@ import { PrismaService } from '../prisma/prisma.service';
 import { BulkUpdateWithdrawalsDto } from './dto/bulk-update-withdrawals.dto';
 import { ListAdminAuditLogsDto } from './dto/list-admin-audit-logs.dto';
 import { ListAdminWithdrawalsDto } from './dto/list-admin-withdrawals.dto';
+import { WalletAccountingService } from './wallet-accounting.service';
+import { WalletBalanceService } from './wallet-balance.service';
+import { WalletLedgerService } from './wallet-ledger.service';
+import { WalletReconciliationService } from './wallet-reconciliation.service';
+import { WithdrawalTransitionService } from './withdrawal-transition.service';
 
 const MIN_WITHDRAWAL = 100;
+const CURRENCY_SCALE = 2;
 
 export interface RequestWithdrawalDto {
   amount: number;
   method: WithdrawalMethod;
   financialAccountId: string;
   note?: string;
+  idempotencyKey?: string;
 }
 
 export interface UpdateWithdrawalStatusDto {
@@ -33,7 +40,90 @@ export interface UpdateWithdrawalStatusDto {
 
 @Injectable()
 export class WalletService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly walletAccounting: WalletAccountingService,
+    private readonly walletLedger: WalletLedgerService,
+    private readonly walletBalance: WalletBalanceService,
+    private readonly walletReconciliation: WalletReconciliationService,
+    private readonly withdrawalTransition: WithdrawalTransitionService,
+  ) {}
+
+  private normalizeWithdrawalAmount(amount: number): Prisma.Decimal {
+    if (!Number.isFinite(amount) || amount <= 0) {
+      throw new BadRequestException('Withdrawal amount must be greater than 0');
+    }
+
+    const scaledAmount = amount * 10 ** CURRENCY_SCALE;
+    if (Math.abs(scaledAmount - Math.round(scaledAmount)) > 1e-8) {
+      throw new BadRequestException(
+        'Withdrawal amount cannot have more than 2 decimal places',
+      );
+    }
+
+    return new Prisma.Decimal(amount.toFixed(CURRENCY_SCALE));
+  }
+
+  private normalizeOptionalText(value?: string) {
+    return value?.trim() || null;
+  }
+
+  private ensureIdempotentWithdrawalMatches(
+    existingWithdrawal: {
+      amount: Prisma.Decimal;
+      method: WithdrawalMethod;
+      financialAccountId: string;
+      note: string | null;
+      id: string;
+    },
+    expected: {
+      amount: Prisma.Decimal;
+      method: WithdrawalMethod;
+      financialAccountId: string;
+      note: string | null;
+    },
+  ) {
+    const sameRequest =
+      existingWithdrawal.amount.equals(expected.amount) &&
+      existingWithdrawal.method === expected.method &&
+      existingWithdrawal.financialAccountId === expected.financialAccountId &&
+      existingWithdrawal.note === expected.note;
+
+    if (!sameRequest) {
+      throw new ConflictException(
+        `Idempotency key is already bound to a different withdrawal request (${existingWithdrawal.id})`,
+      );
+    }
+  }
+
+  private isRetryableTransactionError(error: unknown) {
+    return (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2034'
+    );
+  }
+
+  private async runSerializableTransaction<T>(
+    operation: (tx: Prisma.TransactionClient) => Promise<T>,
+    maxAttempts = 3,
+  ) {
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+      try {
+        return await this.prisma.$transaction(operation, {
+          isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+        });
+      } catch (error) {
+        if (
+          !this.isRetryableTransactionError(error) ||
+          attempt === maxAttempts
+        ) {
+          throw error;
+        }
+      }
+    }
+
+    throw new ConflictException('Transaction retry limit exceeded');
+  }
 
   async getWallet(userId: string) {
     const wallet = await this.prisma.wallet.findUnique({
@@ -68,7 +158,9 @@ export class WalletService {
         type: true,
         reason: true,
         amount: true,
-        balanceAfter: true,
+        availableBalanceAfter: true,
+        pendingBalanceAfter: true,
+        lockedBalanceAfter: true,
         referenceType: true,
         referenceId: true,
         note: true,
@@ -84,7 +176,7 @@ export class WalletService {
       );
     }
 
-    return this.prisma.$transaction(async (tx) => {
+    return this.runSerializableTransaction(async (tx) => {
       const user = await tx.user.findUnique({
         where: { id: userId },
         select: { isVerified: true },
@@ -101,39 +193,56 @@ export class WalletService {
       });
       if (!account) throw new NotFoundException('Financial account not found');
 
-      const amount = new Prisma.Decimal(dto.amount);
-      const walletUpdate = await tx.wallet.updateMany({
-        where: {
-          userId,
-          isActive: true,
-          availableBalance: { gte: amount },
-        },
-        data: {
-          availableBalance: { decrement: amount },
-          lockedBalance: { increment: amount },
-        },
-      });
-      if (walletUpdate.count !== 1) {
-        throw new BadRequestException(
-          'Insufficient available balance or wallet is inactive',
-        );
+      const amount: Prisma.Decimal = this.normalizeWithdrawalAmount(dto.amount);
+      const normalizedNote = this.normalizeOptionalText(dto.note);
+
+      if (dto.idempotencyKey) {
+        const existingWithdrawal = await tx.withdrawal.findFirst({
+          where: {
+            userId,
+            idempotencyKey: dto.idempotencyKey,
+          },
+          select: {
+            id: true,
+            amount: true,
+            method: true,
+            financialAccountId: true,
+            note: true,
+            status: true,
+            createdAt: true,
+          },
+        });
+
+        if (existingWithdrawal) {
+          this.ensureIdempotentWithdrawalMatches(existingWithdrawal, {
+            amount,
+            method: dto.method,
+            financialAccountId: dto.financialAccountId,
+            note: normalizedNote,
+          });
+          return existingWithdrawal;
+        }
       }
 
-      const updatedWallet = await tx.wallet.findUnique({
-        where: { userId },
-        select: { availableBalance: true },
-      });
-      if (!updatedWallet) throw new NotFoundException('Wallet not found');
+      const updatedWallet = await this.walletBalance.reserveWithdrawalFunds(
+        tx,
+        userId,
+        amount,
+      );
+
+      const withdrawalData: Prisma.WithdrawalUncheckedCreateInput = {
+        userId,
+        financialAccountId: dto.financialAccountId,
+        amount,
+        netAmount: amount,
+        method: dto.method,
+        note: normalizedNote,
+        currency: 'ETB',
+        ...(dto.idempotencyKey ? { idempotencyKey: dto.idempotencyKey } : {}),
+      };
 
       const withdrawal = await tx.withdrawal.create({
-        data: {
-          userId,
-          financialAccountId: dto.financialAccountId,
-          amount,
-          method: dto.method,
-          note: dto.note,
-          currency: 'ETB',
-        },
+        data: withdrawalData,
         select: {
           id: true,
           amount: true,
@@ -143,18 +252,23 @@ export class WalletService {
         },
       });
 
-      await tx.walletTransaction.create({
-        data: {
-          wallet: { connect: { userId } },
-          type: 'DEBIT',
-          reason: 'WITHDRAWAL',
-          amount,
-          balanceAfter: updatedWallet.availableBalance,
-          referenceId: withdrawal.id,
-          referenceType: 'withdrawal',
-        },
+      await this.walletLedger.createWalletTransaction(tx, {
+        userId,
+        type: 'DEBIT',
+        reason: 'WITHDRAWAL_RESERVED',
+        withdrawalId: withdrawal.id,
+        amount,
+        balances: updatedWallet,
+        referenceId: withdrawal.id,
+        referenceType: 'withdrawal',
+        note: dto.note ?? 'Withdrawal requested and funds reserved',
       });
-
+      await this.walletAccounting.recordWithdrawalReserve(tx, {
+        withdrawalId: withdrawal.id,
+        userId,
+        amount,
+        currency: 'ETB',
+      });
       return withdrawal;
     });
   }
@@ -170,6 +284,7 @@ export class WalletService {
         method: true,
         status: true,
         note: true,
+        processingStartedAt: true,
         processedAt: true,
         createdAt: true,
         financialAccount: {
@@ -233,6 +348,7 @@ export class WalletService {
           adminNote: true,
           referenceId: true,
           createdAt: true,
+          processingStartedAt: true,
           processedAt: true,
           financialAccount: {
             select: {
@@ -307,10 +423,10 @@ export class WalletService {
         _sum: { amount: true },
       }),
       this.prisma.withdrawal.count({
-        where: { status: 'COMPLETED', processedAt: { gte: dayAgo } },
+        where: { status: 'COMPLETED', approvedAt: { gte: dayAgo } },
       }),
       this.prisma.withdrawal.count({
-        where: { status: 'REJECTED', processedAt: { gte: weekAgo } },
+        where: { status: 'REJECTED', rejectedAt: { gte: weekAgo } },
       }),
     ]);
 
@@ -373,6 +489,9 @@ export class WalletService {
           entityId: true,
           before: true,
           after: true,
+          reasonCode: true,
+          correlationId: true,
+          metadata: true,
           ipAddress: true,
           createdAt: true,
           actor: {
@@ -405,6 +524,192 @@ export class WalletService {
         take,
         totalPages: Math.max(1, Math.ceil(total / take)),
       },
+    };
+  }
+
+  async listAccountingBatches(query?: {
+    page?: number;
+    take?: number;
+    batchType?: string;
+    search?: string;
+  }) {
+    const take = query?.take ?? 20;
+    const page = query?.page ?? 1;
+    const skip = (page - 1) * take;
+    const search = query?.search?.trim();
+
+    const where: Prisma.AccountingPostingBatchWhereInput = {
+      ...(query?.batchType ? { batchType: query.batchType as never } : {}),
+      ...(search
+        ? {
+            OR: [
+              { idempotencyKey: { contains: search, mode: 'insensitive' } },
+              { supportId: { contains: search, mode: 'insensitive' } },
+              { withdrawalId: { contains: search, mode: 'insensitive' } },
+              {
+                providerTransaction: {
+                  providerRef: { contains: search, mode: 'insensitive' },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [total, batches] = await this.prisma.$transaction([
+      this.prisma.accountingPostingBatch.count({ where }),
+      this.prisma.accountingPostingBatch.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take,
+        select: {
+          id: true,
+          batchType: true,
+          currency: true,
+          description: true,
+          idempotencyKey: true,
+          supportId: true,
+          withdrawalId: true,
+          createdAt: true,
+          providerTransaction: {
+            select: {
+              id: true,
+              provider: true,
+              providerRef: true,
+              status: true,
+            },
+          },
+          entries: {
+            orderBy: { createdAt: 'asc' },
+            select: {
+              id: true,
+              walletId: true,
+              accountCode: true,
+              direction: true,
+              amount: true,
+              currency: true,
+              metadata: true,
+            },
+          },
+        },
+      }),
+    ]);
+
+    return {
+      items: batches,
+      pagination: {
+        total,
+        page,
+        take,
+        totalPages: Math.max(1, Math.ceil(total / take)),
+      },
+    };
+  }
+
+  async listProviderTransactions(query?: {
+    page?: number;
+    take?: number;
+    status?: string;
+    search?: string;
+  }) {
+    const take = query?.take ?? 20;
+    const page = query?.page ?? 1;
+    const skip = (page - 1) * take;
+    const search = query?.search?.trim();
+
+    const where: Prisma.PaymentProviderTransactionWhereInput = {
+      ...(query?.status ? { status: query.status as never } : {}),
+      ...(search
+        ? {
+            OR: [
+              { providerRef: { contains: search, mode: 'insensitive' } },
+              { eventType: { contains: search, mode: 'insensitive' } },
+              {
+                paymentIntent: {
+                  supportId: { contains: search, mode: 'insensitive' },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [total, transactions] = await this.prisma.$transaction([
+      this.prisma.paymentProviderTransaction.count({ where }),
+      this.prisma.paymentProviderTransaction.findMany({
+        where,
+        orderBy: { recordedAt: 'desc' },
+        skip,
+        take,
+        select: {
+          id: true,
+          provider: true,
+          providerRef: true,
+          status: true,
+          eventType: true,
+          amount: true,
+          feeAmount: true,
+          netAmount: true,
+          currency: true,
+          verifiedAt: true,
+          recordedAt: true,
+          paymentIntent: {
+            select: {
+              id: true,
+              supportId: true,
+              support: {
+                select: {
+                  id: true,
+                  supporterName: true,
+                  creatorProfile: {
+                    select: {
+                      slug: true,
+                      user: {
+                        select: {
+                          firstName: true,
+                          lastName: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          paymentAttempt: {
+            select: {
+              id: true,
+              attemptNumber: true,
+              checkoutUrl: true,
+            },
+          },
+        },
+      }),
+    ]);
+
+    return {
+      items: transactions,
+      pagination: {
+        total,
+        page,
+        take,
+        totalPages: Math.max(1, Math.ceil(total / take)),
+      },
+    };
+  }
+
+  async getAdminReconciliation(limit = 50) {
+    return this.walletReconciliation.getReconciliationReport(limit);
+  }
+
+  async runAdminReconciliation(limit = 50) {
+    const result = await this.walletReconciliation.reconcileWallets(limit);
+    const report =
+      await this.walletReconciliation.getReconciliationReport(limit);
+    return {
+      ...result,
+      mismatches: report.mismatches,
     };
   }
 
@@ -455,7 +760,7 @@ export class WalletService {
     withdrawalId: string,
     dto: UpdateWithdrawalStatusDto,
   ) {
-    return this.prisma.$transaction(async (tx) => {
+    return this.runSerializableTransaction(async (tx) => {
       const [actor, withdrawal] = await Promise.all([
         tx.user.findUnique({
           where: { id: actorUserId },
@@ -465,7 +770,9 @@ export class WalletService {
           where: { id: withdrawalId },
           include: {
             user: { select: { id: true } },
-            financialAccount: { select: { provider: true, accountName: true } },
+            financialAccount: {
+              select: { provider: true, accountName: true },
+            },
           },
         }),
       ]);
@@ -475,6 +782,7 @@ export class WalletService {
       if (withdrawal.status === dto.status) {
         throw new ConflictException('Withdrawal is already in that state');
       }
+      this.withdrawalTransition.assertTransition(withdrawal.status, dto.status);
       if (
         withdrawal.status === 'COMPLETED' ||
         withdrawal.status === 'REJECTED'
@@ -518,63 +826,113 @@ export class WalletService {
         }
       }
 
-      const wallet = await tx.wallet.findUnique({
-        where: { userId: withdrawal.userId },
-        select: { availableBalance: true, lockedBalance: true },
-      });
-      if (!wallet) throw new NotFoundException('Wallet not found');
+      const amount: Prisma.Decimal = withdrawal.amount;
+      const statusChangedAt = new Date();
+      let updated: {
+        id: string;
+        status: WithdrawalStatus;
+        amount: Prisma.Decimal;
+        currency: string;
+        processedAt: Date | null;
+        userId: string;
+      } | null = null;
 
-      const amount = withdrawal.amount;
+      if (dto.status === 'PROCESSING') {
+        const transition = await this.withdrawalTransition.moveToProcessing(
+          tx,
+          {
+            withdrawalId: withdrawal.id,
+            adminNote: dto.adminNote,
+            referenceId: dto.referenceId,
+            at: statusChangedAt,
+          },
+        );
+
+        if (transition.count !== 1) {
+          throw new ConflictException(
+            'Withdrawal could not be moved to processing',
+          );
+        }
+      }
 
       if (dto.status === 'COMPLETED') {
-        if (wallet.lockedBalance.lt(amount)) {
-          throw new ConflictException('Locked balance is insufficient');
+        const finalization = await this.withdrawalTransition.finalize(tx, {
+          withdrawalId: withdrawal.id,
+          status: 'COMPLETED',
+          adminNote: dto.adminNote,
+          referenceId: dto.referenceId,
+          at: statusChangedAt,
+        });
+
+        if (finalization.count !== 1) {
+          throw new ConflictException('Withdrawal has already been finalized');
         }
 
-        await tx.wallet.update({
-          where: { userId: withdrawal.userId },
-          data: {
-            lockedBalance: { decrement: amount },
-          },
+        const updatedWallet = await this.walletBalance.completeWithdrawal(
+          tx,
+          withdrawal.userId,
+          amount,
+        );
+
+        await this.walletLedger.createWalletTransaction(tx, {
+          userId: withdrawal.userId,
+          type: 'DEBIT',
+          reason: 'WITHDRAWAL_COMPLETED',
+          withdrawalId: withdrawal.id,
+          amount,
+          balances: updatedWallet,
+          referenceId: withdrawal.id,
+          referenceType: 'withdrawal',
+          note: dto.adminNote ?? 'Withdrawal completed',
+        });
+        await this.walletAccounting.recordWithdrawalPayout(tx, {
+          withdrawalId: withdrawal.id,
+          userId: withdrawal.userId,
+          amount,
+          currency: withdrawal.currency,
         });
       }
 
       if (dto.status === 'REJECTED') {
-        if (wallet.lockedBalance.lt(amount)) {
-          throw new ConflictException('Locked balance is insufficient');
-        }
-
-        const updatedWallet = await tx.wallet.update({
-          where: { userId: withdrawal.userId },
-          data: {
-            lockedBalance: { decrement: amount },
-            availableBalance: { increment: amount },
-          },
-          select: { availableBalance: true },
+        const finalization = await this.withdrawalTransition.finalize(tx, {
+          withdrawalId: withdrawal.id,
+          status: 'REJECTED',
+          adminNote: dto.adminNote,
+          referenceId: dto.referenceId,
+          at: statusChangedAt,
         });
 
-        await tx.walletTransaction.create({
-          data: {
-            wallet: { connect: { userId: withdrawal.userId } },
-            type: 'CREDIT',
-            reason: 'WITHDRAWAL_FAILED',
-            amount,
-            balanceAfter: updatedWallet.availableBalance,
-            referenceId: withdrawal.id,
-            referenceType: 'withdrawal',
-            note: dto.adminNote ?? 'Withdrawal rejected and funds returned',
-          },
+        if (finalization.count !== 1) {
+          throw new ConflictException('Withdrawal has already been finalized');
+        }
+
+        const updatedWallet = await this.walletBalance.rejectWithdrawal(
+          tx,
+          withdrawal.userId,
+          amount,
+        );
+
+        await this.walletLedger.createWalletTransaction(tx, {
+          userId: withdrawal.userId,
+          type: 'CREDIT',
+          reason: 'WITHDRAWAL_FAILED',
+          withdrawalId: withdrawal.id,
+          amount,
+          balances: updatedWallet,
+          referenceId: withdrawal.id,
+          referenceType: 'withdrawal',
+          note: dto.adminNote ?? 'Withdrawal rejected and funds returned',
+        });
+        await this.walletAccounting.recordWithdrawalRelease(tx, {
+          withdrawalId: withdrawal.id,
+          userId: withdrawal.userId,
+          amount,
+          currency: withdrawal.currency,
         });
       }
 
-      const updated = await tx.withdrawal.update({
+      updated = await tx.withdrawal.findUnique({
         where: { id: withdrawal.id },
-        data: {
-          status: dto.status,
-          adminNote: dto.adminNote,
-          referenceId: dto.referenceId,
-          processedAt: dto.status === 'PROCESSING' ? null : new Date(),
-        },
         select: {
           id: true,
           status: true,
@@ -584,6 +942,10 @@ export class WalletService {
           userId: true,
         },
       });
+
+      if (!updated) {
+        throw new NotFoundException('Withdrawal not found after update');
+      }
 
       await tx.auditLog.create({
         data: {
@@ -601,6 +963,17 @@ export class WalletService {
             status: dto.status,
             adminNote: dto.adminNote ?? null,
             referenceId: dto.referenceId ?? null,
+          },
+          reasonCode:
+            dto.status === 'COMPLETED'
+              ? 'WITHDRAWAL_PAYOUT_CONFIRMED'
+              : dto.status === 'REJECTED'
+                ? 'WITHDRAWAL_REJECTED'
+                : 'WITHDRAWAL_UNDER_REVIEW',
+          correlationId: withdrawal.id,
+          metadata: {
+            amount: withdrawal.amount.toString(),
+            currency: withdrawal.currency,
           },
         },
       });

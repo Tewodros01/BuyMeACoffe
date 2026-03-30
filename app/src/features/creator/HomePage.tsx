@@ -55,9 +55,9 @@ export default function HomePage() {
         />
 
         {/* Balance Card */}
-        <div className="relative rounded-[24px] overflow-hidden fade-up" style={{ animationDelay: '50ms' }}>
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1a1408] via-[#120f06] to-[#07070f]" />
-          <div className="absolute inset-0 border border-amber-500/[0.18] rounded-[24px]" />
+        <div className="relative rounded-3xl overflow-hidden fade-up" style={{ animationDelay: '50ms' }}>
+          <div className="absolute inset-0 bg-linear-to-br from-[#1a1408] via-[#120f06] to-[#07070f]" />
+          <div className="absolute inset-0 border border-amber-500/[0.18] rounded-3xl" />
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-amber-500/[0.12] rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
 
@@ -136,7 +136,7 @@ export default function HomePage() {
           ) : (
             <div className="flex flex-col gap-2">
               {dashboard.recentSupports.map((s, i) => (
-                <div key={s.id} className="rounded-2xl bg-[#0e0e1c] border border-white/[0.06] p-4 flex items-center gap-3 fade-up" style={{ animationDelay: `${i * 35}ms` }}>
+                <div key={s.id} className="rounded-2xl bg-[#0e0e1c] border border-white/6 p-4 flex items-center gap-3 fade-up" style={{ animationDelay: `${i * 35}ms` }}>
                   <div className="w-10 h-10 rounded-2xl bg-amber-500/[0.08] border border-amber-500/[0.12] flex items-center justify-center flex-shrink-0 text-[16px]">
                     {'☕'.repeat(Math.min(s.coffeeCount, 2))}
                   </div>

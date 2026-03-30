@@ -46,6 +46,7 @@ export type RewardMinAggregateOutputType = {
   type: $Enums.RewardType | null
   price: runtime.Decimal | null
   contentUrl: string | null
+  fileName: string | null
   telegramLink: string | null
   maxQuantity: number | null
   claimedCount: number | null
@@ -63,6 +64,7 @@ export type RewardMaxAggregateOutputType = {
   type: $Enums.RewardType | null
   price: runtime.Decimal | null
   contentUrl: string | null
+  fileName: string | null
   telegramLink: string | null
   maxQuantity: number | null
   claimedCount: number | null
@@ -80,6 +82,7 @@ export type RewardCountAggregateOutputType = {
   type: number
   price: number
   contentUrl: number
+  fileName: number
   telegramLink: number
   maxQuantity: number
   claimedCount: number
@@ -111,6 +114,7 @@ export type RewardMinAggregateInputType = {
   type?: true
   price?: true
   contentUrl?: true
+  fileName?: true
   telegramLink?: true
   maxQuantity?: true
   claimedCount?: true
@@ -128,6 +132,7 @@ export type RewardMaxAggregateInputType = {
   type?: true
   price?: true
   contentUrl?: true
+  fileName?: true
   telegramLink?: true
   maxQuantity?: true
   claimedCount?: true
@@ -145,6 +150,7 @@ export type RewardCountAggregateInputType = {
   type?: true
   price?: true
   contentUrl?: true
+  fileName?: true
   telegramLink?: true
   maxQuantity?: true
   claimedCount?: true
@@ -249,6 +255,7 @@ export type RewardGroupByOutputType = {
   type: $Enums.RewardType
   price: runtime.Decimal
   contentUrl: string | null
+  fileName: string | null
   telegramLink: string | null
   maxQuantity: number | null
   claimedCount: number
@@ -263,7 +270,7 @@ export type RewardGroupByOutputType = {
   _max: RewardMaxAggregateOutputType | null
 }
 
-type GetRewardGroupByPayload<T extends RewardGroupByArgs> = Prisma.PrismaPromise<
+export type GetRewardGroupByPayload<T extends RewardGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<RewardGroupByOutputType, T['by']> &
       {
@@ -289,6 +296,7 @@ export type RewardWhereInput = {
   type?: Prisma.EnumRewardTypeFilter<"Reward"> | $Enums.RewardType
   price?: Prisma.DecimalFilter<"Reward"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.StringNullableFilter<"Reward"> | string | null
+  fileName?: Prisma.StringNullableFilter<"Reward"> | string | null
   telegramLink?: Prisma.StringNullableFilter<"Reward"> | string | null
   maxQuantity?: Prisma.IntNullableFilter<"Reward"> | number | null
   claimedCount?: Prisma.IntFilter<"Reward"> | number
@@ -309,6 +317,7 @@ export type RewardOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   price?: Prisma.SortOrder
   contentUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileName?: Prisma.SortOrderInput | Prisma.SortOrder
   telegramLink?: Prisma.SortOrderInput | Prisma.SortOrder
   maxQuantity?: Prisma.SortOrderInput | Prisma.SortOrder
   claimedCount?: Prisma.SortOrder
@@ -323,6 +332,7 @@ export type RewardOrderByWithRelationInput = {
 
 export type RewardWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  id_creatorProfileId?: Prisma.RewardIdCreatorProfileIdCompoundUniqueInput
   AND?: Prisma.RewardWhereInput | Prisma.RewardWhereInput[]
   OR?: Prisma.RewardWhereInput[]
   NOT?: Prisma.RewardWhereInput | Prisma.RewardWhereInput[]
@@ -332,6 +342,7 @@ export type RewardWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.EnumRewardTypeFilter<"Reward"> | $Enums.RewardType
   price?: Prisma.DecimalFilter<"Reward"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.StringNullableFilter<"Reward"> | string | null
+  fileName?: Prisma.StringNullableFilter<"Reward"> | string | null
   telegramLink?: Prisma.StringNullableFilter<"Reward"> | string | null
   maxQuantity?: Prisma.IntNullableFilter<"Reward"> | number | null
   claimedCount?: Prisma.IntFilter<"Reward"> | number
@@ -342,7 +353,7 @@ export type RewardWhereUniqueInput = Prisma.AtLeast<{
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileScalarRelationFilter, Prisma.CreatorProfileWhereInput>
   supports?: Prisma.SupportListRelationFilter
   unlockedRewards?: Prisma.UnlockedRewardListRelationFilter
-}, "id">
+}, "id" | "id_creatorProfileId">
 
 export type RewardOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -352,6 +363,7 @@ export type RewardOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   price?: Prisma.SortOrder
   contentUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileName?: Prisma.SortOrderInput | Prisma.SortOrder
   telegramLink?: Prisma.SortOrderInput | Prisma.SortOrder
   maxQuantity?: Prisma.SortOrderInput | Prisma.SortOrder
   claimedCount?: Prisma.SortOrder
@@ -377,6 +389,7 @@ export type RewardScalarWhereWithAggregatesInput = {
   type?: Prisma.EnumRewardTypeWithAggregatesFilter<"Reward"> | $Enums.RewardType
   price?: Prisma.DecimalWithAggregatesFilter<"Reward"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.StringNullableWithAggregatesFilter<"Reward"> | string | null
+  fileName?: Prisma.StringNullableWithAggregatesFilter<"Reward"> | string | null
   telegramLink?: Prisma.StringNullableWithAggregatesFilter<"Reward"> | string | null
   maxQuantity?: Prisma.IntNullableWithAggregatesFilter<"Reward"> | number | null
   claimedCount?: Prisma.IntWithAggregatesFilter<"Reward"> | number
@@ -393,6 +406,7 @@ export type RewardCreateInput = {
   type: $Enums.RewardType
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: string | null
+  fileName?: string | null
   telegramLink?: string | null
   maxQuantity?: number | null
   claimedCount?: number
@@ -413,6 +427,7 @@ export type RewardUncheckedCreateInput = {
   type: $Enums.RewardType
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: string | null
+  fileName?: string | null
   telegramLink?: string | null
   maxQuantity?: number | null
   claimedCount?: number
@@ -431,6 +446,7 @@ export type RewardUpdateInput = {
   type?: Prisma.EnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telegramLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   claimedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -451,6 +467,7 @@ export type RewardUncheckedUpdateInput = {
   type?: Prisma.EnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telegramLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   claimedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -470,6 +487,7 @@ export type RewardCreateManyInput = {
   type: $Enums.RewardType
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: string | null
+  fileName?: string | null
   telegramLink?: string | null
   maxQuantity?: number | null
   claimedCount?: number
@@ -486,6 +504,7 @@ export type RewardUpdateManyMutationInput = {
   type?: Prisma.EnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telegramLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   claimedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -503,6 +522,7 @@ export type RewardUncheckedUpdateManyInput = {
   type?: Prisma.EnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telegramLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   claimedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -522,6 +542,11 @@ export type RewardOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type RewardIdCreatorProfileIdCompoundUniqueInput = {
+  id: string
+  creatorProfileId: string
+}
+
 export type RewardCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
@@ -530,6 +555,7 @@ export type RewardCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   price?: Prisma.SortOrder
   contentUrl?: Prisma.SortOrder
+  fileName?: Prisma.SortOrder
   telegramLink?: Prisma.SortOrder
   maxQuantity?: Prisma.SortOrder
   claimedCount?: Prisma.SortOrder
@@ -553,6 +579,7 @@ export type RewardMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   price?: Prisma.SortOrder
   contentUrl?: Prisma.SortOrder
+  fileName?: Prisma.SortOrder
   telegramLink?: Prisma.SortOrder
   maxQuantity?: Prisma.SortOrder
   claimedCount?: Prisma.SortOrder
@@ -570,6 +597,7 @@ export type RewardMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   price?: Prisma.SortOrder
   contentUrl?: Prisma.SortOrder
+  fileName?: Prisma.SortOrder
   telegramLink?: Prisma.SortOrder
   maxQuantity?: Prisma.SortOrder
   claimedCount?: Prisma.SortOrder
@@ -686,6 +714,7 @@ export type RewardCreateWithoutCreatorProfileInput = {
   type: $Enums.RewardType
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: string | null
+  fileName?: string | null
   telegramLink?: string | null
   maxQuantity?: number | null
   claimedCount?: number
@@ -704,6 +733,7 @@ export type RewardUncheckedCreateWithoutCreatorProfileInput = {
   type: $Enums.RewardType
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: string | null
+  fileName?: string | null
   telegramLink?: string | null
   maxQuantity?: number | null
   claimedCount?: number
@@ -752,6 +782,7 @@ export type RewardScalarWhereInput = {
   type?: Prisma.EnumRewardTypeFilter<"Reward"> | $Enums.RewardType
   price?: Prisma.DecimalFilter<"Reward"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.StringNullableFilter<"Reward"> | string | null
+  fileName?: Prisma.StringNullableFilter<"Reward"> | string | null
   telegramLink?: Prisma.StringNullableFilter<"Reward"> | string | null
   maxQuantity?: Prisma.IntNullableFilter<"Reward"> | number | null
   claimedCount?: Prisma.IntFilter<"Reward"> | number
@@ -768,6 +799,7 @@ export type RewardCreateWithoutSupportsInput = {
   type: $Enums.RewardType
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: string | null
+  fileName?: string | null
   telegramLink?: string | null
   maxQuantity?: number | null
   claimedCount?: number
@@ -787,6 +819,7 @@ export type RewardUncheckedCreateWithoutSupportsInput = {
   type: $Enums.RewardType
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: string | null
+  fileName?: string | null
   telegramLink?: string | null
   maxQuantity?: number | null
   claimedCount?: number
@@ -820,6 +853,7 @@ export type RewardUpdateWithoutSupportsInput = {
   type?: Prisma.EnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telegramLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   claimedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -839,6 +873,7 @@ export type RewardUncheckedUpdateWithoutSupportsInput = {
   type?: Prisma.EnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telegramLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   claimedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -856,6 +891,7 @@ export type RewardCreateWithoutUnlockedRewardsInput = {
   type: $Enums.RewardType
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: string | null
+  fileName?: string | null
   telegramLink?: string | null
   maxQuantity?: number | null
   claimedCount?: number
@@ -875,6 +911,7 @@ export type RewardUncheckedCreateWithoutUnlockedRewardsInput = {
   type: $Enums.RewardType
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: string | null
+  fileName?: string | null
   telegramLink?: string | null
   maxQuantity?: number | null
   claimedCount?: number
@@ -908,6 +945,7 @@ export type RewardUpdateWithoutUnlockedRewardsInput = {
   type?: Prisma.EnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telegramLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   claimedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -927,6 +965,7 @@ export type RewardUncheckedUpdateWithoutUnlockedRewardsInput = {
   type?: Prisma.EnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telegramLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   claimedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -944,6 +983,7 @@ export type RewardCreateManyCreatorProfileInput = {
   type: $Enums.RewardType
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: string | null
+  fileName?: string | null
   telegramLink?: string | null
   maxQuantity?: number | null
   claimedCount?: number
@@ -960,6 +1000,7 @@ export type RewardUpdateWithoutCreatorProfileInput = {
   type?: Prisma.EnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telegramLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   claimedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -978,6 +1019,7 @@ export type RewardUncheckedUpdateWithoutCreatorProfileInput = {
   type?: Prisma.EnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telegramLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   claimedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -996,6 +1038,7 @@ export type RewardUncheckedUpdateManyWithoutCreatorProfileInput = {
   type?: Prisma.EnumRewardTypeFieldUpdateOperationsInput | $Enums.RewardType
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telegramLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxQuantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   claimedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1053,6 +1096,7 @@ export type RewardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   type?: boolean
   price?: boolean
   contentUrl?: boolean
+  fileName?: boolean
   telegramLink?: boolean
   maxQuantity?: boolean
   claimedCount?: boolean
@@ -1074,6 +1118,7 @@ export type RewardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   type?: boolean
   price?: boolean
   contentUrl?: boolean
+  fileName?: boolean
   telegramLink?: boolean
   maxQuantity?: boolean
   claimedCount?: boolean
@@ -1092,6 +1137,7 @@ export type RewardSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   type?: boolean
   price?: boolean
   contentUrl?: boolean
+  fileName?: boolean
   telegramLink?: boolean
   maxQuantity?: boolean
   claimedCount?: boolean
@@ -1110,6 +1156,7 @@ export type RewardSelectScalar = {
   type?: boolean
   price?: boolean
   contentUrl?: boolean
+  fileName?: boolean
   telegramLink?: boolean
   maxQuantity?: boolean
   claimedCount?: boolean
@@ -1119,7 +1166,7 @@ export type RewardSelectScalar = {
   updatedAt?: boolean
 }
 
-export type RewardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorProfileId" | "title" | "description" | "type" | "price" | "contentUrl" | "telegramLink" | "maxQuantity" | "claimedCount" | "isFeatured" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["reward"]>
+export type RewardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorProfileId" | "title" | "description" | "type" | "price" | "contentUrl" | "fileName" | "telegramLink" | "maxQuantity" | "claimedCount" | "isFeatured" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["reward"]>
 export type RewardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
   supports?: boolean | Prisma.Reward$supportsArgs<ExtArgs>
@@ -1148,6 +1195,7 @@ export type $RewardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     type: $Enums.RewardType
     price: runtime.Decimal
     contentUrl: string | null
+    fileName: string | null
     telegramLink: string | null
     maxQuantity: number | null
     claimedCount: number
@@ -1588,6 +1636,7 @@ export interface RewardFieldRefs {
   readonly type: Prisma.FieldRef<"Reward", 'RewardType'>
   readonly price: Prisma.FieldRef<"Reward", 'Decimal'>
   readonly contentUrl: Prisma.FieldRef<"Reward", 'String'>
+  readonly fileName: Prisma.FieldRef<"Reward", 'String'>
   readonly telegramLink: Prisma.FieldRef<"Reward", 'String'>
   readonly maxQuantity: Prisma.FieldRef<"Reward", 'Int'>
   readonly claimedCount: Prisma.FieldRef<"Reward", 'Int'>

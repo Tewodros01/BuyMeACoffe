@@ -175,7 +175,7 @@ export type WebhookEventGroupByOutputType = {
   _max: WebhookEventMaxAggregateOutputType | null
 }
 
-type GetWebhookEventGroupByPayload<T extends WebhookEventGroupByArgs> = Prisma.PrismaPromise<
+export type GetWebhookEventGroupByPayload<T extends WebhookEventGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<WebhookEventGroupByOutputType, T['by']> &
       {
@@ -217,17 +217,18 @@ export type WebhookEventOrderByWithRelationInput = {
 
 export type WebhookEventWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  externalId?: string
+  source_externalId?: Prisma.WebhookEventSourceExternalIdCompoundUniqueInput
   AND?: Prisma.WebhookEventWhereInput | Prisma.WebhookEventWhereInput[]
   OR?: Prisma.WebhookEventWhereInput[]
   NOT?: Prisma.WebhookEventWhereInput | Prisma.WebhookEventWhereInput[]
   source?: Prisma.EnumWebhookSourceFilter<"WebhookEvent"> | $Enums.WebhookSource
+  externalId?: Prisma.StringFilter<"WebhookEvent"> | string
   eventType?: Prisma.StringFilter<"WebhookEvent"> | string
   payload?: Prisma.JsonFilter<"WebhookEvent">
   processedAt?: Prisma.DateTimeNullableFilter<"WebhookEvent"> | Date | string | null
   error?: Prisma.StringNullableFilter<"WebhookEvent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"WebhookEvent"> | Date | string
-}, "id" | "externalId">
+}, "id" | "source_externalId">
 
 export type WebhookEventOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -332,6 +333,11 @@ export type WebhookEventUncheckedUpdateManyInput = {
   processedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type WebhookEventSourceExternalIdCompoundUniqueInput = {
+  source: $Enums.WebhookSource
+  externalId: string
 }
 
 export type WebhookEventCountOrderByAggregateInput = {

@@ -158,7 +158,7 @@ export type FanBadgeGroupByOutputType = {
   _max: FanBadgeMaxAggregateOutputType | null
 }
 
-type GetFanBadgeGroupByPayload<T extends FanBadgeGroupByArgs> = Prisma.PrismaPromise<
+export type GetFanBadgeGroupByPayload<T extends FanBadgeGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<FanBadgeGroupByOutputType, T['by']> &
       {

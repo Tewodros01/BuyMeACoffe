@@ -36,9 +36,11 @@ export type PayoutBatchSumAggregateOutputType = {
 
 export type PayoutBatchMinAggregateOutputType = {
   id: string | null
+  batchRef: string | null
   status: $Enums.PayoutBatchStatus | null
   totalAmount: runtime.Decimal | null
   currency: string | null
+  note: string | null
   processedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -46,9 +48,11 @@ export type PayoutBatchMinAggregateOutputType = {
 
 export type PayoutBatchMaxAggregateOutputType = {
   id: string | null
+  batchRef: string | null
   status: $Enums.PayoutBatchStatus | null
   totalAmount: runtime.Decimal | null
   currency: string | null
+  note: string | null
   processedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -56,9 +60,11 @@ export type PayoutBatchMaxAggregateOutputType = {
 
 export type PayoutBatchCountAggregateOutputType = {
   id: number
+  batchRef: number
   status: number
   totalAmount: number
   currency: number
+  note: number
   processedAt: number
   createdAt: number
   updatedAt: number
@@ -76,9 +82,11 @@ export type PayoutBatchSumAggregateInputType = {
 
 export type PayoutBatchMinAggregateInputType = {
   id?: true
+  batchRef?: true
   status?: true
   totalAmount?: true
   currency?: true
+  note?: true
   processedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -86,9 +94,11 @@ export type PayoutBatchMinAggregateInputType = {
 
 export type PayoutBatchMaxAggregateInputType = {
   id?: true
+  batchRef?: true
   status?: true
   totalAmount?: true
   currency?: true
+  note?: true
   processedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -96,9 +106,11 @@ export type PayoutBatchMaxAggregateInputType = {
 
 export type PayoutBatchCountAggregateInputType = {
   id?: true
+  batchRef?: true
   status?: true
   totalAmount?: true
   currency?: true
+  note?: true
   processedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -193,9 +205,11 @@ export type PayoutBatchGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 
 export type PayoutBatchGroupByOutputType = {
   id: string
+  batchRef: string | null
   status: $Enums.PayoutBatchStatus
   totalAmount: runtime.Decimal
   currency: string
+  note: string | null
   processedAt: Date | null
   createdAt: Date
   updatedAt: Date
@@ -206,7 +220,7 @@ export type PayoutBatchGroupByOutputType = {
   _max: PayoutBatchMaxAggregateOutputType | null
 }
 
-type GetPayoutBatchGroupByPayload<T extends PayoutBatchGroupByArgs> = Prisma.PrismaPromise<
+export type GetPayoutBatchGroupByPayload<T extends PayoutBatchGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PayoutBatchGroupByOutputType, T['by']> &
       {
@@ -226,9 +240,11 @@ export type PayoutBatchWhereInput = {
   OR?: Prisma.PayoutBatchWhereInput[]
   NOT?: Prisma.PayoutBatchWhereInput | Prisma.PayoutBatchWhereInput[]
   id?: Prisma.StringFilter<"PayoutBatch"> | string
+  batchRef?: Prisma.StringNullableFilter<"PayoutBatch"> | string | null
   status?: Prisma.EnumPayoutBatchStatusFilter<"PayoutBatch"> | $Enums.PayoutBatchStatus
   totalAmount?: Prisma.DecimalFilter<"PayoutBatch"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"PayoutBatch"> | string
+  note?: Prisma.StringNullableFilter<"PayoutBatch"> | string | null
   processedAt?: Prisma.DateTimeNullableFilter<"PayoutBatch"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"PayoutBatch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PayoutBatch"> | Date | string
@@ -237,9 +253,11 @@ export type PayoutBatchWhereInput = {
 
 export type PayoutBatchOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  batchRef?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  note?: Prisma.SortOrderInput | Prisma.SortOrder
   processedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -248,23 +266,27 @@ export type PayoutBatchOrderByWithRelationInput = {
 
 export type PayoutBatchWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  batchRef?: string
   AND?: Prisma.PayoutBatchWhereInput | Prisma.PayoutBatchWhereInput[]
   OR?: Prisma.PayoutBatchWhereInput[]
   NOT?: Prisma.PayoutBatchWhereInput | Prisma.PayoutBatchWhereInput[]
   status?: Prisma.EnumPayoutBatchStatusFilter<"PayoutBatch"> | $Enums.PayoutBatchStatus
   totalAmount?: Prisma.DecimalFilter<"PayoutBatch"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"PayoutBatch"> | string
+  note?: Prisma.StringNullableFilter<"PayoutBatch"> | string | null
   processedAt?: Prisma.DateTimeNullableFilter<"PayoutBatch"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"PayoutBatch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PayoutBatch"> | Date | string
   withdrawals?: Prisma.WithdrawalListRelationFilter
-}, "id">
+}, "id" | "batchRef">
 
 export type PayoutBatchOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  batchRef?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  note?: Prisma.SortOrderInput | Prisma.SortOrder
   processedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -280,9 +302,11 @@ export type PayoutBatchScalarWhereWithAggregatesInput = {
   OR?: Prisma.PayoutBatchScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PayoutBatchScalarWhereWithAggregatesInput | Prisma.PayoutBatchScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"PayoutBatch"> | string
+  batchRef?: Prisma.StringNullableWithAggregatesFilter<"PayoutBatch"> | string | null
   status?: Prisma.EnumPayoutBatchStatusWithAggregatesFilter<"PayoutBatch"> | $Enums.PayoutBatchStatus
   totalAmount?: Prisma.DecimalWithAggregatesFilter<"PayoutBatch"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringWithAggregatesFilter<"PayoutBatch"> | string
+  note?: Prisma.StringNullableWithAggregatesFilter<"PayoutBatch"> | string | null
   processedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"PayoutBatch"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PayoutBatch"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PayoutBatch"> | Date | string
@@ -290,9 +314,11 @@ export type PayoutBatchScalarWhereWithAggregatesInput = {
 
 export type PayoutBatchCreateInput = {
   id?: string
+  batchRef?: string | null
   status?: $Enums.PayoutBatchStatus
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  note?: string | null
   processedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -301,9 +327,11 @@ export type PayoutBatchCreateInput = {
 
 export type PayoutBatchUncheckedCreateInput = {
   id?: string
+  batchRef?: string | null
   status?: $Enums.PayoutBatchStatus
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  note?: string | null
   processedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -312,9 +340,11 @@ export type PayoutBatchUncheckedCreateInput = {
 
 export type PayoutBatchUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPayoutBatchStatusFieldUpdateOperationsInput | $Enums.PayoutBatchStatus
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -323,9 +353,11 @@ export type PayoutBatchUpdateInput = {
 
 export type PayoutBatchUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPayoutBatchStatusFieldUpdateOperationsInput | $Enums.PayoutBatchStatus
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -334,9 +366,11 @@ export type PayoutBatchUncheckedUpdateInput = {
 
 export type PayoutBatchCreateManyInput = {
   id?: string
+  batchRef?: string | null
   status?: $Enums.PayoutBatchStatus
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  note?: string | null
   processedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -344,9 +378,11 @@ export type PayoutBatchCreateManyInput = {
 
 export type PayoutBatchUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPayoutBatchStatusFieldUpdateOperationsInput | $Enums.PayoutBatchStatus
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -354,9 +390,11 @@ export type PayoutBatchUpdateManyMutationInput = {
 
 export type PayoutBatchUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPayoutBatchStatusFieldUpdateOperationsInput | $Enums.PayoutBatchStatus
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -364,9 +402,11 @@ export type PayoutBatchUncheckedUpdateManyInput = {
 
 export type PayoutBatchCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  batchRef?: Prisma.SortOrder
   status?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  note?: Prisma.SortOrder
   processedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -378,9 +418,11 @@ export type PayoutBatchAvgOrderByAggregateInput = {
 
 export type PayoutBatchMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  batchRef?: Prisma.SortOrder
   status?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  note?: Prisma.SortOrder
   processedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -388,9 +430,11 @@ export type PayoutBatchMaxOrderByAggregateInput = {
 
 export type PayoutBatchMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  batchRef?: Prisma.SortOrder
   status?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  note?: Prisma.SortOrder
   processedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -427,9 +471,11 @@ export type PayoutBatchUpdateOneWithoutWithdrawalsNestedInput = {
 
 export type PayoutBatchCreateWithoutWithdrawalsInput = {
   id?: string
+  batchRef?: string | null
   status?: $Enums.PayoutBatchStatus
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  note?: string | null
   processedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -437,9 +483,11 @@ export type PayoutBatchCreateWithoutWithdrawalsInput = {
 
 export type PayoutBatchUncheckedCreateWithoutWithdrawalsInput = {
   id?: string
+  batchRef?: string | null
   status?: $Enums.PayoutBatchStatus
   totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
+  note?: string | null
   processedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -463,9 +511,11 @@ export type PayoutBatchUpdateToOneWithWhereWithoutWithdrawalsInput = {
 
 export type PayoutBatchUpdateWithoutWithdrawalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPayoutBatchStatusFieldUpdateOperationsInput | $Enums.PayoutBatchStatus
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -473,9 +523,11 @@ export type PayoutBatchUpdateWithoutWithdrawalsInput = {
 
 export type PayoutBatchUncheckedUpdateWithoutWithdrawalsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPayoutBatchStatusFieldUpdateOperationsInput | $Enums.PayoutBatchStatus
   totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -514,9 +566,11 @@ export type PayoutBatchCountOutputTypeCountWithdrawalsArgs<ExtArgs extends runti
 
 export type PayoutBatchSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  batchRef?: boolean
   status?: boolean
   totalAmount?: boolean
   currency?: boolean
+  note?: boolean
   processedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -526,9 +580,11 @@ export type PayoutBatchSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type PayoutBatchSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  batchRef?: boolean
   status?: boolean
   totalAmount?: boolean
   currency?: boolean
+  note?: boolean
   processedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -536,9 +592,11 @@ export type PayoutBatchSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 
 export type PayoutBatchSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  batchRef?: boolean
   status?: boolean
   totalAmount?: boolean
   currency?: boolean
+  note?: boolean
   processedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -546,15 +604,17 @@ export type PayoutBatchSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 
 export type PayoutBatchSelectScalar = {
   id?: boolean
+  batchRef?: boolean
   status?: boolean
   totalAmount?: boolean
   currency?: boolean
+  note?: boolean
   processedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PayoutBatchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "status" | "totalAmount" | "currency" | "processedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["payoutBatch"]>
+export type PayoutBatchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "batchRef" | "status" | "totalAmount" | "currency" | "note" | "processedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["payoutBatch"]>
 export type PayoutBatchInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   withdrawals?: boolean | Prisma.PayoutBatch$withdrawalsArgs<ExtArgs>
   _count?: boolean | Prisma.PayoutBatchCountOutputTypeDefaultArgs<ExtArgs>
@@ -569,9 +629,11 @@ export type $PayoutBatchPayload<ExtArgs extends runtime.Types.Extensions.Interna
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    batchRef: string | null
     status: $Enums.PayoutBatchStatus
     totalAmount: runtime.Decimal
     currency: string
+    note: string | null
     processedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -1000,9 +1062,11 @@ export interface Prisma__PayoutBatchClient<T, Null = never, ExtArgs extends runt
  */
 export interface PayoutBatchFieldRefs {
   readonly id: Prisma.FieldRef<"PayoutBatch", 'String'>
+  readonly batchRef: Prisma.FieldRef<"PayoutBatch", 'String'>
   readonly status: Prisma.FieldRef<"PayoutBatch", 'PayoutBatchStatus'>
   readonly totalAmount: Prisma.FieldRef<"PayoutBatch", 'Decimal'>
   readonly currency: Prisma.FieldRef<"PayoutBatch", 'String'>
+  readonly note: Prisma.FieldRef<"PayoutBatch", 'String'>
   readonly processedAt: Prisma.FieldRef<"PayoutBatch", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"PayoutBatch", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"PayoutBatch", 'DateTime'>

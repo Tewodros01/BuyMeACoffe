@@ -83,6 +83,63 @@ export class WalletController {
     return this.walletService.listAdminAuditLogs(query);
   }
 
+  @ApiOperation({ summary: 'Admin: accounting posting batches' })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get('admin/accounting-batches')
+  listAccountingBatches(
+    @Query('page') page?: string,
+    @Query('take') take?: string,
+    @Query('batchType') batchType?: string,
+    @Query('search') search?: string,
+  ) {
+    return this.walletService.listAccountingBatches({
+      page: page ? Number(page) : undefined,
+      take: take ? Number(take) : undefined,
+      batchType,
+      search,
+    });
+  }
+
+  @ApiOperation({ summary: 'Admin: payment provider transactions' })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get('admin/provider-transactions')
+  listProviderTransactions(
+    @Query('page') page?: string,
+    @Query('take') take?: string,
+    @Query('status') status?: string,
+    @Query('search') search?: string,
+  ) {
+    return this.walletService.listProviderTransactions({
+      page: page ? Number(page) : undefined,
+      take: take ? Number(take) : undefined,
+      status,
+      search,
+    });
+  }
+
+  @ApiOperation({ summary: 'Admin: wallet reconciliation report' })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get('admin/reconciliation')
+  getAdminReconciliation(@Query('limit') limit?: string) {
+    return this.walletService.getAdminReconciliation(
+      limit ? Number(limit) : undefined,
+    );
+  }
+
+  @ApiOperation({ summary: 'Admin: run wallet reconciliation now' })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Post('admin/reconciliation/run')
+  @HttpCode(HttpStatus.OK)
+  runAdminReconciliation(@Query('limit') limit?: string) {
+    return this.walletService.runAdminReconciliation(
+      limit ? Number(limit) : undefined,
+    );
+  }
+
   @ApiOperation({ summary: 'Admin: bulk update withdrawals' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)

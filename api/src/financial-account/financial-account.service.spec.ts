@@ -21,7 +21,10 @@ describe('FinancialAccountService', () => {
   });
 
   it('encrypts payout account numbers at rest and only returns a masked value', async () => {
-    prisma.user.findUnique.mockResolvedValue({ isVerified: true });
+    prisma.user.findUnique.mockResolvedValue({
+      isVerified: true,
+      defaultFinancialAccountId: null,
+    });
     prisma.financialAccount.count.mockResolvedValue(0);
     const createSpy = jest.fn().mockImplementation(({ data }: any) =>
       Promise.resolve({
@@ -31,16 +34,18 @@ describe('FinancialAccountService', () => {
         accountName: data.accountName,
         accountNumber: data.accountNumber,
         label: data.label ?? null,
-        isDefault: data.isDefault,
         isActive: true,
         createdAt: new Date('2026-01-01T00:00:00.000Z'),
       }),
     );
+    const updateUserSpy = jest.fn();
     prisma.$transaction.mockImplementation(async (handler: any) =>
       handler({
+        user: {
+          update: updateUserSpy,
+        },
         financialAccount: {
           create: createSpy,
-          updateMany: jest.fn(),
         },
       }),
     );
@@ -55,7 +60,12 @@ describe('FinancialAccountService', () => {
     });
 
     expect(result.accountNumber).toBe('******4567');
+    expect(result.isDefault).toBe(true);
     expect(createSpy.mock.calls[0][0].data.accountNumber).not.toBe('0911234567');
+    expect(updateUserSpy).toHaveBeenCalledWith({
+      where: { id: 'user_1' },
+      data: { defaultFinancialAccountId: 'fa_1' },
+    });
   });
 
   it('rejects payout account creation for unverified users', async () => {
@@ -72,6 +82,9 @@ describe('FinancialAccountService', () => {
   });
 
   it('masks encrypted account numbers when listing accounts', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      defaultFinancialAccountId: 'fa_1',
+    });
     prisma.financialAccount.findMany.mockResolvedValue([
       {
         id: 'fa_1',
@@ -80,7 +93,6 @@ describe('FinancialAccountService', () => {
         accountName: 'Abebe Bikila',
         accountNumber: encryptFinancialAccountNumber('1000123456'),
         label: 'Main',
-        isDefault: true,
         isActive: true,
         createdAt: new Date('2026-01-01T00:00:00.000Z'),
       },
@@ -89,5 +101,6 @@ describe('FinancialAccountService', () => {
     const result = await service.list('user_1');
 
     expect(result[0].accountNumber).toBe('******3456');
+    expect(result[0].isDefault).toBe(true);
   });
 });

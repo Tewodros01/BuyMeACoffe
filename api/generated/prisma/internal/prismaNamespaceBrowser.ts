@@ -61,20 +61,29 @@ export const ModelName = {
   CreatorGoal: 'CreatorGoal',
   Reward: 'Reward',
   Support: 'Support',
+  SupportEventOutbox: 'SupportEventOutbox',
+  PlatformEarning: 'PlatformEarning',
+  PaymentIntent: 'PaymentIntent',
+  PaymentAttempt: 'PaymentAttempt',
+  PaymentProviderTransaction: 'PaymentProviderTransaction',
   TikTokCampaign: 'TikTokCampaign',
   DeepLink: 'DeepLink',
   DeepLinkVisit: 'DeepLinkVisit',
   UnlockedReward: 'UnlockedReward',
   FeatureRequest: 'FeatureRequest',
+  CreatorVerification: 'CreatorVerification',
   Poll: 'Poll',
   PollOption: 'PollOption',
   PaidVote: 'PaidVote',
   FanBadge: 'FanBadge',
+  CampaignDailyMetric: 'CampaignDailyMetric',
   PayoutBatch: 'PayoutBatch',
   Withdrawal: 'Withdrawal',
   Notification: 'Notification',
   WebhookEvent: 'WebhookEvent',
-  AuditLog: 'AuditLog'
+  AuditLog: 'AuditLog',
+  AccountingPostingBatch: 'AccountingPostingBatch',
+  AccountingEntry: 'AccountingEntry'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -109,6 +118,7 @@ export const UserScalarFieldEnum = {
   role: 'role',
   isVerified: 'isVerified',
   onboardingDone: 'onboardingDone',
+  defaultFinancialAccountId: 'defaultFinancialAccountId',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -164,8 +174,12 @@ export const WalletTransactionScalarFieldEnum = {
   walletId: 'walletId',
   type: 'type',
   reason: 'reason',
+  supportId: 'supportId',
+  withdrawalId: 'withdrawalId',
   amount: 'amount',
-  balanceAfter: 'balanceAfter',
+  availableBalanceAfter: 'availableBalanceAfter',
+  pendingBalanceAfter: 'pendingBalanceAfter',
+  lockedBalanceAfter: 'lockedBalanceAfter',
   referenceId: 'referenceId',
   referenceType: 'referenceType',
   note: 'note',
@@ -182,9 +196,13 @@ export const FinancialAccountScalarFieldEnum = {
   provider: 'provider',
   accountName: 'accountName',
   accountNumber: 'accountNumber',
+  countryCode: 'countryCode',
+  bankCode: 'bankCode',
+  branchName: 'branchName',
+  mobileNumber: 'mobileNumber',
   label: 'label',
-  isDefault: 'isDefault',
   isActive: 'isActive',
+  metadata: 'metadata',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -199,7 +217,13 @@ export const CreatorProfileScalarFieldEnum = {
   pageTitle: 'pageTitle',
   thankYouMessage: 'thankYouMessage',
   coverImage: 'coverImage',
+  category: 'category',
+  tagline: 'tagline',
   coffeePrice: 'coffeePrice',
+  minSupportAmount: 'minSupportAmount',
+  preferredCurrency: 'preferredCurrency',
+  payoutHoldDays: 'payoutHoldDays',
+  platformFeeRate: 'platformFeeRate',
   socialLinks: 'socialLinks',
   isPublished: 'isPublished',
   totalSupporters: 'totalSupporters',
@@ -238,6 +262,7 @@ export const RewardScalarFieldEnum = {
   type: 'type',
   price: 'price',
   contentUrl: 'contentUrl',
+  fileName: 'fileName',
   telegramLink: 'telegramLink',
   maxQuantity: 'maxQuantity',
   claimedCount: 'claimedCount',
@@ -262,18 +287,23 @@ export const SupportScalarFieldEnum = {
   supporterId: 'supporterId',
   supporterName: 'supporterName',
   supporterEmail: 'supporterEmail',
+  supporterCountry: 'supporterCountry',
+  sourcePlatform: 'sourcePlatform',
   message: 'message',
+  metadata: 'metadata',
   isFeatureRequest: 'isFeatureRequest',
   coffeeCount: 'coffeeCount',
   amount: 'amount',
   customAmount: 'customAmount',
   platformFee: 'platformFee',
   netAmount: 'netAmount',
+  settlementStatus: 'settlementStatus',
+  availableAt: 'availableAt',
+  refundedAt: 'refundedAt',
   currency: 'currency',
-  chapaRef: 'chapaRef',
-  chapaCheckoutUrl: 'chapaCheckoutUrl',
   status: 'status',
   paidAt: 'paidAt',
+  paymentAppliedAt: 'paymentAppliedAt',
   walletCredited: 'walletCredited',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -282,13 +312,104 @@ export const SupportScalarFieldEnum = {
 export type SupportScalarFieldEnum = (typeof SupportScalarFieldEnum)[keyof typeof SupportScalarFieldEnum]
 
 
+export const SupportEventOutboxScalarFieldEnum = {
+  id: 'id',
+  supportId: 'supportId',
+  eventType: 'eventType',
+  payload: 'payload',
+  attemptCount: 'attemptCount',
+  lastError: 'lastError',
+  processedAt: 'processedAt',
+  processingStartedAt: 'processingStartedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupportEventOutboxScalarFieldEnum = (typeof SupportEventOutboxScalarFieldEnum)[keyof typeof SupportEventOutboxScalarFieldEnum]
+
+
+export const PlatformEarningScalarFieldEnum = {
+  id: 'id',
+  supportId: 'supportId',
+  amount: 'amount',
+  currency: 'currency',
+  createdAt: 'createdAt'
+} as const
+
+export type PlatformEarningScalarFieldEnum = (typeof PlatformEarningScalarFieldEnum)[keyof typeof PlatformEarningScalarFieldEnum]
+
+
+export const PaymentIntentScalarFieldEnum = {
+  id: 'id',
+  supportId: 'supportId',
+  provider: 'provider',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentIntentScalarFieldEnum = (typeof PaymentIntentScalarFieldEnum)[keyof typeof PaymentIntentScalarFieldEnum]
+
+
+export const PaymentAttemptScalarFieldEnum = {
+  id: 'id',
+  paymentIntentId: 'paymentIntentId',
+  attemptNumber: 'attemptNumber',
+  status: 'status',
+  providerRef: 'providerRef',
+  checkoutUrl: 'checkoutUrl',
+  idempotencyKey: 'idempotencyKey',
+  failureReason: 'failureReason',
+  payload: 'payload',
+  initiatedAt: 'initiatedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentAttemptScalarFieldEnum = (typeof PaymentAttemptScalarFieldEnum)[keyof typeof PaymentAttemptScalarFieldEnum]
+
+
+export const PaymentProviderTransactionScalarFieldEnum = {
+  id: 'id',
+  paymentIntentId: 'paymentIntentId',
+  paymentAttemptId: 'paymentAttemptId',
+  provider: 'provider',
+  providerRef: 'providerRef',
+  status: 'status',
+  eventType: 'eventType',
+  amount: 'amount',
+  feeAmount: 'feeAmount',
+  netAmount: 'netAmount',
+  currency: 'currency',
+  rawPayload: 'rawPayload',
+  verifiedAt: 'verifiedAt',
+  recordedAt: 'recordedAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentProviderTransactionScalarFieldEnum = (typeof PaymentProviderTransactionScalarFieldEnum)[keyof typeof PaymentProviderTransactionScalarFieldEnum]
+
+
 export const TikTokCampaignScalarFieldEnum = {
   id: 'id',
   creatorProfileId: 'creatorProfileId',
   videoId: 'videoId',
   title: 'title',
+  status: 'status',
+  contentType: 'contentType',
+  tiktokUsername: 'tiktokUsername',
+  tiktokUrl: 'tiktokUrl',
+  thumbnailUrl: 'thumbnailUrl',
+  ctaLabel: 'ctaLabel',
   clicks: 'clicks',
+  conversions: 'conversions',
   revenue: 'revenue',
+  postedAt: 'postedAt',
+  lastSyncedAt: 'lastSyncedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -301,12 +422,15 @@ export const DeepLinkScalarFieldEnum = {
   creatorProfileId: 'creatorProfileId',
   slug: 'slug',
   source: 'source',
+  destinationUrl: 'destinationUrl',
+  isActive: 'isActive',
   clicks: 'clicks',
   uniqueClicks: 'uniqueClicks',
   conversions: 'conversions',
   revenue: 'revenue',
   campaignTag: 'campaignTag',
   videoId: 'videoId',
+  lastClickedAt: 'lastClickedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -346,6 +470,29 @@ export const FeatureRequestScalarFieldEnum = {
 } as const
 
 export type FeatureRequestScalarFieldEnum = (typeof FeatureRequestScalarFieldEnum)[keyof typeof FeatureRequestScalarFieldEnum]
+
+
+export const CreatorVerificationScalarFieldEnum = {
+  id: 'id',
+  creatorProfileId: 'creatorProfileId',
+  status: 'status',
+  documentType: 'documentType',
+  legalName: 'legalName',
+  documentNumber: 'documentNumber',
+  documentFrontUrl: 'documentFrontUrl',
+  documentBackUrl: 'documentBackUrl',
+  selfieUrl: 'selfieUrl',
+  businessName: 'businessName',
+  taxId: 'taxId',
+  submittedAt: 'submittedAt',
+  reviewedAt: 'reviewedAt',
+  rejectionReason: 'rejectionReason',
+  reviewerId: 'reviewerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CreatorVerificationScalarFieldEnum = (typeof CreatorVerificationScalarFieldEnum)[keyof typeof CreatorVerificationScalarFieldEnum]
 
 
 export const PollScalarFieldEnum = {
@@ -395,11 +542,27 @@ export const FanBadgeScalarFieldEnum = {
 export type FanBadgeScalarFieldEnum = (typeof FanBadgeScalarFieldEnum)[keyof typeof FanBadgeScalarFieldEnum]
 
 
+export const CampaignDailyMetricScalarFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  date: 'date',
+  clicks: 'clicks',
+  conversions: 'conversions',
+  supportCount: 'supportCount',
+  revenue: 'revenue',
+  createdAt: 'createdAt'
+} as const
+
+export type CampaignDailyMetricScalarFieldEnum = (typeof CampaignDailyMetricScalarFieldEnum)[keyof typeof CampaignDailyMetricScalarFieldEnum]
+
+
 export const PayoutBatchScalarFieldEnum = {
   id: 'id',
+  batchRef: 'batchRef',
   status: 'status',
   totalAmount: 'totalAmount',
   currency: 'currency',
+  note: 'note',
   processedAt: 'processedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -414,12 +577,18 @@ export const WithdrawalScalarFieldEnum = {
   financialAccountId: 'financialAccountId',
   payoutBatchId: 'payoutBatchId',
   amount: 'amount',
+  feeAmount: 'feeAmount',
+  netAmount: 'netAmount',
   currency: 'currency',
   method: 'method',
   status: 'status',
+  idempotencyKey: 'idempotencyKey',
   referenceId: 'referenceId',
   note: 'note',
   adminNote: 'adminNote',
+  processingStartedAt: 'processingStartedAt',
+  approvedAt: 'approvedAt',
+  rejectedAt: 'rejectedAt',
   processedAt: 'processedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -465,11 +634,44 @@ export const AuditLogScalarFieldEnum = {
   entityId: 'entityId',
   before: 'before',
   after: 'after',
+  reasonCode: 'reasonCode',
+  correlationId: 'correlationId',
+  metadata: 'metadata',
   ipAddress: 'ipAddress',
   createdAt: 'createdAt'
 } as const
 
 export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
+export const AccountingPostingBatchScalarFieldEnum = {
+  id: 'id',
+  batchType: 'batchType',
+  currency: 'currency',
+  description: 'description',
+  idempotencyKey: 'idempotencyKey',
+  supportId: 'supportId',
+  withdrawalId: 'withdrawalId',
+  providerTransactionId: 'providerTransactionId',
+  createdAt: 'createdAt'
+} as const
+
+export type AccountingPostingBatchScalarFieldEnum = (typeof AccountingPostingBatchScalarFieldEnum)[keyof typeof AccountingPostingBatchScalarFieldEnum]
+
+
+export const AccountingEntryScalarFieldEnum = {
+  id: 'id',
+  batchId: 'batchId',
+  walletId: 'walletId',
+  accountCode: 'accountCode',
+  direction: 'direction',
+  amount: 'amount',
+  currency: 'currency',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+} as const
+
+export type AccountingEntryScalarFieldEnum = (typeof AccountingEntryScalarFieldEnum)[keyof typeof AccountingEntryScalarFieldEnum]
 
 
 export const SortOrder = {

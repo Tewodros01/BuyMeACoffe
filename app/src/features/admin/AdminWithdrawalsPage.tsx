@@ -1,14 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
+  Activity,
   AlertCircle,
   BarChart3,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Clock3,
+  Database,
   Filter,
   History,
+  Layers3,
+  RefreshCcw,
   Search,
   Shield,
   Wallet,
@@ -17,6 +21,7 @@ import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { AppBar, Badge, Card, Empty, Input, Spinner } from '../../components/ui'
 import { Button } from '../../components/ui/Button'
+import { getApiErrorMessage } from '../../lib/api'
 import { haptic } from '../../lib/telegram'
 import { formatETB, timeAgo } from '../creator/utils'
 import {
@@ -29,7 +34,7 @@ import {
 } from './adminWithdrawalApi'
 
 const STATUSES = ['ALL', 'PENDING', 'PROCESSING', 'COMPLETED', 'REJECTED'] as const
-const TABS = ['overview', 'withdrawals', 'audit'] as const
+const TABS = ['overview', 'withdrawals', 'audit', 'accounting', 'reconciliation'] as const
 
 function statusVariant(status: AdminWithdrawal['status']) {
   if (status === 'COMPLETED') return 'success'
@@ -79,6 +84,31 @@ export default function AdminWithdrawalsPage() {
         take: 10,
       }),
   })
+  const { data: accountingBatches, isLoading: accountingLoading } = useQuery({
+    queryKey: ['admin-accounting-batches', page, search],
+    queryFn: () =>
+      adminWithdrawalApi.accountingBatches({
+        page,
+        take: 10,
+        search: search.trim() || undefined,
+      }),
+    enabled: tab === 'accounting',
+  })
+  const { data: providerTransactions, isLoading: providerLoading } = useQuery({
+    queryKey: ['admin-provider-transactions', page, search],
+    queryFn: () =>
+      adminWithdrawalApi.providerTransactions({
+        page,
+        take: 10,
+        search: search.trim() || undefined,
+      }),
+    enabled: tab === 'accounting',
+  })
+  const { data: reconciliation, isLoading: reconciliationLoading } = useQuery({
+    queryKey: ['admin-reconciliation'],
+    queryFn: () => adminWithdrawalApi.reconciliation({ limit: 50 }),
+    enabled: tab === 'reconciliation',
+  })
 
   const form = useForm<UpdateAdminWithdrawalInput>({
     resolver: zodResolver(UpdateAdminWithdrawalSchema),
@@ -119,6 +149,15 @@ export default function AdminWithdrawalsPage() {
     },
     onError: () => haptic('error'),
   })
+  const reconcileMutation = useMutation({
+    mutationFn: () => adminWithdrawalApi.runReconciliation({ limit: 50 }),
+    onSuccess: () => {
+      haptic('success')
+      qc.invalidateQueries({ queryKey: ['admin-reconciliation'] })
+      qc.invalidateQueries({ queryKey: ['notifications'] })
+    },
+    onError: () => haptic('error'),
+  })
 
   const withdrawals = data?.items ?? []
   const pagination = data?.pagination
@@ -151,6 +190,8 @@ export default function AdminWithdrawalsPage() {
             { key: 'overview', label: 'Overview', icon: <BarChart3 className="h-4 w-4" /> },
             { key: 'withdrawals', label: 'Withdrawals', icon: <Wallet className="h-4 w-4" /> },
             { key: 'audit', label: 'Audit', icon: <History className="h-4 w-4" /> },
+            { key: 'accounting', label: 'Accounting', icon: <Layers3 className="h-4 w-4" /> },
+            { key: 'reconciliation', label: 'Recon', icon: <Database className="h-4 w-4" /> },
           ].map((item) => (
             <button
               key={item.key}
@@ -231,7 +272,7 @@ export default function AdminWithdrawalsPage() {
                 className={`rounded-full border px-3 py-2 text-[11px] font-bold tracking-[0.12em] transition-all ${
                   status === item
                     ? 'border-amber-500/25 bg-amber-500/12 text-amber-300'
-                    : 'border-white/[0.08] bg-white/[0.04] text-white/35'
+                    : 'border-white/8 bg-white/4 text-white/35'
                 }`}
               >
                 {item}
@@ -279,7 +320,7 @@ export default function AdminWithdrawalsPage() {
                   Bulk Status
                 </label>
                 <select
-                  className="h-[52px] rounded-2xl border border-white/[0.08] bg-white/[0.04] px-4 text-[15px] font-medium text-white focus:outline-none"
+                  className="h-[52px] rounded-2xl border border-white/8 bg-white/4 px-4 text-[15px] font-medium text-white focus:outline-none"
                   {...bulkForm.register('status')}
                 >
                   <option value="PROCESSING">PROCESSING</option>
@@ -293,7 +334,7 @@ export default function AdminWithdrawalsPage() {
                 </label>
                 <textarea
                   rows={3}
-                  className="w-full rounded-2xl border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-[14px] text-white placeholder:text-white/20 focus:outline-none"
+                  className="w-full rounded-2xl border border-white/8 bg-white/4 px-4 py-3 text-[14px] text-white placeholder:text-white/20 focus:outline-none"
                   placeholder="Optional note for all selected withdrawals"
                   {...bulkForm.register('adminNote')}
                 />
@@ -301,7 +342,7 @@ export default function AdminWithdrawalsPage() {
             </div>
             {bulkMutation.error && (
               <div className="rounded-2xl border border-red-500/15 bg-red-500/[0.06] p-3 text-[13px] text-red-300">
-                {(bulkMutation.error as any)?.response?.data?.message ?? 'Bulk action failed'}
+                {getApiErrorMessage(bulkMutation.error, 'Bulk action failed')}
               </div>
             )}
             <div className="flex gap-3">
@@ -379,7 +420,7 @@ export default function AdminWithdrawalsPage() {
                       referenceId: withdrawal.referenceId ?? '',
                     })
                   }}
-                  className="rounded-2xl border border-white/[0.07] bg-white/[0.04] px-3 py-2 text-[12px] font-semibold text-white/70"
+                  className="rounded-2xl border border-white/[0.07] bg-white/4 px-3 py-2 text-[12px] font-semibold text-white/70"
                 >
                   {isFinalStatus(withdrawal.status) ? 'View' : 'Review'}
                 </button>
@@ -394,6 +435,18 @@ export default function AdminWithdrawalsPage() {
                   <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20">Requested</p>
                   <p className="text-white/60">{timeAgo(withdrawal.createdAt)}</p>
                 </div>
+                {withdrawal.processingStartedAt && (
+                  <div>
+                    <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20">Processing</p>
+                    <p className="text-white/60">{timeAgo(withdrawal.processingStartedAt)}</p>
+                  </div>
+                )}
+                {withdrawal.processedAt && (
+                  <div>
+                    <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20">Finalized</p>
+                    <p className="text-white/60">{timeAgo(withdrawal.processedAt)}</p>
+                  </div>
+                )}
                 <div className="col-span-2">
                   <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20">Payout account</p>
                   <p className="text-white/60">
@@ -479,10 +532,20 @@ export default function AdminWithdrawalsPage() {
                     </div>
                     <Badge variant="info">{log.entityType}</Badge>
                   </div>
-                  <div className="mt-3 rounded-2xl border border-white/[0.06] bg-white/[0.03] p-3">
+                  <div className="mt-3 rounded-2xl border border-white/6 bg-white/[0.03] p-3">
                     <p className="text-[11px] font-semibold text-white/55">
                       Entity: {log.entityId}
                     </p>
+                    {log.reasonCode && (
+                      <p className="mt-1 text-[11px] text-white/40">
+                        Reason: {log.reasonCode.replace(/_/g, ' ')}
+                      </p>
+                    )}
+                    {log.correlationId && (
+                      <p className="mt-1 text-[11px] font-mono text-white/35">
+                        Correlation: {log.correlationId}
+                      </p>
+                    )}
                     {log.targetUser && (
                       <p className="mt-1 text-[11px] text-white/40">
                         Target: {log.targetUser.email}
@@ -492,18 +555,26 @@ export default function AdminWithdrawalsPage() {
                   </div>
                   {(log.before || log.after) && (
                     <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
-                      <div className="rounded-2xl border border-white/[0.06] bg-black/20 p-3">
+                      <div className="rounded-2xl border border-white/6 bg-black/20 p-3">
                         <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20">Before</p>
                         <pre className="overflow-x-auto whitespace-pre-wrap text-[11px] text-white/45">
                           {JSON.stringify(log.before, null, 2) || 'null'}
                         </pre>
                       </div>
-                      <div className="rounded-2xl border border-white/[0.06] bg-black/20 p-3">
+                      <div className="rounded-2xl border border-white/6 bg-black/20 p-3">
                         <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20">After</p>
                         <pre className="overflow-x-auto whitespace-pre-wrap text-[11px] text-white/45">
                           {JSON.stringify(log.after, null, 2) || 'null'}
                         </pre>
                       </div>
+                    </div>
+                  )}
+                  {log.metadata && (
+                    <div className="mt-3 rounded-2xl border border-white/6 bg-black/20 p-3">
+                      <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20">Metadata</p>
+                      <pre className="overflow-x-auto whitespace-pre-wrap text-[11px] text-white/45">
+                        {JSON.stringify(log.metadata, null, 2)}
+                      </pre>
                     </div>
                   )}
                 </Card>
@@ -542,6 +613,220 @@ export default function AdminWithdrawalsPage() {
         </>
       )}
 
+      {tab === 'accounting' && (
+        <>
+          <Card className="p-4">
+            <Input
+              label="Search"
+              placeholder="Batch key, support id, withdrawal id, provider ref"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value)
+                setPage(1)
+              }}
+              leftIcon={<Search className="h-4 w-4" />}
+            />
+          </Card>
+
+          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+            <Card className="p-4">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <p className="text-[15px] font-bold text-white">Posting Batches</p>
+                  <p className="text-[12px] text-white/35">Balanced accounting batches emitted by wallet flows</p>
+                </div>
+                <Badge variant="info">{accountingBatches?.pagination.total ?? 0}</Badge>
+              </div>
+              {accountingLoading ? (
+                <div className="flex justify-center py-10">
+                  <Spinner className="h-7 w-7" />
+                </div>
+              ) : !accountingBatches?.items.length ? (
+                <Empty icon={<Layers3 className="h-6 w-6" />} title="No posting batches found" />
+              ) : (
+                <div className="flex flex-col gap-3">
+                  {accountingBatches.items.map((batch) => (
+                    <div key={batch.id} className="rounded-2xl border border-white/6 bg-white/[0.03] p-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-[13px] font-bold text-white">{batch.batchType.replace(/_/g, ' ')}</p>
+                          <p className="mt-1 text-[11px] font-mono text-white/35">{batch.idempotencyKey}</p>
+                        </div>
+                        <Badge variant="info">{batch.entries.length} entries</Badge>
+                      </div>
+                      <div className="mt-3 grid grid-cols-1 gap-2 text-[11px] text-white/35">
+                        {batch.description && <p>{batch.description}</p>}
+                        {batch.supportId && <p>Support: {batch.supportId}</p>}
+                        {batch.withdrawalId && <p>Withdrawal: {batch.withdrawalId}</p>}
+                        {batch.providerTransaction && (
+                          <p>
+                            Provider: {batch.providerTransaction.provider} · {batch.providerTransaction.providerRef}
+                          </p>
+                        )}
+                      </div>
+                      <div className="mt-3 space-y-2">
+                        {batch.entries.map((entry) => (
+                          <div key={entry.id} className="flex items-center justify-between rounded-xl bg-black/20 px-3 py-2 text-[12px]">
+                            <div>
+                              <p className="font-semibold text-white/80">{entry.accountCode.replace(/_/g, ' ')}</p>
+                              <p className="text-white/30">{entry.direction}</p>
+                            </div>
+                            <p className={entry.direction === 'CREDIT' ? 'font-bold text-emerald-300' : 'font-bold text-amber-300'}>
+                              {formatETB(entry.amount)} {entry.currency}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Card>
+
+            <Card className="p-4">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <p className="text-[15px] font-bold text-white">Provider Transactions</p>
+                  <p className="text-[12px] text-white/35">Verified processor-side payment evidence</p>
+                </div>
+                <Badge variant="success">{providerTransactions?.pagination.total ?? 0}</Badge>
+              </div>
+              {providerLoading ? (
+                <div className="flex justify-center py-10">
+                  <Spinner className="h-7 w-7" />
+                </div>
+              ) : !providerTransactions?.items.length ? (
+                <Empty icon={<Activity className="h-6 w-6" />} title="No provider transactions found" />
+              ) : (
+                <div className="flex flex-col gap-3">
+                  {providerTransactions.items.map((transaction) => (
+                    <div key={transaction.id} className="rounded-2xl border border-white/6 bg-white/[0.03] p-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-[13px] font-bold text-white">{transaction.provider} · {transaction.providerRef}</p>
+                          <p className="mt-1 text-[12px] text-white/35">
+                            {transaction.paymentIntent.support.creatorProfile.user.firstName} {transaction.paymentIntent.support.creatorProfile.user.lastName}
+                            {' '}· supporter {transaction.paymentIntent.support.supporterName}
+                          </p>
+                        </div>
+                        <Badge variant={transaction.status === 'SUCCESS' ? 'success' : transaction.status === 'FAILED' ? 'danger' : 'warning'}>
+                          {transaction.status}
+                        </Badge>
+                      </div>
+                      <div className="mt-3 grid grid-cols-2 gap-3 text-[12px] text-white/35">
+                        <div>
+                          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20">Gross</p>
+                          <p className="text-white/70">{formatETB(transaction.amount)} {transaction.currency}</p>
+                        </div>
+                        <div>
+                          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20">Fee</p>
+                          <p className="text-white/70">{formatETB(transaction.feeAmount)} {transaction.currency}</p>
+                        </div>
+                        <div>
+                          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20">Net</p>
+                          <p className="text-white/70">
+                            {transaction.netAmount == null ? 'Pending' : `${formatETB(transaction.netAmount)} ${transaction.currency}`}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20">Recorded</p>
+                          <p className="text-white/70">{timeAgo(transaction.recordedAt)}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Card>
+          </div>
+        </>
+      )}
+
+      {tab === 'reconciliation' && (
+        <>
+          <div className="grid grid-cols-3 gap-3">
+            <Card className="p-4">
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/25">Checked Wallets</p>
+              <p className="mt-2 text-[26px] font-black text-white">{reconciliation?.checkedWallets ?? 0}</p>
+            </Card>
+            <Card className="p-4">
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/25">Mismatches</p>
+              <p className="mt-2 text-[26px] font-black text-white">{reconciliation?.mismatchedWallets ?? 0}</p>
+            </Card>
+            <Card className="p-4">
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/25">Status</p>
+              <p className="mt-2 text-[14px] font-bold text-white">
+                {reconciliation?.mismatchedWallets ? 'Needs review' : 'Balanced'}
+              </p>
+            </Card>
+          </div>
+
+          <Card className="p-4">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-[15px] font-bold text-white">Manual Reconciliation</p>
+                <p className="text-[12px] text-white/35">Run the wallet vs accounting comparison immediately</p>
+              </div>
+              <Button loading={reconcileMutation.isPending} onClick={() => reconcileMutation.mutate()}>
+                <RefreshCcw className="h-4 w-4" /> Run Now
+              </Button>
+            </div>
+            {reconcileMutation.error && (
+              <div className="mt-3 rounded-2xl border border-red-500/15 bg-red-500/[0.06] p-3 text-[13px] text-red-300">
+                {getApiErrorMessage(reconcileMutation.error, 'Failed to run reconciliation')}
+              </div>
+            )}
+          </Card>
+
+          <Card className="p-4">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <p className="text-[15px] font-bold text-white">Mismatch Details</p>
+                <p className="text-[12px] text-white/35">Wallet rows whose stored balances diverge from accounting-derived balances</p>
+              </div>
+              <Badge variant={reconciliation?.mismatchedWallets ? 'danger' : 'success'} dot>
+                {reconciliation?.mismatchedWallets ? 'Attention' : 'Healthy'}
+              </Badge>
+            </div>
+            {reconciliationLoading ? (
+              <div className="flex justify-center py-10">
+                <Spinner className="h-7 w-7" />
+              </div>
+            ) : !reconciliation?.mismatches.length ? (
+              <Empty icon={<Database className="h-6 w-6" />} title="No reconciliation mismatches" description="Wallet balances match accounting entries" />
+            ) : (
+              <div className="flex flex-col gap-3">
+                {reconciliation.mismatches.map((mismatch) => (
+                  <div key={mismatch.walletId} className="rounded-2xl border border-red-500/15 bg-red-500/[0.04] p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-[13px] font-bold text-white">Wallet {mismatch.walletId}</p>
+                        <p className="mt-1 text-[12px] text-white/35">User {mismatch.userId}</p>
+                      </div>
+                      <Badge variant="danger">{mismatch.mismatchFields.join(', ')}</Badge>
+                    </div>
+                    <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-3">
+                      {[
+                        { label: 'Actual', value: mismatch.actual },
+                        { label: 'Expected', value: mismatch.expected },
+                        { label: 'Latest Snapshot', value: mismatch.latestSnapshot },
+                      ].map((block) => (
+                        <div key={block.label} className="rounded-2xl border border-white/6 bg-black/20 p-3 text-[11px] text-white/45">
+                          <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20">{block.label}</p>
+                          <p>Available: {formatETB(block.value.availableBalance)}</p>
+                          <p>Pending: {formatETB(block.value.pendingBalance)}</p>
+                          <p>Locked: {formatETB(block.value.lockedBalance)}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Card>
+        </>
+      )}
+
       {selected && (
         <Card className="p-5">
           <div className="mb-4 flex items-center gap-2">
@@ -560,7 +845,7 @@ export default function AdminWithdrawalsPage() {
                 New Status
               </label>
               <select
-                className="h-[52px] rounded-2xl border border-white/[0.08] bg-white/[0.04] px-4 text-[15px] font-medium text-white focus:outline-none"
+                className="h-[52px] rounded-2xl border border-white/8 bg-white/4 px-4 text-[15px] font-medium text-white focus:outline-none"
                 disabled={isFinalStatus(selected.status)}
                 {...form.register('status')}
               >
@@ -584,7 +869,7 @@ export default function AdminWithdrawalsPage() {
               </label>
               <textarea
                 rows={4}
-                className="w-full rounded-2xl border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-[14px] text-white placeholder:text-white/20 focus:outline-none"
+                className="w-full rounded-2xl border border-white/8 bg-white/4 px-4 py-3 text-[14px] text-white placeholder:text-white/20 focus:outline-none"
                 placeholder="Explain what changed or why this was rejected"
                 disabled={isFinalStatus(selected.status)}
                 {...form.register('adminNote')}
@@ -600,7 +885,7 @@ export default function AdminWithdrawalsPage() {
               <div className="flex items-center gap-3 rounded-2xl border border-red-500/15 bg-red-500/[0.06] p-3 text-red-300">
                 <AlertCircle className="h-4 w-4 shrink-0" />
                 <p className="text-[13px]">
-                  {(updateMutation.error as any)?.response?.data?.message ?? 'Failed to update withdrawal'}
+                  {getApiErrorMessage(updateMutation.error, 'Failed to update withdrawal')}
                 </p>
               </div>
             )}

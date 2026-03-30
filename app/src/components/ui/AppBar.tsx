@@ -75,7 +75,7 @@ export function AppBar({
 
       <header
         className={cn(
-          "fixed top-0 left-1/2 z-40 flex w-full max-w-[430px] -translate-x-1/2 items-center justify-between gap-3 border-b border-white/[0.06] bg-[#07070f]/85 px-4 py-3 backdrop-blur-xl",
+          "fixed top-0 left-1/2 z-40 flex w-full max-w-[430px] -translate-x-1/2 items-center justify-between gap-3 border-b border-white/6 bg-[#07070f]/85 px-4 py-3 backdrop-blur-xl",
           className,
         )}
         style={{

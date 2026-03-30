@@ -28,11 +28,13 @@ export type AggregateTikTokCampaign = {
 
 export type TikTokCampaignAvgAggregateOutputType = {
   clicks: number | null
+  conversions: number | null
   revenue: runtime.Decimal | null
 }
 
 export type TikTokCampaignSumAggregateOutputType = {
   clicks: number | null
+  conversions: number | null
   revenue: runtime.Decimal | null
 }
 
@@ -41,8 +43,17 @@ export type TikTokCampaignMinAggregateOutputType = {
   creatorProfileId: string | null
   videoId: string | null
   title: string | null
+  status: $Enums.CampaignStatus | null
+  contentType: $Enums.CampaignContentType | null
+  tiktokUsername: string | null
+  tiktokUrl: string | null
+  thumbnailUrl: string | null
+  ctaLabel: string | null
   clicks: number | null
+  conversions: number | null
   revenue: runtime.Decimal | null
+  postedAt: Date | null
+  lastSyncedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,8 +63,17 @@ export type TikTokCampaignMaxAggregateOutputType = {
   creatorProfileId: string | null
   videoId: string | null
   title: string | null
+  status: $Enums.CampaignStatus | null
+  contentType: $Enums.CampaignContentType | null
+  tiktokUsername: string | null
+  tiktokUrl: string | null
+  thumbnailUrl: string | null
+  ctaLabel: string | null
   clicks: number | null
+  conversions: number | null
   revenue: runtime.Decimal | null
+  postedAt: Date | null
+  lastSyncedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -63,8 +83,17 @@ export type TikTokCampaignCountAggregateOutputType = {
   creatorProfileId: number
   videoId: number
   title: number
+  status: number
+  contentType: number
+  tiktokUsername: number
+  tiktokUrl: number
+  thumbnailUrl: number
+  ctaLabel: number
   clicks: number
+  conversions: number
   revenue: number
+  postedAt: number
+  lastSyncedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -73,11 +102,13 @@ export type TikTokCampaignCountAggregateOutputType = {
 
 export type TikTokCampaignAvgAggregateInputType = {
   clicks?: true
+  conversions?: true
   revenue?: true
 }
 
 export type TikTokCampaignSumAggregateInputType = {
   clicks?: true
+  conversions?: true
   revenue?: true
 }
 
@@ -86,8 +117,17 @@ export type TikTokCampaignMinAggregateInputType = {
   creatorProfileId?: true
   videoId?: true
   title?: true
+  status?: true
+  contentType?: true
+  tiktokUsername?: true
+  tiktokUrl?: true
+  thumbnailUrl?: true
+  ctaLabel?: true
   clicks?: true
+  conversions?: true
   revenue?: true
+  postedAt?: true
+  lastSyncedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -97,8 +137,17 @@ export type TikTokCampaignMaxAggregateInputType = {
   creatorProfileId?: true
   videoId?: true
   title?: true
+  status?: true
+  contentType?: true
+  tiktokUsername?: true
+  tiktokUrl?: true
+  thumbnailUrl?: true
+  ctaLabel?: true
   clicks?: true
+  conversions?: true
   revenue?: true
+  postedAt?: true
+  lastSyncedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -108,8 +157,17 @@ export type TikTokCampaignCountAggregateInputType = {
   creatorProfileId?: true
   videoId?: true
   title?: true
+  status?: true
+  contentType?: true
+  tiktokUsername?: true
+  tiktokUrl?: true
+  thumbnailUrl?: true
+  ctaLabel?: true
   clicks?: true
+  conversions?: true
   revenue?: true
+  postedAt?: true
+  lastSyncedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -206,8 +264,17 @@ export type TikTokCampaignGroupByOutputType = {
   creatorProfileId: string
   videoId: string
   title: string | null
+  status: $Enums.CampaignStatus
+  contentType: $Enums.CampaignContentType
+  tiktokUsername: string | null
+  tiktokUrl: string | null
+  thumbnailUrl: string | null
+  ctaLabel: string | null
   clicks: number
+  conversions: number
   revenue: runtime.Decimal
+  postedAt: Date | null
+  lastSyncedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: TikTokCampaignCountAggregateOutputType | null
@@ -217,7 +284,7 @@ export type TikTokCampaignGroupByOutputType = {
   _max: TikTokCampaignMaxAggregateOutputType | null
 }
 
-type GetTikTokCampaignGroupByPayload<T extends TikTokCampaignGroupByArgs> = Prisma.PrismaPromise<
+export type GetTikTokCampaignGroupByPayload<T extends TikTokCampaignGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<TikTokCampaignGroupByOutputType, T['by']> &
       {
@@ -240,12 +307,22 @@ export type TikTokCampaignWhereInput = {
   creatorProfileId?: Prisma.StringFilter<"TikTokCampaign"> | string
   videoId?: Prisma.StringFilter<"TikTokCampaign"> | string
   title?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
+  status?: Prisma.EnumCampaignStatusFilter<"TikTokCampaign"> | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFilter<"TikTokCampaign"> | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
+  tiktokUrl?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
+  thumbnailUrl?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
+  ctaLabel?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
   clicks?: Prisma.IntFilter<"TikTokCampaign"> | number
+  conversions?: Prisma.IntFilter<"TikTokCampaign"> | number
   revenue?: Prisma.DecimalFilter<"TikTokCampaign"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.DateTimeNullableFilter<"TikTokCampaign"> | Date | string | null
+  lastSyncedAt?: Prisma.DateTimeNullableFilter<"TikTokCampaign"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"TikTokCampaign"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TikTokCampaign"> | Date | string
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileScalarRelationFilter, Prisma.CreatorProfileWhereInput>
   supports?: Prisma.SupportListRelationFilter
+  dailyMetrics?: Prisma.CampaignDailyMetricListRelationFilter
 }
 
 export type TikTokCampaignOrderByWithRelationInput = {
@@ -253,38 +330,68 @@ export type TikTokCampaignOrderByWithRelationInput = {
   creatorProfileId?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
   title?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  contentType?: Prisma.SortOrder
+  tiktokUsername?: Prisma.SortOrderInput | Prisma.SortOrder
+  tiktokUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrderInput | Prisma.SortOrder
   clicks?: Prisma.SortOrder
+  conversions?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
+  postedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   creatorProfile?: Prisma.CreatorProfileOrderByWithRelationInput
   supports?: Prisma.SupportOrderByRelationAggregateInput
+  dailyMetrics?: Prisma.CampaignDailyMetricOrderByRelationAggregateInput
 }
 
 export type TikTokCampaignWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   creatorProfileId_videoId?: Prisma.TikTokCampaignCreatorProfileIdVideoIdCompoundUniqueInput
+  id_creatorProfileId?: Prisma.TikTokCampaignIdCreatorProfileIdCompoundUniqueInput
   AND?: Prisma.TikTokCampaignWhereInput | Prisma.TikTokCampaignWhereInput[]
   OR?: Prisma.TikTokCampaignWhereInput[]
   NOT?: Prisma.TikTokCampaignWhereInput | Prisma.TikTokCampaignWhereInput[]
   creatorProfileId?: Prisma.StringFilter<"TikTokCampaign"> | string
   videoId?: Prisma.StringFilter<"TikTokCampaign"> | string
   title?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
+  status?: Prisma.EnumCampaignStatusFilter<"TikTokCampaign"> | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFilter<"TikTokCampaign"> | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
+  tiktokUrl?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
+  thumbnailUrl?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
+  ctaLabel?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
   clicks?: Prisma.IntFilter<"TikTokCampaign"> | number
+  conversions?: Prisma.IntFilter<"TikTokCampaign"> | number
   revenue?: Prisma.DecimalFilter<"TikTokCampaign"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.DateTimeNullableFilter<"TikTokCampaign"> | Date | string | null
+  lastSyncedAt?: Prisma.DateTimeNullableFilter<"TikTokCampaign"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"TikTokCampaign"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TikTokCampaign"> | Date | string
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileScalarRelationFilter, Prisma.CreatorProfileWhereInput>
   supports?: Prisma.SupportListRelationFilter
-}, "id" | "creatorProfileId_videoId">
+  dailyMetrics?: Prisma.CampaignDailyMetricListRelationFilter
+}, "id" | "creatorProfileId_videoId" | "id_creatorProfileId">
 
 export type TikTokCampaignOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
   title?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  contentType?: Prisma.SortOrder
+  tiktokUsername?: Prisma.SortOrderInput | Prisma.SortOrder
+  tiktokUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrderInput | Prisma.SortOrder
   clicks?: Prisma.SortOrder
+  conversions?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
+  postedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TikTokCampaignCountOrderByAggregateInput
@@ -302,8 +409,17 @@ export type TikTokCampaignScalarWhereWithAggregatesInput = {
   creatorProfileId?: Prisma.StringWithAggregatesFilter<"TikTokCampaign"> | string
   videoId?: Prisma.StringWithAggregatesFilter<"TikTokCampaign"> | string
   title?: Prisma.StringNullableWithAggregatesFilter<"TikTokCampaign"> | string | null
+  status?: Prisma.EnumCampaignStatusWithAggregatesFilter<"TikTokCampaign"> | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeWithAggregatesFilter<"TikTokCampaign"> | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.StringNullableWithAggregatesFilter<"TikTokCampaign"> | string | null
+  tiktokUrl?: Prisma.StringNullableWithAggregatesFilter<"TikTokCampaign"> | string | null
+  thumbnailUrl?: Prisma.StringNullableWithAggregatesFilter<"TikTokCampaign"> | string | null
+  ctaLabel?: Prisma.StringNullableWithAggregatesFilter<"TikTokCampaign"> | string | null
   clicks?: Prisma.IntWithAggregatesFilter<"TikTokCampaign"> | number
+  conversions?: Prisma.IntWithAggregatesFilter<"TikTokCampaign"> | number
   revenue?: Prisma.DecimalWithAggregatesFilter<"TikTokCampaign"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"TikTokCampaign"> | Date | string | null
+  lastSyncedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"TikTokCampaign"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TikTokCampaign"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TikTokCampaign"> | Date | string
 }
@@ -312,12 +428,22 @@ export type TikTokCampaignCreateInput = {
   id?: string
   videoId: string
   title?: string | null
+  status?: $Enums.CampaignStatus
+  contentType?: $Enums.CampaignContentType
+  tiktokUsername?: string | null
+  tiktokUrl?: string | null
+  thumbnailUrl?: string | null
+  ctaLabel?: string | null
   clicks?: number
+  conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Date | string | null
+  lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutCampaignsInput
   supports?: Prisma.SupportCreateNestedManyWithoutCampaignInput
+  dailyMetrics?: Prisma.CampaignDailyMetricCreateNestedManyWithoutCampaignInput
 }
 
 export type TikTokCampaignUncheckedCreateInput = {
@@ -325,23 +451,43 @@ export type TikTokCampaignUncheckedCreateInput = {
   creatorProfileId: string
   videoId: string
   title?: string | null
+  status?: $Enums.CampaignStatus
+  contentType?: $Enums.CampaignContentType
+  tiktokUsername?: string | null
+  tiktokUrl?: string | null
+  thumbnailUrl?: string | null
+  ctaLabel?: string | null
   clicks?: number
+  conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Date | string | null
+  lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCampaignInput
+  dailyMetrics?: Prisma.CampaignDailyMetricUncheckedCreateNestedManyWithoutCampaignInput
 }
 
 export type TikTokCampaignUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   videoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFieldUpdateOperationsInput | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutCampaignsNestedInput
   supports?: Prisma.SupportUpdateManyWithoutCampaignNestedInput
+  dailyMetrics?: Prisma.CampaignDailyMetricUpdateManyWithoutCampaignNestedInput
 }
 
 export type TikTokCampaignUncheckedUpdateInput = {
@@ -349,11 +495,21 @@ export type TikTokCampaignUncheckedUpdateInput = {
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   videoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFieldUpdateOperationsInput | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUncheckedUpdateManyWithoutCampaignNestedInput
+  dailyMetrics?: Prisma.CampaignDailyMetricUncheckedUpdateManyWithoutCampaignNestedInput
 }
 
 export type TikTokCampaignCreateManyInput = {
@@ -361,8 +517,17 @@ export type TikTokCampaignCreateManyInput = {
   creatorProfileId: string
   videoId: string
   title?: string | null
+  status?: $Enums.CampaignStatus
+  contentType?: $Enums.CampaignContentType
+  tiktokUsername?: string | null
+  tiktokUrl?: string | null
+  thumbnailUrl?: string | null
+  ctaLabel?: string | null
   clicks?: number
+  conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Date | string | null
+  lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -371,8 +536,17 @@ export type TikTokCampaignUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   videoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFieldUpdateOperationsInput | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -382,8 +556,17 @@ export type TikTokCampaignUncheckedUpdateManyInput = {
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   videoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFieldUpdateOperationsInput | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -408,19 +591,34 @@ export type TikTokCampaignCreatorProfileIdVideoIdCompoundUniqueInput = {
   videoId: string
 }
 
+export type TikTokCampaignIdCreatorProfileIdCompoundUniqueInput = {
+  id: string
+  creatorProfileId: string
+}
+
 export type TikTokCampaignCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   creatorProfileId?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  contentType?: Prisma.SortOrder
+  tiktokUsername?: Prisma.SortOrder
+  tiktokUrl?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrder
   clicks?: Prisma.SortOrder
+  conversions?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
+  postedAt?: Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type TikTokCampaignAvgOrderByAggregateInput = {
   clicks?: Prisma.SortOrder
+  conversions?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
 }
 
@@ -429,8 +627,17 @@ export type TikTokCampaignMaxOrderByAggregateInput = {
   creatorProfileId?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  contentType?: Prisma.SortOrder
+  tiktokUsername?: Prisma.SortOrder
+  tiktokUrl?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrder
   clicks?: Prisma.SortOrder
+  conversions?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
+  postedAt?: Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -440,15 +647,30 @@ export type TikTokCampaignMinOrderByAggregateInput = {
   creatorProfileId?: Prisma.SortOrder
   videoId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  contentType?: Prisma.SortOrder
+  tiktokUsername?: Prisma.SortOrder
+  tiktokUrl?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrder
   clicks?: Prisma.SortOrder
+  conversions?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
+  postedAt?: Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type TikTokCampaignSumOrderByAggregateInput = {
   clicks?: Prisma.SortOrder
+  conversions?: Prisma.SortOrder
   revenue?: Prisma.SortOrder
+}
+
+export type TikTokCampaignScalarRelationFilter = {
+  is?: Prisma.TikTokCampaignWhereInput
+  isNot?: Prisma.TikTokCampaignWhereInput
 }
 
 export type TikTokCampaignCreateNestedManyWithoutCreatorProfileInput = {
@@ -509,26 +731,68 @@ export type TikTokCampaignUpdateOneWithoutSupportsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TikTokCampaignUpdateToOneWithWhereWithoutSupportsInput, Prisma.TikTokCampaignUpdateWithoutSupportsInput>, Prisma.TikTokCampaignUncheckedUpdateWithoutSupportsInput>
 }
 
+export type EnumCampaignStatusFieldUpdateOperationsInput = {
+  set?: $Enums.CampaignStatus
+}
+
+export type EnumCampaignContentTypeFieldUpdateOperationsInput = {
+  set?: $Enums.CampaignContentType
+}
+
+export type TikTokCampaignCreateNestedOneWithoutDailyMetricsInput = {
+  create?: Prisma.XOR<Prisma.TikTokCampaignCreateWithoutDailyMetricsInput, Prisma.TikTokCampaignUncheckedCreateWithoutDailyMetricsInput>
+  connectOrCreate?: Prisma.TikTokCampaignCreateOrConnectWithoutDailyMetricsInput
+  connect?: Prisma.TikTokCampaignWhereUniqueInput
+}
+
+export type TikTokCampaignUpdateOneRequiredWithoutDailyMetricsNestedInput = {
+  create?: Prisma.XOR<Prisma.TikTokCampaignCreateWithoutDailyMetricsInput, Prisma.TikTokCampaignUncheckedCreateWithoutDailyMetricsInput>
+  connectOrCreate?: Prisma.TikTokCampaignCreateOrConnectWithoutDailyMetricsInput
+  upsert?: Prisma.TikTokCampaignUpsertWithoutDailyMetricsInput
+  connect?: Prisma.TikTokCampaignWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TikTokCampaignUpdateToOneWithWhereWithoutDailyMetricsInput, Prisma.TikTokCampaignUpdateWithoutDailyMetricsInput>, Prisma.TikTokCampaignUncheckedUpdateWithoutDailyMetricsInput>
+}
+
 export type TikTokCampaignCreateWithoutCreatorProfileInput = {
   id?: string
   videoId: string
   title?: string | null
+  status?: $Enums.CampaignStatus
+  contentType?: $Enums.CampaignContentType
+  tiktokUsername?: string | null
+  tiktokUrl?: string | null
+  thumbnailUrl?: string | null
+  ctaLabel?: string | null
   clicks?: number
+  conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Date | string | null
+  lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   supports?: Prisma.SupportCreateNestedManyWithoutCampaignInput
+  dailyMetrics?: Prisma.CampaignDailyMetricCreateNestedManyWithoutCampaignInput
 }
 
 export type TikTokCampaignUncheckedCreateWithoutCreatorProfileInput = {
   id?: string
   videoId: string
   title?: string | null
+  status?: $Enums.CampaignStatus
+  contentType?: $Enums.CampaignContentType
+  tiktokUsername?: string | null
+  tiktokUrl?: string | null
+  thumbnailUrl?: string | null
+  ctaLabel?: string | null
   clicks?: number
+  conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Date | string | null
+  lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCampaignInput
+  dailyMetrics?: Prisma.CampaignDailyMetricUncheckedCreateNestedManyWithoutCampaignInput
 }
 
 export type TikTokCampaignCreateOrConnectWithoutCreatorProfileInput = {
@@ -565,8 +829,17 @@ export type TikTokCampaignScalarWhereInput = {
   creatorProfileId?: Prisma.StringFilter<"TikTokCampaign"> | string
   videoId?: Prisma.StringFilter<"TikTokCampaign"> | string
   title?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
+  status?: Prisma.EnumCampaignStatusFilter<"TikTokCampaign"> | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFilter<"TikTokCampaign"> | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
+  tiktokUrl?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
+  thumbnailUrl?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
+  ctaLabel?: Prisma.StringNullableFilter<"TikTokCampaign"> | string | null
   clicks?: Prisma.IntFilter<"TikTokCampaign"> | number
+  conversions?: Prisma.IntFilter<"TikTokCampaign"> | number
   revenue?: Prisma.DecimalFilter<"TikTokCampaign"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.DateTimeNullableFilter<"TikTokCampaign"> | Date | string | null
+  lastSyncedAt?: Prisma.DateTimeNullableFilter<"TikTokCampaign"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"TikTokCampaign"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TikTokCampaign"> | Date | string
 }
@@ -575,11 +848,21 @@ export type TikTokCampaignCreateWithoutSupportsInput = {
   id?: string
   videoId: string
   title?: string | null
+  status?: $Enums.CampaignStatus
+  contentType?: $Enums.CampaignContentType
+  tiktokUsername?: string | null
+  tiktokUrl?: string | null
+  thumbnailUrl?: string | null
+  ctaLabel?: string | null
   clicks?: number
+  conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Date | string | null
+  lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutCampaignsInput
+  dailyMetrics?: Prisma.CampaignDailyMetricCreateNestedManyWithoutCampaignInput
 }
 
 export type TikTokCampaignUncheckedCreateWithoutSupportsInput = {
@@ -587,10 +870,20 @@ export type TikTokCampaignUncheckedCreateWithoutSupportsInput = {
   creatorProfileId: string
   videoId: string
   title?: string | null
+  status?: $Enums.CampaignStatus
+  contentType?: $Enums.CampaignContentType
+  tiktokUsername?: string | null
+  tiktokUrl?: string | null
+  thumbnailUrl?: string | null
+  ctaLabel?: string | null
   clicks?: number
+  conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Date | string | null
+  lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  dailyMetrics?: Prisma.CampaignDailyMetricUncheckedCreateNestedManyWithoutCampaignInput
 }
 
 export type TikTokCampaignCreateOrConnectWithoutSupportsInput = {
@@ -613,11 +906,21 @@ export type TikTokCampaignUpdateWithoutSupportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   videoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFieldUpdateOperationsInput | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutCampaignsNestedInput
+  dailyMetrics?: Prisma.CampaignDailyMetricUpdateManyWithoutCampaignNestedInput
 }
 
 export type TikTokCampaignUncheckedUpdateWithoutSupportsInput = {
@@ -625,18 +928,137 @@ export type TikTokCampaignUncheckedUpdateWithoutSupportsInput = {
   creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   videoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFieldUpdateOperationsInput | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dailyMetrics?: Prisma.CampaignDailyMetricUncheckedUpdateManyWithoutCampaignNestedInput
+}
+
+export type TikTokCampaignCreateWithoutDailyMetricsInput = {
+  id?: string
+  videoId: string
+  title?: string | null
+  status?: $Enums.CampaignStatus
+  contentType?: $Enums.CampaignContentType
+  tiktokUsername?: string | null
+  tiktokUrl?: string | null
+  thumbnailUrl?: string | null
+  ctaLabel?: string | null
+  clicks?: number
+  conversions?: number
+  revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Date | string | null
+  lastSyncedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creatorProfile: Prisma.CreatorProfileCreateNestedOneWithoutCampaignsInput
+  supports?: Prisma.SupportCreateNestedManyWithoutCampaignInput
+}
+
+export type TikTokCampaignUncheckedCreateWithoutDailyMetricsInput = {
+  id?: string
+  creatorProfileId: string
+  videoId: string
+  title?: string | null
+  status?: $Enums.CampaignStatus
+  contentType?: $Enums.CampaignContentType
+  tiktokUsername?: string | null
+  tiktokUrl?: string | null
+  thumbnailUrl?: string | null
+  ctaLabel?: string | null
+  clicks?: number
+  conversions?: number
+  revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Date | string | null
+  lastSyncedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCampaignInput
+}
+
+export type TikTokCampaignCreateOrConnectWithoutDailyMetricsInput = {
+  where: Prisma.TikTokCampaignWhereUniqueInput
+  create: Prisma.XOR<Prisma.TikTokCampaignCreateWithoutDailyMetricsInput, Prisma.TikTokCampaignUncheckedCreateWithoutDailyMetricsInput>
+}
+
+export type TikTokCampaignUpsertWithoutDailyMetricsInput = {
+  update: Prisma.XOR<Prisma.TikTokCampaignUpdateWithoutDailyMetricsInput, Prisma.TikTokCampaignUncheckedUpdateWithoutDailyMetricsInput>
+  create: Prisma.XOR<Prisma.TikTokCampaignCreateWithoutDailyMetricsInput, Prisma.TikTokCampaignUncheckedCreateWithoutDailyMetricsInput>
+  where?: Prisma.TikTokCampaignWhereInput
+}
+
+export type TikTokCampaignUpdateToOneWithWhereWithoutDailyMetricsInput = {
+  where?: Prisma.TikTokCampaignWhereInput
+  data: Prisma.XOR<Prisma.TikTokCampaignUpdateWithoutDailyMetricsInput, Prisma.TikTokCampaignUncheckedUpdateWithoutDailyMetricsInput>
+}
+
+export type TikTokCampaignUpdateWithoutDailyMetricsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFieldUpdateOperationsInput | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  conversions?: Prisma.IntFieldUpdateOperationsInput | number
+  revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorProfile?: Prisma.CreatorProfileUpdateOneRequiredWithoutCampaignsNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutCampaignNestedInput
+}
+
+export type TikTokCampaignUncheckedUpdateWithoutDailyMetricsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  creatorProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFieldUpdateOperationsInput | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  conversions?: Prisma.IntFieldUpdateOperationsInput | number
+  revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutCampaignNestedInput
 }
 
 export type TikTokCampaignCreateManyCreatorProfileInput = {
   id?: string
   videoId: string
   title?: string | null
+  status?: $Enums.CampaignStatus
+  contentType?: $Enums.CampaignContentType
+  tiktokUsername?: string | null
+  tiktokUrl?: string | null
+  thumbnailUrl?: string | null
+  ctaLabel?: string | null
   clicks?: number
+  conversions?: number
   revenue?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Date | string | null
+  lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -645,30 +1067,59 @@ export type TikTokCampaignUpdateWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   videoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFieldUpdateOperationsInput | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUpdateManyWithoutCampaignNestedInput
+  dailyMetrics?: Prisma.CampaignDailyMetricUpdateManyWithoutCampaignNestedInput
 }
 
 export type TikTokCampaignUncheckedUpdateWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   videoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFieldUpdateOperationsInput | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supports?: Prisma.SupportUncheckedUpdateManyWithoutCampaignNestedInput
+  dailyMetrics?: Prisma.CampaignDailyMetricUncheckedUpdateManyWithoutCampaignNestedInput
 }
 
 export type TikTokCampaignUncheckedUpdateManyWithoutCreatorProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   videoId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
+  contentType?: Prisma.EnumCampaignContentTypeFieldUpdateOperationsInput | $Enums.CampaignContentType
+  tiktokUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tiktokUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clicks?: Prisma.IntFieldUpdateOperationsInput | number
+  conversions?: Prisma.IntFieldUpdateOperationsInput | number
   revenue?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -680,10 +1131,12 @@ export type TikTokCampaignUncheckedUpdateManyWithoutCreatorProfileInput = {
 
 export type TikTokCampaignCountOutputType = {
   supports: number
+  dailyMetrics: number
 }
 
 export type TikTokCampaignCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   supports?: boolean | TikTokCampaignCountOutputTypeCountSupportsArgs
+  dailyMetrics?: boolean | TikTokCampaignCountOutputTypeCountDailyMetricsArgs
 }
 
 /**
@@ -703,18 +1156,35 @@ export type TikTokCampaignCountOutputTypeCountSupportsArgs<ExtArgs extends runti
   where?: Prisma.SupportWhereInput
 }
 
+/**
+ * TikTokCampaignCountOutputType without action
+ */
+export type TikTokCampaignCountOutputTypeCountDailyMetricsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CampaignDailyMetricWhereInput
+}
+
 
 export type TikTokCampaignSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   creatorProfileId?: boolean
   videoId?: boolean
   title?: boolean
+  status?: boolean
+  contentType?: boolean
+  tiktokUsername?: boolean
+  tiktokUrl?: boolean
+  thumbnailUrl?: boolean
+  ctaLabel?: boolean
   clicks?: boolean
+  conversions?: boolean
   revenue?: boolean
+  postedAt?: boolean
+  lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
   supports?: boolean | Prisma.TikTokCampaign$supportsArgs<ExtArgs>
+  dailyMetrics?: boolean | Prisma.TikTokCampaign$dailyMetricsArgs<ExtArgs>
   _count?: boolean | Prisma.TikTokCampaignCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tikTokCampaign"]>
 
@@ -723,8 +1193,17 @@ export type TikTokCampaignSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   creatorProfileId?: boolean
   videoId?: boolean
   title?: boolean
+  status?: boolean
+  contentType?: boolean
+  tiktokUsername?: boolean
+  tiktokUrl?: boolean
+  thumbnailUrl?: boolean
+  ctaLabel?: boolean
   clicks?: boolean
+  conversions?: boolean
   revenue?: boolean
+  postedAt?: boolean
+  lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
@@ -735,8 +1214,17 @@ export type TikTokCampaignSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   creatorProfileId?: boolean
   videoId?: boolean
   title?: boolean
+  status?: boolean
+  contentType?: boolean
+  tiktokUsername?: boolean
+  tiktokUrl?: boolean
+  thumbnailUrl?: boolean
+  ctaLabel?: boolean
   clicks?: boolean
+  conversions?: boolean
   revenue?: boolean
+  postedAt?: boolean
+  lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
@@ -747,16 +1235,26 @@ export type TikTokCampaignSelectScalar = {
   creatorProfileId?: boolean
   videoId?: boolean
   title?: boolean
+  status?: boolean
+  contentType?: boolean
+  tiktokUsername?: boolean
+  tiktokUrl?: boolean
+  thumbnailUrl?: boolean
+  ctaLabel?: boolean
   clicks?: boolean
+  conversions?: boolean
   revenue?: boolean
+  postedAt?: boolean
+  lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TikTokCampaignOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorProfileId" | "videoId" | "title" | "clicks" | "revenue" | "createdAt" | "updatedAt", ExtArgs["result"]["tikTokCampaign"]>
+export type TikTokCampaignOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creatorProfileId" | "videoId" | "title" | "status" | "contentType" | "tiktokUsername" | "tiktokUrl" | "thumbnailUrl" | "ctaLabel" | "clicks" | "conversions" | "revenue" | "postedAt" | "lastSyncedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["tikTokCampaign"]>
 export type TikTokCampaignInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creatorProfile?: boolean | Prisma.CreatorProfileDefaultArgs<ExtArgs>
   supports?: boolean | Prisma.TikTokCampaign$supportsArgs<ExtArgs>
+  dailyMetrics?: boolean | Prisma.TikTokCampaign$dailyMetricsArgs<ExtArgs>
   _count?: boolean | Prisma.TikTokCampaignCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TikTokCampaignIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -771,14 +1269,24 @@ export type $TikTokCampaignPayload<ExtArgs extends runtime.Types.Extensions.Inte
   objects: {
     creatorProfile: Prisma.$CreatorProfilePayload<ExtArgs>
     supports: Prisma.$SupportPayload<ExtArgs>[]
+    dailyMetrics: Prisma.$CampaignDailyMetricPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     creatorProfileId: string
     videoId: string
     title: string | null
+    status: $Enums.CampaignStatus
+    contentType: $Enums.CampaignContentType
+    tiktokUsername: string | null
+    tiktokUrl: string | null
+    thumbnailUrl: string | null
+    ctaLabel: string | null
     clicks: number
+    conversions: number
     revenue: runtime.Decimal
+    postedAt: Date | null
+    lastSyncedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["tikTokCampaign"]>
@@ -1177,6 +1685,7 @@ export interface Prisma__TikTokCampaignClient<T, Null = never, ExtArgs extends r
   readonly [Symbol.toStringTag]: "PrismaPromise"
   creatorProfile<T extends Prisma.CreatorProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__CreatorProfileClient<runtime.Types.Result.GetResult<Prisma.$CreatorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   supports<T extends Prisma.TikTokCampaign$supportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TikTokCampaign$supportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dailyMetrics<T extends Prisma.TikTokCampaign$dailyMetricsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TikTokCampaign$dailyMetricsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignDailyMetricPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1210,8 +1719,17 @@ export interface TikTokCampaignFieldRefs {
   readonly creatorProfileId: Prisma.FieldRef<"TikTokCampaign", 'String'>
   readonly videoId: Prisma.FieldRef<"TikTokCampaign", 'String'>
   readonly title: Prisma.FieldRef<"TikTokCampaign", 'String'>
+  readonly status: Prisma.FieldRef<"TikTokCampaign", 'CampaignStatus'>
+  readonly contentType: Prisma.FieldRef<"TikTokCampaign", 'CampaignContentType'>
+  readonly tiktokUsername: Prisma.FieldRef<"TikTokCampaign", 'String'>
+  readonly tiktokUrl: Prisma.FieldRef<"TikTokCampaign", 'String'>
+  readonly thumbnailUrl: Prisma.FieldRef<"TikTokCampaign", 'String'>
+  readonly ctaLabel: Prisma.FieldRef<"TikTokCampaign", 'String'>
   readonly clicks: Prisma.FieldRef<"TikTokCampaign", 'Int'>
+  readonly conversions: Prisma.FieldRef<"TikTokCampaign", 'Int'>
   readonly revenue: Prisma.FieldRef<"TikTokCampaign", 'Decimal'>
+  readonly postedAt: Prisma.FieldRef<"TikTokCampaign", 'DateTime'>
+  readonly lastSyncedAt: Prisma.FieldRef<"TikTokCampaign", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"TikTokCampaign", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TikTokCampaign", 'DateTime'>
 }
@@ -1636,6 +2154,30 @@ export type TikTokCampaign$supportsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.SupportScalarFieldEnum | Prisma.SupportScalarFieldEnum[]
+}
+
+/**
+ * TikTokCampaign.dailyMetrics
+ */
+export type TikTokCampaign$dailyMetricsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CampaignDailyMetric
+   */
+  select?: Prisma.CampaignDailyMetricSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CampaignDailyMetric
+   */
+  omit?: Prisma.CampaignDailyMetricOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CampaignDailyMetricInclude<ExtArgs> | null
+  where?: Prisma.CampaignDailyMetricWhereInput
+  orderBy?: Prisma.CampaignDailyMetricOrderByWithRelationInput | Prisma.CampaignDailyMetricOrderByWithRelationInput[]
+  cursor?: Prisma.CampaignDailyMetricWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CampaignDailyMetricScalarFieldEnum | Prisma.CampaignDailyMetricScalarFieldEnum[]
 }
 
 /**

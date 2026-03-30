@@ -158,7 +158,7 @@ export type UnlockedRewardGroupByOutputType = {
   _max: UnlockedRewardMaxAggregateOutputType | null
 }
 
-type GetUnlockedRewardGroupByPayload<T extends UnlockedRewardGroupByArgs> = Prisma.PrismaPromise<
+export type GetUnlockedRewardGroupByPayload<T extends UnlockedRewardGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UnlockedRewardGroupByOutputType, T['by']> &
       {
@@ -202,6 +202,7 @@ export type UnlockedRewardWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   supportId?: string
   userId_rewardId?: Prisma.UnlockedRewardUserIdRewardIdCompoundUniqueInput
+  supportId_rewardId?: Prisma.UnlockedRewardSupportIdRewardIdCompoundUniqueInput
   AND?: Prisma.UnlockedRewardWhereInput | Prisma.UnlockedRewardWhereInput[]
   OR?: Prisma.UnlockedRewardWhereInput[]
   NOT?: Prisma.UnlockedRewardWhereInput | Prisma.UnlockedRewardWhereInput[]
@@ -211,7 +212,7 @@ export type UnlockedRewardWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reward?: Prisma.XOR<Prisma.RewardScalarRelationFilter, Prisma.RewardWhereInput>
   support?: Prisma.XOR<Prisma.SupportScalarRelationFilter, Prisma.SupportWhereInput>
-}, "id" | "supportId" | "userId_rewardId">
+}, "id" | "supportId" | "userId_rewardId" | "supportId_rewardId">
 
 export type UnlockedRewardOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -305,6 +306,11 @@ export type UnlockedRewardNullableScalarRelationFilter = {
 
 export type UnlockedRewardUserIdRewardIdCompoundUniqueInput = {
   userId: string
+  rewardId: string
+}
+
+export type UnlockedRewardSupportIdRewardIdCompoundUniqueInput = {
+  supportId: string
   rewardId: string
 }
 

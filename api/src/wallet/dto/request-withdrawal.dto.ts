@@ -7,6 +7,7 @@ import {
   Max,
   MaxLength,
   Min,
+  MinLength,
 } from 'class-validator';
 import { WithdrawalMethod } from 'generated/prisma/client';
 
@@ -30,4 +31,14 @@ export class RequestWithdrawalDto {
   @IsString()
   @MaxLength(200)
   note?: string;
+
+  @ApiPropertyOptional({
+    example: 'wdr_2026_03_30_8f2d4a1b',
+    description: 'Client-generated idempotency key for safe retries',
+  })
+  @IsOptional()
+  @IsString()
+  @MinLength(8)
+  @MaxLength(100)
+  idempotencyKey?: string;
 }

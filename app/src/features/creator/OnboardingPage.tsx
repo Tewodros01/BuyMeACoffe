@@ -6,6 +6,7 @@ import { useAuthStore } from '../../store/authStore'
 import { creatorApi } from '../creator/creatorApi'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/index'
+import { getApiErrorMessage } from '../../lib/api'
 import { haptic } from '../../lib/telegram'
 
 export default function OnboardingPage() {
@@ -38,7 +39,7 @@ export default function OnboardingPage() {
       subtitle: `Hi ${user?.firstName}, let's set up your creator page`,
       content: (
         <div className="flex flex-col items-center gap-6 py-4">
-          <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shadow-xl shadow-amber-500/30">
+          <div className="w-24 h-24 rounded-2xl bg-linear-to-br from-amber-500 to-amber-600 flex items-center justify-center shadow-xl shadow-amber-500/30">
             <Coffee className="w-12 h-12 text-black" />
           </div>
           <div className="text-center">
@@ -82,7 +83,7 @@ export default function OnboardingPage() {
   return (
     <div className="flex min-h-screen flex-col px-5 py-8">
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col">
-        <div className="mb-8 rounded-[28px] border border-white/[0.08] bg-[#0e0e1c]/95 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+        <div className="mb-8 rounded-[28px] border border-white/8 bg-surface-2/95 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
           <div className="mb-6 flex gap-1.5">
             {steps.map((_, i) => (
               <div key={i} className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${i <= step ? 'bg-amber-500' : 'bg-white/[0.08]'}`} />
@@ -102,7 +103,7 @@ export default function OnboardingPage() {
 
         <div className="mt-auto flex flex-col gap-3">
           {setupMutation.error && (
-            <p className="text-xs text-red-400 text-center">{(setupMutation.error as any)?.response?.data?.message ?? 'Setup failed'}</p>
+            <p className="text-xs text-red-400 text-center">{getApiErrorMessage(setupMutation.error, 'Setup failed')}</p>
           )}
           <Button
             fullWidth size="lg"

@@ -8,6 +8,7 @@ import { supportApi } from '../support/supportApi'
 import { Avatar, Card, Spinner, Empty, Badge } from '../../components/ui/index'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/index'
+import { getApiErrorMessage } from '../../lib/api'
 import { formatETB, timeAgo } from './utils'
 import { haptic } from '../../lib/telegram'
 import { useAuthStore } from '../../store/authStore'
@@ -67,7 +68,7 @@ export default function PublicCreatorPage() {
 
   return (
     <div className="flex min-h-screen flex-col pb-8">
-      <div className="relative overflow-hidden rounded-b-[32px] border-b border-white/[0.06] bg-[linear-gradient(180deg,rgba(245,158,11,0.22),rgba(14,14,28,0.9)_45%,rgba(7,7,15,1))] px-5 pb-6 pt-10">
+      <div className="relative overflow-hidden rounded-b-[32px] border-b border-white/6 bg-[linear-gradient(180deg,rgba(245,158,11,0.22),rgba(14,14,28,0.9)_45%,rgba(7,7,15,1))] px-5 pb-6 pt-10">
         <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,_rgba(251,191,36,0.25),_transparent_60%)]" />
         <div className="relative flex flex-col items-center text-center">
           <Avatar src={profile.user.avatar} name={`${profile.user.firstName} ${profile.user.lastName}`} size="xl"
@@ -85,7 +86,7 @@ export default function PublicCreatorPage() {
 
       <div className="px-4 mt-6 flex flex-col gap-4">
         <Card className="overflow-hidden p-0">
-          <div className="border-b border-white/[0.06] bg-gradient-to-r from-amber-500/[0.08] to-transparent px-4 py-3">
+          <div className="border-b border-white/6 bg-gradient-to-r from-amber-500/[0.08] to-transparent px-4 py-3">
             <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-amber-300/80">Support creator</p>
           </div>
           <div className="p-4">
@@ -131,7 +132,7 @@ export default function PublicCreatorPage() {
             </div>
 
             {initiateMutation.error && (
-              <p className="text-xs text-red-400 text-center">{(initiateMutation.error as any)?.response?.data?.message ?? 'Payment failed'}</p>
+              <p className="text-xs text-red-400 text-center">{getApiErrorMessage(initiateMutation.error, 'Payment failed')}</p>
             )}
 
             <Button fullWidth size="lg" loading={initiateMutation.isPending} onClick={handleSupport}

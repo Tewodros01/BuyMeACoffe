@@ -28,12 +28,18 @@ export type AggregateCreatorProfile = {
 
 export type CreatorProfileAvgAggregateOutputType = {
   coffeePrice: runtime.Decimal | null
+  minSupportAmount: runtime.Decimal | null
+  payoutHoldDays: number | null
+  platformFeeRate: runtime.Decimal | null
   totalSupporters: number | null
   totalSupports: number | null
 }
 
 export type CreatorProfileSumAggregateOutputType = {
   coffeePrice: runtime.Decimal | null
+  minSupportAmount: runtime.Decimal | null
+  payoutHoldDays: number | null
+  platformFeeRate: runtime.Decimal | null
   totalSupporters: number | null
   totalSupports: number | null
 }
@@ -45,7 +51,13 @@ export type CreatorProfileMinAggregateOutputType = {
   pageTitle: string | null
   thankYouMessage: string | null
   coverImage: string | null
+  category: string | null
+  tagline: string | null
   coffeePrice: runtime.Decimal | null
+  minSupportAmount: runtime.Decimal | null
+  preferredCurrency: string | null
+  payoutHoldDays: number | null
+  platformFeeRate: runtime.Decimal | null
   isPublished: boolean | null
   totalSupporters: number | null
   totalSupports: number | null
@@ -60,7 +72,13 @@ export type CreatorProfileMaxAggregateOutputType = {
   pageTitle: string | null
   thankYouMessage: string | null
   coverImage: string | null
+  category: string | null
+  tagline: string | null
   coffeePrice: runtime.Decimal | null
+  minSupportAmount: runtime.Decimal | null
+  preferredCurrency: string | null
+  payoutHoldDays: number | null
+  platformFeeRate: runtime.Decimal | null
   isPublished: boolean | null
   totalSupporters: number | null
   totalSupports: number | null
@@ -75,7 +93,13 @@ export type CreatorProfileCountAggregateOutputType = {
   pageTitle: number
   thankYouMessage: number
   coverImage: number
+  category: number
+  tagline: number
   coffeePrice: number
+  minSupportAmount: number
+  preferredCurrency: number
+  payoutHoldDays: number
+  platformFeeRate: number
   socialLinks: number
   isPublished: number
   totalSupporters: number
@@ -88,12 +112,18 @@ export type CreatorProfileCountAggregateOutputType = {
 
 export type CreatorProfileAvgAggregateInputType = {
   coffeePrice?: true
+  minSupportAmount?: true
+  payoutHoldDays?: true
+  platformFeeRate?: true
   totalSupporters?: true
   totalSupports?: true
 }
 
 export type CreatorProfileSumAggregateInputType = {
   coffeePrice?: true
+  minSupportAmount?: true
+  payoutHoldDays?: true
+  platformFeeRate?: true
   totalSupporters?: true
   totalSupports?: true
 }
@@ -105,7 +135,13 @@ export type CreatorProfileMinAggregateInputType = {
   pageTitle?: true
   thankYouMessage?: true
   coverImage?: true
+  category?: true
+  tagline?: true
   coffeePrice?: true
+  minSupportAmount?: true
+  preferredCurrency?: true
+  payoutHoldDays?: true
+  platformFeeRate?: true
   isPublished?: true
   totalSupporters?: true
   totalSupports?: true
@@ -120,7 +156,13 @@ export type CreatorProfileMaxAggregateInputType = {
   pageTitle?: true
   thankYouMessage?: true
   coverImage?: true
+  category?: true
+  tagline?: true
   coffeePrice?: true
+  minSupportAmount?: true
+  preferredCurrency?: true
+  payoutHoldDays?: true
+  platformFeeRate?: true
   isPublished?: true
   totalSupporters?: true
   totalSupports?: true
@@ -135,7 +177,13 @@ export type CreatorProfileCountAggregateInputType = {
   pageTitle?: true
   thankYouMessage?: true
   coverImage?: true
+  category?: true
+  tagline?: true
   coffeePrice?: true
+  minSupportAmount?: true
+  preferredCurrency?: true
+  payoutHoldDays?: true
+  platformFeeRate?: true
   socialLinks?: true
   isPublished?: true
   totalSupporters?: true
@@ -238,7 +286,13 @@ export type CreatorProfileGroupByOutputType = {
   pageTitle: string
   thankYouMessage: string | null
   coverImage: string | null
+  category: string | null
+  tagline: string | null
   coffeePrice: runtime.Decimal
+  minSupportAmount: runtime.Decimal | null
+  preferredCurrency: string
+  payoutHoldDays: number
+  platformFeeRate: runtime.Decimal
   socialLinks: runtime.JsonValue | null
   isPublished: boolean
   totalSupporters: number
@@ -252,7 +306,7 @@ export type CreatorProfileGroupByOutputType = {
   _max: CreatorProfileMaxAggregateOutputType | null
 }
 
-type GetCreatorProfileGroupByPayload<T extends CreatorProfileGroupByArgs> = Prisma.PrismaPromise<
+export type GetCreatorProfileGroupByPayload<T extends CreatorProfileGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<CreatorProfileGroupByOutputType, T['by']> &
       {
@@ -277,7 +331,13 @@ export type CreatorProfileWhereInput = {
   pageTitle?: Prisma.StringFilter<"CreatorProfile"> | string
   thankYouMessage?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
   coverImage?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
+  category?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
+  tagline?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
   coffeePrice?: Prisma.DecimalFilter<"CreatorProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.DecimalNullableFilter<"CreatorProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFilter<"CreatorProfile"> | string
+  payoutHoldDays?: Prisma.IntFilter<"CreatorProfile"> | number
+  platformFeeRate?: Prisma.DecimalFilter<"CreatorProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.JsonNullableFilter<"CreatorProfile">
   isPublished?: Prisma.BoolFilter<"CreatorProfile"> | boolean
   totalSupporters?: Prisma.IntFilter<"CreatorProfile"> | number
@@ -293,6 +353,7 @@ export type CreatorProfileWhereInput = {
   polls?: Prisma.PollListRelationFilter
   featureRequests?: Prisma.FeatureRequestListRelationFilter
   fanBadges?: Prisma.FanBadgeListRelationFilter
+  verification?: Prisma.XOR<Prisma.CreatorVerificationNullableScalarRelationFilter, Prisma.CreatorVerificationWhereInput> | null
 }
 
 export type CreatorProfileOrderByWithRelationInput = {
@@ -302,7 +363,13 @@ export type CreatorProfileOrderByWithRelationInput = {
   pageTitle?: Prisma.SortOrder
   thankYouMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  category?: Prisma.SortOrderInput | Prisma.SortOrder
+  tagline?: Prisma.SortOrderInput | Prisma.SortOrder
   coffeePrice?: Prisma.SortOrder
+  minSupportAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  preferredCurrency?: Prisma.SortOrder
+  payoutHoldDays?: Prisma.SortOrder
+  platformFeeRate?: Prisma.SortOrder
   socialLinks?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   totalSupporters?: Prisma.SortOrder
@@ -318,6 +385,7 @@ export type CreatorProfileOrderByWithRelationInput = {
   polls?: Prisma.PollOrderByRelationAggregateInput
   featureRequests?: Prisma.FeatureRequestOrderByRelationAggregateInput
   fanBadges?: Prisma.FanBadgeOrderByRelationAggregateInput
+  verification?: Prisma.CreatorVerificationOrderByWithRelationInput
 }
 
 export type CreatorProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -330,7 +398,13 @@ export type CreatorProfileWhereUniqueInput = Prisma.AtLeast<{
   pageTitle?: Prisma.StringFilter<"CreatorProfile"> | string
   thankYouMessage?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
   coverImage?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
+  category?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
+  tagline?: Prisma.StringNullableFilter<"CreatorProfile"> | string | null
   coffeePrice?: Prisma.DecimalFilter<"CreatorProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.DecimalNullableFilter<"CreatorProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFilter<"CreatorProfile"> | string
+  payoutHoldDays?: Prisma.IntFilter<"CreatorProfile"> | number
+  platformFeeRate?: Prisma.DecimalFilter<"CreatorProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.JsonNullableFilter<"CreatorProfile">
   isPublished?: Prisma.BoolFilter<"CreatorProfile"> | boolean
   totalSupporters?: Prisma.IntFilter<"CreatorProfile"> | number
@@ -346,6 +420,7 @@ export type CreatorProfileWhereUniqueInput = Prisma.AtLeast<{
   polls?: Prisma.PollListRelationFilter
   featureRequests?: Prisma.FeatureRequestListRelationFilter
   fanBadges?: Prisma.FanBadgeListRelationFilter
+  verification?: Prisma.XOR<Prisma.CreatorVerificationNullableScalarRelationFilter, Prisma.CreatorVerificationWhereInput> | null
 }, "id" | "userId" | "slug">
 
 export type CreatorProfileOrderByWithAggregationInput = {
@@ -355,7 +430,13 @@ export type CreatorProfileOrderByWithAggregationInput = {
   pageTitle?: Prisma.SortOrder
   thankYouMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  category?: Prisma.SortOrderInput | Prisma.SortOrder
+  tagline?: Prisma.SortOrderInput | Prisma.SortOrder
   coffeePrice?: Prisma.SortOrder
+  minSupportAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  preferredCurrency?: Prisma.SortOrder
+  payoutHoldDays?: Prisma.SortOrder
+  platformFeeRate?: Prisma.SortOrder
   socialLinks?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   totalSupporters?: Prisma.SortOrder
@@ -379,7 +460,13 @@ export type CreatorProfileScalarWhereWithAggregatesInput = {
   pageTitle?: Prisma.StringWithAggregatesFilter<"CreatorProfile"> | string
   thankYouMessage?: Prisma.StringNullableWithAggregatesFilter<"CreatorProfile"> | string | null
   coverImage?: Prisma.StringNullableWithAggregatesFilter<"CreatorProfile"> | string | null
+  category?: Prisma.StringNullableWithAggregatesFilter<"CreatorProfile"> | string | null
+  tagline?: Prisma.StringNullableWithAggregatesFilter<"CreatorProfile"> | string | null
   coffeePrice?: Prisma.DecimalWithAggregatesFilter<"CreatorProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.DecimalNullableWithAggregatesFilter<"CreatorProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringWithAggregatesFilter<"CreatorProfile"> | string
+  payoutHoldDays?: Prisma.IntWithAggregatesFilter<"CreatorProfile"> | number
+  platformFeeRate?: Prisma.DecimalWithAggregatesFilter<"CreatorProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.JsonNullableWithAggregatesFilter<"CreatorProfile">
   isPublished?: Prisma.BoolWithAggregatesFilter<"CreatorProfile"> | boolean
   totalSupporters?: Prisma.IntWithAggregatesFilter<"CreatorProfile"> | number
@@ -394,7 +481,13 @@ export type CreatorProfileCreateInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -410,6 +503,7 @@ export type CreatorProfileCreateInput = {
   polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateInput = {
@@ -419,7 +513,13 @@ export type CreatorProfileUncheckedCreateInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -434,6 +534,7 @@ export type CreatorProfileUncheckedCreateInput = {
   polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationUncheckedCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUpdateInput = {
@@ -442,7 +543,13 @@ export type CreatorProfileUpdateInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -458,6 +565,7 @@ export type CreatorProfileUpdateInput = {
   polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateInput = {
@@ -467,7 +575,13 @@ export type CreatorProfileUncheckedUpdateInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -482,6 +596,7 @@ export type CreatorProfileUncheckedUpdateInput = {
   polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUncheckedUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateManyInput = {
@@ -491,7 +606,13 @@ export type CreatorProfileCreateManyInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -506,7 +627,13 @@ export type CreatorProfileUpdateManyMutationInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -522,7 +649,13 @@ export type CreatorProfileUncheckedUpdateManyInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -543,7 +676,13 @@ export type CreatorProfileCountOrderByAggregateInput = {
   pageTitle?: Prisma.SortOrder
   thankYouMessage?: Prisma.SortOrder
   coverImage?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  tagline?: Prisma.SortOrder
   coffeePrice?: Prisma.SortOrder
+  minSupportAmount?: Prisma.SortOrder
+  preferredCurrency?: Prisma.SortOrder
+  payoutHoldDays?: Prisma.SortOrder
+  platformFeeRate?: Prisma.SortOrder
   socialLinks?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   totalSupporters?: Prisma.SortOrder
@@ -554,6 +693,9 @@ export type CreatorProfileCountOrderByAggregateInput = {
 
 export type CreatorProfileAvgOrderByAggregateInput = {
   coffeePrice?: Prisma.SortOrder
+  minSupportAmount?: Prisma.SortOrder
+  payoutHoldDays?: Prisma.SortOrder
+  platformFeeRate?: Prisma.SortOrder
   totalSupporters?: Prisma.SortOrder
   totalSupports?: Prisma.SortOrder
 }
@@ -565,7 +707,13 @@ export type CreatorProfileMaxOrderByAggregateInput = {
   pageTitle?: Prisma.SortOrder
   thankYouMessage?: Prisma.SortOrder
   coverImage?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  tagline?: Prisma.SortOrder
   coffeePrice?: Prisma.SortOrder
+  minSupportAmount?: Prisma.SortOrder
+  preferredCurrency?: Prisma.SortOrder
+  payoutHoldDays?: Prisma.SortOrder
+  platformFeeRate?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   totalSupporters?: Prisma.SortOrder
   totalSupports?: Prisma.SortOrder
@@ -580,7 +728,13 @@ export type CreatorProfileMinOrderByAggregateInput = {
   pageTitle?: Prisma.SortOrder
   thankYouMessage?: Prisma.SortOrder
   coverImage?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  tagline?: Prisma.SortOrder
   coffeePrice?: Prisma.SortOrder
+  minSupportAmount?: Prisma.SortOrder
+  preferredCurrency?: Prisma.SortOrder
+  payoutHoldDays?: Prisma.SortOrder
+  platformFeeRate?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
   totalSupporters?: Prisma.SortOrder
   totalSupports?: Prisma.SortOrder
@@ -590,6 +744,9 @@ export type CreatorProfileMinOrderByAggregateInput = {
 
 export type CreatorProfileSumOrderByAggregateInput = {
   coffeePrice?: Prisma.SortOrder
+  minSupportAmount?: Prisma.SortOrder
+  payoutHoldDays?: Prisma.SortOrder
+  platformFeeRate?: Prisma.SortOrder
   totalSupporters?: Prisma.SortOrder
   totalSupports?: Prisma.SortOrder
 }
@@ -629,6 +786,14 @@ export type CreatorProfileUncheckedUpdateOneWithoutUserNestedInput = {
   delete?: Prisma.CreatorProfileWhereInput | boolean
   connect?: Prisma.CreatorProfileWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorProfileUpdateToOneWithWhereWithoutUserInput, Prisma.CreatorProfileUpdateWithoutUserInput>, Prisma.CreatorProfileUncheckedUpdateWithoutUserInput>
+}
+
+export type NullableDecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -723,6 +888,20 @@ export type CreatorProfileUpdateOneRequiredWithoutFeatureRequestsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorProfileUpdateToOneWithWhereWithoutFeatureRequestsInput, Prisma.CreatorProfileUpdateWithoutFeatureRequestsInput>, Prisma.CreatorProfileUncheckedUpdateWithoutFeatureRequestsInput>
 }
 
+export type CreatorProfileCreateNestedOneWithoutVerificationInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutVerificationInput, Prisma.CreatorProfileUncheckedCreateWithoutVerificationInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutVerificationInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+}
+
+export type CreatorProfileUpdateOneRequiredWithoutVerificationNestedInput = {
+  create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutVerificationInput, Prisma.CreatorProfileUncheckedCreateWithoutVerificationInput>
+  connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutVerificationInput
+  upsert?: Prisma.CreatorProfileUpsertWithoutVerificationInput
+  connect?: Prisma.CreatorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CreatorProfileUpdateToOneWithWhereWithoutVerificationInput, Prisma.CreatorProfileUpdateWithoutVerificationInput>, Prisma.CreatorProfileUncheckedUpdateWithoutVerificationInput>
+}
+
 export type CreatorProfileCreateNestedOneWithoutPollsInput = {
   create?: Prisma.XOR<Prisma.CreatorProfileCreateWithoutPollsInput, Prisma.CreatorProfileUncheckedCreateWithoutPollsInput>
   connectOrCreate?: Prisma.CreatorProfileCreateOrConnectWithoutPollsInput
@@ -757,7 +936,13 @@ export type CreatorProfileCreateWithoutUserInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -772,6 +957,7 @@ export type CreatorProfileCreateWithoutUserInput = {
   polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutUserInput = {
@@ -780,7 +966,13 @@ export type CreatorProfileUncheckedCreateWithoutUserInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -795,6 +987,7 @@ export type CreatorProfileUncheckedCreateWithoutUserInput = {
   polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationUncheckedCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutUserInput = {
@@ -819,7 +1012,13 @@ export type CreatorProfileUpdateWithoutUserInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -834,6 +1033,7 @@ export type CreatorProfileUpdateWithoutUserInput = {
   polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutUserInput = {
@@ -842,7 +1042,13 @@ export type CreatorProfileUncheckedUpdateWithoutUserInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -857,6 +1063,7 @@ export type CreatorProfileUncheckedUpdateWithoutUserInput = {
   polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUncheckedUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateWithoutGoalsInput = {
@@ -865,7 +1072,13 @@ export type CreatorProfileCreateWithoutGoalsInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -880,6 +1093,7 @@ export type CreatorProfileCreateWithoutGoalsInput = {
   polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutGoalsInput = {
@@ -889,7 +1103,13 @@ export type CreatorProfileUncheckedCreateWithoutGoalsInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -903,6 +1123,7 @@ export type CreatorProfileUncheckedCreateWithoutGoalsInput = {
   polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationUncheckedCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutGoalsInput = {
@@ -927,7 +1148,13 @@ export type CreatorProfileUpdateWithoutGoalsInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -942,6 +1169,7 @@ export type CreatorProfileUpdateWithoutGoalsInput = {
   polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutGoalsInput = {
@@ -951,7 +1179,13 @@ export type CreatorProfileUncheckedUpdateWithoutGoalsInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -965,6 +1199,7 @@ export type CreatorProfileUncheckedUpdateWithoutGoalsInput = {
   polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUncheckedUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateWithoutRewardsInput = {
@@ -973,7 +1208,13 @@ export type CreatorProfileCreateWithoutRewardsInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -988,6 +1229,7 @@ export type CreatorProfileCreateWithoutRewardsInput = {
   polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutRewardsInput = {
@@ -997,7 +1239,13 @@ export type CreatorProfileUncheckedCreateWithoutRewardsInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1011,6 +1259,7 @@ export type CreatorProfileUncheckedCreateWithoutRewardsInput = {
   polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationUncheckedCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutRewardsInput = {
@@ -1035,7 +1284,13 @@ export type CreatorProfileUpdateWithoutRewardsInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1050,6 +1305,7 @@ export type CreatorProfileUpdateWithoutRewardsInput = {
   polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutRewardsInput = {
@@ -1059,7 +1315,13 @@ export type CreatorProfileUncheckedUpdateWithoutRewardsInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1073,6 +1335,7 @@ export type CreatorProfileUncheckedUpdateWithoutRewardsInput = {
   polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUncheckedUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateWithoutSupportsInput = {
@@ -1081,7 +1344,13 @@ export type CreatorProfileCreateWithoutSupportsInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1096,6 +1365,7 @@ export type CreatorProfileCreateWithoutSupportsInput = {
   polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutSupportsInput = {
@@ -1105,7 +1375,13 @@ export type CreatorProfileUncheckedCreateWithoutSupportsInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1119,6 +1395,7 @@ export type CreatorProfileUncheckedCreateWithoutSupportsInput = {
   polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationUncheckedCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutSupportsInput = {
@@ -1143,7 +1420,13 @@ export type CreatorProfileUpdateWithoutSupportsInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1158,6 +1441,7 @@ export type CreatorProfileUpdateWithoutSupportsInput = {
   polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutSupportsInput = {
@@ -1167,7 +1451,13 @@ export type CreatorProfileUncheckedUpdateWithoutSupportsInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1181,6 +1471,7 @@ export type CreatorProfileUncheckedUpdateWithoutSupportsInput = {
   polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUncheckedUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateWithoutCampaignsInput = {
@@ -1189,7 +1480,13 @@ export type CreatorProfileCreateWithoutCampaignsInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1204,6 +1501,7 @@ export type CreatorProfileCreateWithoutCampaignsInput = {
   polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutCampaignsInput = {
@@ -1213,7 +1511,13 @@ export type CreatorProfileUncheckedCreateWithoutCampaignsInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1227,6 +1531,7 @@ export type CreatorProfileUncheckedCreateWithoutCampaignsInput = {
   polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationUncheckedCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutCampaignsInput = {
@@ -1251,7 +1556,13 @@ export type CreatorProfileUpdateWithoutCampaignsInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1266,6 +1577,7 @@ export type CreatorProfileUpdateWithoutCampaignsInput = {
   polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutCampaignsInput = {
@@ -1275,7 +1587,13 @@ export type CreatorProfileUncheckedUpdateWithoutCampaignsInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1289,6 +1607,7 @@ export type CreatorProfileUncheckedUpdateWithoutCampaignsInput = {
   polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUncheckedUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateWithoutDeepLinksInput = {
@@ -1297,7 +1616,13 @@ export type CreatorProfileCreateWithoutDeepLinksInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1312,6 +1637,7 @@ export type CreatorProfileCreateWithoutDeepLinksInput = {
   polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutDeepLinksInput = {
@@ -1321,7 +1647,13 @@ export type CreatorProfileUncheckedCreateWithoutDeepLinksInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1335,6 +1667,7 @@ export type CreatorProfileUncheckedCreateWithoutDeepLinksInput = {
   polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationUncheckedCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutDeepLinksInput = {
@@ -1359,7 +1692,13 @@ export type CreatorProfileUpdateWithoutDeepLinksInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1374,6 +1713,7 @@ export type CreatorProfileUpdateWithoutDeepLinksInput = {
   polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutDeepLinksInput = {
@@ -1383,7 +1723,13 @@ export type CreatorProfileUncheckedUpdateWithoutDeepLinksInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1397,6 +1743,7 @@ export type CreatorProfileUncheckedUpdateWithoutDeepLinksInput = {
   polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUncheckedUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateWithoutFeatureRequestsInput = {
@@ -1405,7 +1752,13 @@ export type CreatorProfileCreateWithoutFeatureRequestsInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1420,6 +1773,7 @@ export type CreatorProfileCreateWithoutFeatureRequestsInput = {
   deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
   polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutFeatureRequestsInput = {
@@ -1429,7 +1783,13 @@ export type CreatorProfileUncheckedCreateWithoutFeatureRequestsInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1443,6 +1803,7 @@ export type CreatorProfileUncheckedCreateWithoutFeatureRequestsInput = {
   deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
   polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationUncheckedCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutFeatureRequestsInput = {
@@ -1467,7 +1828,13 @@ export type CreatorProfileUpdateWithoutFeatureRequestsInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1482,6 +1849,7 @@ export type CreatorProfileUpdateWithoutFeatureRequestsInput = {
   deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
   polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutFeatureRequestsInput = {
@@ -1491,7 +1859,13 @@ export type CreatorProfileUncheckedUpdateWithoutFeatureRequestsInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1505,6 +1879,143 @@ export type CreatorProfileUncheckedUpdateWithoutFeatureRequestsInput = {
   deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
   polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUncheckedUpdateOneWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileCreateWithoutVerificationInput = {
+  id?: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCreatorProfileInput
+  supports?: Prisma.SupportCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileUncheckedCreateWithoutVerificationInput = {
+  id?: string
+  userId: string
+  slug: string
+  pageTitle?: string
+  thankYouMessage?: string | null
+  coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
+  coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: boolean
+  totalSupporters?: number
+  totalSupports?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supports?: Prisma.SupportUncheckedCreateNestedManyWithoutCreatorProfileInput
+  goals?: Prisma.CreatorGoalUncheckedCreateNestedManyWithoutCreatorProfileInput
+  rewards?: Prisma.RewardUncheckedCreateNestedManyWithoutCreatorProfileInput
+  campaigns?: Prisma.TikTokCampaignUncheckedCreateNestedManyWithoutCreatorProfileInput
+  deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
+  polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
+  featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
+  fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+}
+
+export type CreatorProfileCreateOrConnectWithoutVerificationInput = {
+  where: Prisma.CreatorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutVerificationInput, Prisma.CreatorProfileUncheckedCreateWithoutVerificationInput>
+}
+
+export type CreatorProfileUpsertWithoutVerificationInput = {
+  update: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutVerificationInput, Prisma.CreatorProfileUncheckedUpdateWithoutVerificationInput>
+  create: Prisma.XOR<Prisma.CreatorProfileCreateWithoutVerificationInput, Prisma.CreatorProfileUncheckedCreateWithoutVerificationInput>
+  where?: Prisma.CreatorProfileWhereInput
+}
+
+export type CreatorProfileUpdateToOneWithWhereWithoutVerificationInput = {
+  where?: Prisma.CreatorProfileWhereInput
+  data: Prisma.XOR<Prisma.CreatorProfileUpdateWithoutVerificationInput, Prisma.CreatorProfileUncheckedUpdateWithoutVerificationInput>
+}
+
+export type CreatorProfileUpdateWithoutVerificationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCreatorProfileNestedInput
+  supports?: Prisma.SupportUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+}
+
+export type CreatorProfileUncheckedUpdateWithoutVerificationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
+  totalSupports?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supports?: Prisma.SupportUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  goals?: Prisma.CreatorGoalUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  rewards?: Prisma.RewardUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  campaigns?: Prisma.TikTokCampaignUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateWithoutPollsInput = {
@@ -1513,7 +2024,13 @@ export type CreatorProfileCreateWithoutPollsInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1528,6 +2045,7 @@ export type CreatorProfileCreateWithoutPollsInput = {
   deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutPollsInput = {
@@ -1537,7 +2055,13 @@ export type CreatorProfileUncheckedCreateWithoutPollsInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1551,6 +2075,7 @@ export type CreatorProfileUncheckedCreateWithoutPollsInput = {
   deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
   fanBadges?: Prisma.FanBadgeUncheckedCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationUncheckedCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutPollsInput = {
@@ -1575,7 +2100,13 @@ export type CreatorProfileUpdateWithoutPollsInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1590,6 +2121,7 @@ export type CreatorProfileUpdateWithoutPollsInput = {
   deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutPollsInput = {
@@ -1599,7 +2131,13 @@ export type CreatorProfileUncheckedUpdateWithoutPollsInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1613,6 +2151,7 @@ export type CreatorProfileUncheckedUpdateWithoutPollsInput = {
   deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
   fanBadges?: Prisma.FanBadgeUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUncheckedUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileCreateWithoutFanBadgesInput = {
@@ -1621,7 +2160,13 @@ export type CreatorProfileCreateWithoutFanBadgesInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1636,6 +2181,7 @@ export type CreatorProfileCreateWithoutFanBadgesInput = {
   deepLinks?: Prisma.DeepLinkCreateNestedManyWithoutCreatorProfileInput
   polls?: Prisma.PollCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileUncheckedCreateWithoutFanBadgesInput = {
@@ -1645,7 +2191,13 @@ export type CreatorProfileUncheckedCreateWithoutFanBadgesInput = {
   pageTitle?: string
   thankYouMessage?: string | null
   coverImage?: string | null
+  category?: string | null
+  tagline?: string | null
   coffeePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: string
+  payoutHoldDays?: number
+  platformFeeRate?: runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: boolean
   totalSupporters?: number
@@ -1659,6 +2211,7 @@ export type CreatorProfileUncheckedCreateWithoutFanBadgesInput = {
   deepLinks?: Prisma.DeepLinkUncheckedCreateNestedManyWithoutCreatorProfileInput
   polls?: Prisma.PollUncheckedCreateNestedManyWithoutCreatorProfileInput
   featureRequests?: Prisma.FeatureRequestUncheckedCreateNestedManyWithoutCreatorProfileInput
+  verification?: Prisma.CreatorVerificationUncheckedCreateNestedOneWithoutCreatorProfileInput
 }
 
 export type CreatorProfileCreateOrConnectWithoutFanBadgesInput = {
@@ -1683,7 +2236,13 @@ export type CreatorProfileUpdateWithoutFanBadgesInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1698,6 +2257,7 @@ export type CreatorProfileUpdateWithoutFanBadgesInput = {
   deepLinks?: Prisma.DeepLinkUpdateManyWithoutCreatorProfileNestedInput
   polls?: Prisma.PollUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUpdateOneWithoutCreatorProfileNestedInput
 }
 
 export type CreatorProfileUncheckedUpdateWithoutFanBadgesInput = {
@@ -1707,7 +2267,13 @@ export type CreatorProfileUncheckedUpdateWithoutFanBadgesInput = {
   pageTitle?: Prisma.StringFieldUpdateOperationsInput | string
   thankYouMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tagline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coffeePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  minSupportAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  preferredCurrency?: Prisma.StringFieldUpdateOperationsInput | string
+  payoutHoldDays?: Prisma.IntFieldUpdateOperationsInput | number
+  platformFeeRate?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   socialLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   totalSupporters?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1721,6 +2287,7 @@ export type CreatorProfileUncheckedUpdateWithoutFanBadgesInput = {
   deepLinks?: Prisma.DeepLinkUncheckedUpdateManyWithoutCreatorProfileNestedInput
   polls?: Prisma.PollUncheckedUpdateManyWithoutCreatorProfileNestedInput
   featureRequests?: Prisma.FeatureRequestUncheckedUpdateManyWithoutCreatorProfileNestedInput
+  verification?: Prisma.CreatorVerificationUncheckedUpdateOneWithoutCreatorProfileNestedInput
 }
 
 
@@ -1824,7 +2391,13 @@ export type CreatorProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   pageTitle?: boolean
   thankYouMessage?: boolean
   coverImage?: boolean
+  category?: boolean
+  tagline?: boolean
   coffeePrice?: boolean
+  minSupportAmount?: boolean
+  preferredCurrency?: boolean
+  payoutHoldDays?: boolean
+  platformFeeRate?: boolean
   socialLinks?: boolean
   isPublished?: boolean
   totalSupporters?: boolean
@@ -1840,6 +2413,7 @@ export type CreatorProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   polls?: boolean | Prisma.CreatorProfile$pollsArgs<ExtArgs>
   featureRequests?: boolean | Prisma.CreatorProfile$featureRequestsArgs<ExtArgs>
   fanBadges?: boolean | Prisma.CreatorProfile$fanBadgesArgs<ExtArgs>
+  verification?: boolean | Prisma.CreatorProfile$verificationArgs<ExtArgs>
   _count?: boolean | Prisma.CreatorProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["creatorProfile"]>
 
@@ -1850,7 +2424,13 @@ export type CreatorProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   pageTitle?: boolean
   thankYouMessage?: boolean
   coverImage?: boolean
+  category?: boolean
+  tagline?: boolean
   coffeePrice?: boolean
+  minSupportAmount?: boolean
+  preferredCurrency?: boolean
+  payoutHoldDays?: boolean
+  platformFeeRate?: boolean
   socialLinks?: boolean
   isPublished?: boolean
   totalSupporters?: boolean
@@ -1867,7 +2447,13 @@ export type CreatorProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   pageTitle?: boolean
   thankYouMessage?: boolean
   coverImage?: boolean
+  category?: boolean
+  tagline?: boolean
   coffeePrice?: boolean
+  minSupportAmount?: boolean
+  preferredCurrency?: boolean
+  payoutHoldDays?: boolean
+  platformFeeRate?: boolean
   socialLinks?: boolean
   isPublished?: boolean
   totalSupporters?: boolean
@@ -1884,7 +2470,13 @@ export type CreatorProfileSelectScalar = {
   pageTitle?: boolean
   thankYouMessage?: boolean
   coverImage?: boolean
+  category?: boolean
+  tagline?: boolean
   coffeePrice?: boolean
+  minSupportAmount?: boolean
+  preferredCurrency?: boolean
+  payoutHoldDays?: boolean
+  platformFeeRate?: boolean
   socialLinks?: boolean
   isPublished?: boolean
   totalSupporters?: boolean
@@ -1893,7 +2485,7 @@ export type CreatorProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CreatorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "pageTitle" | "thankYouMessage" | "coverImage" | "coffeePrice" | "socialLinks" | "isPublished" | "totalSupporters" | "totalSupports" | "createdAt" | "updatedAt", ExtArgs["result"]["creatorProfile"]>
+export type CreatorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "pageTitle" | "thankYouMessage" | "coverImage" | "category" | "tagline" | "coffeePrice" | "minSupportAmount" | "preferredCurrency" | "payoutHoldDays" | "platformFeeRate" | "socialLinks" | "isPublished" | "totalSupporters" | "totalSupports" | "createdAt" | "updatedAt", ExtArgs["result"]["creatorProfile"]>
 export type CreatorProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   supports?: boolean | Prisma.CreatorProfile$supportsArgs<ExtArgs>
@@ -1904,6 +2496,7 @@ export type CreatorProfileInclude<ExtArgs extends runtime.Types.Extensions.Inter
   polls?: boolean | Prisma.CreatorProfile$pollsArgs<ExtArgs>
   featureRequests?: boolean | Prisma.CreatorProfile$featureRequestsArgs<ExtArgs>
   fanBadges?: boolean | Prisma.CreatorProfile$fanBadgesArgs<ExtArgs>
+  verification?: boolean | Prisma.CreatorProfile$verificationArgs<ExtArgs>
   _count?: boolean | Prisma.CreatorProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CreatorProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1925,6 +2518,7 @@ export type $CreatorProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     polls: Prisma.$PollPayload<ExtArgs>[]
     featureRequests: Prisma.$FeatureRequestPayload<ExtArgs>[]
     fanBadges: Prisma.$FanBadgePayload<ExtArgs>[]
+    verification: Prisma.$CreatorVerificationPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1933,7 +2527,13 @@ export type $CreatorProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     pageTitle: string
     thankYouMessage: string | null
     coverImage: string | null
+    category: string | null
+    tagline: string | null
     coffeePrice: runtime.Decimal
+    minSupportAmount: runtime.Decimal | null
+    preferredCurrency: string
+    payoutHoldDays: number
+    platformFeeRate: runtime.Decimal
     socialLinks: runtime.JsonValue | null
     isPublished: boolean
     totalSupporters: number
@@ -2343,6 +2943,7 @@ export interface Prisma__CreatorProfileClient<T, Null = never, ExtArgs extends r
   polls<T extends Prisma.CreatorProfile$pollsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$pollsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PollPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   featureRequests<T extends Prisma.CreatorProfile$featureRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$featureRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeatureRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   fanBadges<T extends Prisma.CreatorProfile$fanBadgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$fanBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FanBadgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  verification<T extends Prisma.CreatorProfile$verificationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CreatorProfile$verificationArgs<ExtArgs>>): Prisma.Prisma__CreatorVerificationClient<runtime.Types.Result.GetResult<Prisma.$CreatorVerificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2378,7 +2979,13 @@ export interface CreatorProfileFieldRefs {
   readonly pageTitle: Prisma.FieldRef<"CreatorProfile", 'String'>
   readonly thankYouMessage: Prisma.FieldRef<"CreatorProfile", 'String'>
   readonly coverImage: Prisma.FieldRef<"CreatorProfile", 'String'>
+  readonly category: Prisma.FieldRef<"CreatorProfile", 'String'>
+  readonly tagline: Prisma.FieldRef<"CreatorProfile", 'String'>
   readonly coffeePrice: Prisma.FieldRef<"CreatorProfile", 'Decimal'>
+  readonly minSupportAmount: Prisma.FieldRef<"CreatorProfile", 'Decimal'>
+  readonly preferredCurrency: Prisma.FieldRef<"CreatorProfile", 'String'>
+  readonly payoutHoldDays: Prisma.FieldRef<"CreatorProfile", 'Int'>
+  readonly platformFeeRate: Prisma.FieldRef<"CreatorProfile", 'Decimal'>
   readonly socialLinks: Prisma.FieldRef<"CreatorProfile", 'Json'>
   readonly isPublished: Prisma.FieldRef<"CreatorProfile", 'Boolean'>
   readonly totalSupporters: Prisma.FieldRef<"CreatorProfile", 'Int'>
@@ -2975,6 +3582,25 @@ export type CreatorProfile$fanBadgesArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.FanBadgeScalarFieldEnum | Prisma.FanBadgeScalarFieldEnum[]
+}
+
+/**
+ * CreatorProfile.verification
+ */
+export type CreatorProfile$verificationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CreatorVerification
+   */
+  select?: Prisma.CreatorVerificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CreatorVerification
+   */
+  omit?: Prisma.CreatorVerificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CreatorVerificationInclude<ExtArgs> | null
+  where?: Prisma.CreatorVerificationWhereInput
 }
 
 /**

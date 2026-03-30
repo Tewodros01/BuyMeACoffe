@@ -6,13 +6,14 @@ import { supportApi } from './supportApi'
 import { Button } from '../../components/ui/Button'
 import { Spinner } from '../../components/ui/index'
 import { haptic } from '../../lib/telegram'
+import { getApiErrorMessage } from '../../lib/api'
 
 export default function PaymentSuccessPage() {
   const [params] = useSearchParams()
   const navigate = useNavigate()
   const txRef = params.get('ref')
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['verify', txRef],
     queryFn: () => supportApi.verify(txRef!),
     enabled: !!txRef,
@@ -30,7 +31,7 @@ export default function PaymentSuccessPage() {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center px-6">
-        <div className="w-full max-w-sm rounded-[28px] border border-white/[0.08] bg-[#0e0e1c]/95 p-8 text-center shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+        <div className="w-full max-w-sm rounded-[28px] border border-white/8 bg-surface-2/95 p-8 text-center shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
           <Spinner className="mx-auto w-10 h-10" />
           <p className="mt-4 text-sm text-[#7c7c9a]">Verifying your payment…</p>
         </div>
@@ -39,10 +40,13 @@ export default function PaymentSuccessPage() {
   }
 
   const success = data?.status === 'completed' || data?.status === 'already_completed'
+  const failureMessage = isError
+    ? getApiErrorMessage(error, 'We could not verify your payment. Please try again.')
+    : data?.message ?? 'Something went wrong. Please try again.'
 
   return (
     <div className="flex min-h-screen items-center justify-center px-6 py-10 fade-in">
-      <div className="w-full max-w-sm rounded-[28px] border border-white/[0.08] bg-[#0e0e1c]/95 p-8 text-center shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+      <div className="w-full max-w-sm rounded-[28px] border border-white/8 bg-surface-2/95 p-8 text-center shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
       <div className={`mx-auto flex h-24 w-24 items-center justify-center rounded-full ${success ? 'bg-emerald-500/10' : 'bg-red-500/10'}`}>
         {success
           ? <CheckCircle className="w-12 h-12 text-emerald-400" />
@@ -57,7 +61,7 @@ export default function PaymentSuccessPage() {
         <p className="text-sm text-[#7c7c9a] mt-2">
           {success
             ? 'Your support has been received. Thank you! ☕'
-            : 'Something went wrong. Please try again.'}
+            : failureMessage}
         </p>
         {txRef && <p className="text-xs text-[#4a4a6a] mt-2 font-mono">Ref: {txRef}</p>}
       </div>

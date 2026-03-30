@@ -206,7 +206,7 @@ export type PollGroupByOutputType = {
   _max: PollMaxAggregateOutputType | null
 }
 
-type GetPollGroupByPayload<T extends PollGroupByArgs> = Prisma.PrismaPromise<
+export type GetPollGroupByPayload<T extends PollGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PollGroupByOutputType, T['by']> &
       {
@@ -254,6 +254,7 @@ export type PollOrderByWithRelationInput = {
 
 export type PollWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  id_creatorProfileId?: Prisma.PollIdCreatorProfileIdCompoundUniqueInput
   AND?: Prisma.PollWhereInput | Prisma.PollWhereInput[]
   OR?: Prisma.PollWhereInput[]
   NOT?: Prisma.PollWhereInput | Prisma.PollWhereInput[]
@@ -267,7 +268,7 @@ export type PollWhereUniqueInput = Prisma.AtLeast<{
   options?: Prisma.PollOptionListRelationFilter
   supports?: Prisma.SupportListRelationFilter
   paidVotes?: Prisma.PaidVoteListRelationFilter
-}, "id">
+}, "id" | "id_creatorProfileId">
 
 export type PollOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -391,6 +392,11 @@ export type PollOrderByRelationAggregateInput = {
 export type PollNullableScalarRelationFilter = {
   is?: Prisma.PollWhereInput | null
   isNot?: Prisma.PollWhereInput | null
+}
+
+export type PollIdCreatorProfileIdCompoundUniqueInput = {
+  id: string
+  creatorProfileId: string
 }
 
 export type PollCountOrderByAggregateInput = {

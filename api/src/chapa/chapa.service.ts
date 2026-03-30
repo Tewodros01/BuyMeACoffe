@@ -40,8 +40,14 @@ export interface ChapaVerifyResponse {
 }
 
 interface ChapaErrorResponse {
-  message?: string;
+  message?: string | Record<string, string[]>;
+  status?: string;
+  data?: unknown;
 }
+
+const CHAPA_TITLE_MAX_LENGTH = 16;
+const CHAPA_DESCRIPTION_MAX_LENGTH = 120;
+const CHAPA_ALLOWED_CUSTOMIZATION_TEXT = /[^A-Za-z0-9._\-\s]/g;
 
 @Injectable()
 export class ChapaService {
@@ -87,15 +93,24 @@ export class ChapaService {
     try {
       const { data } = await this.http.post<ChapaInitResponse>(
         '/transaction/initialize',
-        payload,
+        {
+          ...payload,
+          customization: this.sanitizeCustomization(payload.customization),
+        },
       );
       return data;
     } catch (error: unknown) {
       const responseData = this.getAxiosErrorData(error);
       this.logger.error('Chapa init failed', responseData);
-      throw new BadRequestException(
-        responseData?.message ?? 'Payment initialization failed',
-      );
+      throw new BadRequestException({
+        message: this.formatChapaErrorMessage(
+          responseData?.message,
+          'Payment initialization failed',
+        ),
+        error: 'Bad Request',
+        provider: 'CHAPA',
+        details: responseData?.message ?? null,
+      });
     }
   }
 
@@ -108,9 +123,15 @@ export class ChapaService {
     } catch (error: unknown) {
       const responseData = this.getAxiosErrorData(error);
       this.logger.error('Chapa verify failed', responseData);
-      throw new BadRequestException(
-        responseData?.message ?? 'Payment verification failed',
-      );
+      throw new BadRequestException({
+        message: this.formatChapaErrorMessage(
+          responseData?.message,
+          'Payment verification failed',
+        ),
+        error: 'Bad Request',
+        provider: 'CHAPA',
+        details: responseData?.message ?? null,
+      });
     }
   }
 
@@ -150,5 +171,64 @@ export class ChapaService {
 
   generateTxRef(prefix = 'bmac'): string {
     return `${prefix}-${Date.now()}-${crypto.randomBytes(6).toString('hex')}`;
+  }
+
+  private sanitizeCustomization(
+    customization: ChapaInitPayload['customization'],
+  ) {
+    if (!customization) {
+      return undefined;
+    }
+
+    const title = this.sanitizeCustomizationText(
+      customization.title,
+      CHAPA_TITLE_MAX_LENGTH,
+      'Buy Me Coffee',
+    );
+    const description = this.sanitizeCustomizationText(
+      customization.description,
+      CHAPA_DESCRIPTION_MAX_LENGTH,
+      undefined,
+    );
+
+    return {
+      ...(title ? { title } : {}),
+      ...(description ? { description } : {}),
+    };
+  }
+
+  private sanitizeCustomizationText(
+    value: string | undefined,
+    maxLength: number,
+    fallback: string | undefined,
+  ) {
+    const sanitized = value
+      ?.replace(CHAPA_ALLOWED_CUSTOMIZATION_TEXT, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, maxLength);
+
+    return sanitized || fallback;
+  }
+
+  private formatChapaErrorMessage(
+    message: ChapaErrorResponse['message'],
+    fallback: string,
+  ) {
+    if (typeof message === 'string' && message.trim()) {
+      return message;
+    }
+
+    if (message && typeof message === 'object') {
+      const flattened = Object.entries(message).flatMap(([field, errors]) =>
+        errors.map((entry) => `${field}: ${entry}`),
+      );
+
+      if (flattened.length > 0) {
+        return flattened;
+      }
+    }
+
+    return fallback;
   }
 }

@@ -252,7 +252,7 @@ export type CreatorGoalGroupByOutputType = {
   _max: CreatorGoalMaxAggregateOutputType | null
 }
 
-type GetCreatorGoalGroupByPayload<T extends CreatorGoalGroupByArgs> = Prisma.PrismaPromise<
+export type GetCreatorGoalGroupByPayload<T extends CreatorGoalGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<CreatorGoalGroupByOutputType, T['by']> &
       {
@@ -308,6 +308,7 @@ export type CreatorGoalOrderByWithRelationInput = {
 
 export type CreatorGoalWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  id_creatorProfileId?: Prisma.CreatorGoalIdCreatorProfileIdCompoundUniqueInput
   AND?: Prisma.CreatorGoalWhereInput | Prisma.CreatorGoalWhereInput[]
   OR?: Prisma.CreatorGoalWhereInput[]
   NOT?: Prisma.CreatorGoalWhereInput | Prisma.CreatorGoalWhereInput[]
@@ -325,7 +326,7 @@ export type CreatorGoalWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"CreatorGoal"> | Date | string
   creatorProfile?: Prisma.XOR<Prisma.CreatorProfileScalarRelationFilter, Prisma.CreatorProfileWhereInput>
   supports?: Prisma.SupportListRelationFilter
-}, "id">
+}, "id" | "id_creatorProfileId">
 
 export type CreatorGoalOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -490,6 +491,11 @@ export type CreatorGoalListRelationFilter = {
 
 export type CreatorGoalOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type CreatorGoalIdCreatorProfileIdCompoundUniqueInput = {
+  id: string
+  creatorProfileId: string
 }
 
 export type CreatorGoalCountOrderByAggregateInput = {

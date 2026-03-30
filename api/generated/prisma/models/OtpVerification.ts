@@ -172,7 +172,7 @@ export type OtpVerificationGroupByOutputType = {
   _max: OtpVerificationMaxAggregateOutputType | null
 }
 
-type GetOtpVerificationGroupByPayload<T extends OtpVerificationGroupByArgs> = Prisma.PrismaPromise<
+export type GetOtpVerificationGroupByPayload<T extends OtpVerificationGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<OtpVerificationGroupByOutputType, T['by']> &
       {

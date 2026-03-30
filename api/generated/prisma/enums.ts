@@ -28,6 +28,13 @@ export const PaymentStatus = {
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 
+export const PaymentProvider = {
+  CHAPA: 'CHAPA'
+} as const
+
+export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvider]
+
+
 export const WithdrawalStatus = {
   PENDING: 'PENDING',
   PROCESSING: 'PROCESSING',
@@ -67,13 +74,60 @@ export type TransactionType = (typeof TransactionType)[keyof typeof TransactionT
 
 export const TransactionReason = {
   SUPPORT_RECEIVED: 'SUPPORT_RECEIVED',
+  SUPPORT_PENDING: 'SUPPORT_PENDING',
+  SUPPORT_SETTLED: 'SUPPORT_SETTLED',
   WITHDRAWAL: 'WITHDRAWAL',
+  WITHDRAWAL_RESERVED: 'WITHDRAWAL_RESERVED',
+  WITHDRAWAL_COMPLETED: 'WITHDRAWAL_COMPLETED',
+  WITHDRAWAL_RELEASED: 'WITHDRAWAL_RELEASED',
   WITHDRAWAL_FAILED: 'WITHDRAWAL_FAILED',
   REFUND: 'REFUND',
   ADJUSTMENT: 'ADJUSTMENT'
 } as const
 
 export type TransactionReason = (typeof TransactionReason)[keyof typeof TransactionReason]
+
+
+export const LedgerEntryDirection = {
+  DEBIT: 'DEBIT',
+  CREDIT: 'CREDIT'
+} as const
+
+export type LedgerEntryDirection = (typeof LedgerEntryDirection)[keyof typeof LedgerEntryDirection]
+
+
+export const LedgerAccountCode = {
+  PROCESSOR_CLEARING: 'PROCESSOR_CLEARING',
+  CREATOR_PENDING: 'CREATOR_PENDING',
+  CREATOR_AVAILABLE: 'CREATOR_AVAILABLE',
+  CREATOR_LOCKED: 'CREATOR_LOCKED',
+  PLATFORM_REVENUE: 'PLATFORM_REVENUE',
+  WITHDRAWAL_CLEARING: 'WITHDRAWAL_CLEARING'
+} as const
+
+export type LedgerAccountCode = (typeof LedgerAccountCode)[keyof typeof LedgerAccountCode]
+
+
+export const PostingBatchType = {
+  SUPPORT_CAPTURE: 'SUPPORT_CAPTURE',
+  SUPPORT_SETTLEMENT: 'SUPPORT_SETTLEMENT',
+  WITHDRAWAL_RESERVE: 'WITHDRAWAL_RESERVE',
+  WITHDRAWAL_PAYOUT: 'WITHDRAWAL_PAYOUT',
+  WITHDRAWAL_RELEASE: 'WITHDRAWAL_RELEASE'
+} as const
+
+export type PostingBatchType = (typeof PostingBatchType)[keyof typeof PostingBatchType]
+
+
+export const ProviderTransactionStatus = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED',
+  MISMATCHED: 'MISMATCHED'
+} as const
+
+export type ProviderTransactionStatus = (typeof ProviderTransactionStatus)[keyof typeof ProviderTransactionStatus]
 
 
 export const NotificationType = {
@@ -115,6 +169,17 @@ export const FanBadgeType = {
 export type FanBadgeType = (typeof FanBadgeType)[keyof typeof FanBadgeType]
 
 
+export const CreatorVerificationStatus = {
+  DRAFT: 'DRAFT',
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  SUSPENDED: 'SUSPENDED'
+} as const
+
+export type CreatorVerificationStatus = (typeof CreatorVerificationStatus)[keyof typeof CreatorVerificationStatus]
+
+
 export const OtpPurpose = {
   EMAIL_VERIFICATION: 'EMAIL_VERIFICATION',
   PHONE_VERIFICATION: 'PHONE_VERIFICATION',
@@ -152,3 +217,58 @@ export const AuditAction = {
 } as const
 
 export type AuditAction = (typeof AuditAction)[keyof typeof AuditAction]
+
+
+export const CampaignStatus = {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  PAUSED: 'PAUSED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type CampaignStatus = (typeof CampaignStatus)[keyof typeof CampaignStatus]
+
+
+export const CampaignContentType = {
+  VIDEO: 'VIDEO',
+  LIVE: 'LIVE',
+  SERIES: 'SERIES',
+  CLIP: 'CLIP',
+  COLLABORATION: 'COLLABORATION'
+} as const
+
+export type CampaignContentType = (typeof CampaignContentType)[keyof typeof CampaignContentType]
+
+
+export const SupportSourcePlatform = {
+  DIRECT: 'DIRECT',
+  TIKTOK: 'TIKTOK',
+  TELEGRAM: 'TELEGRAM',
+  INSTAGRAM: 'INSTAGRAM',
+  YOUTUBE: 'YOUTUBE',
+  X: 'X',
+  OTHER: 'OTHER'
+} as const
+
+export type SupportSourcePlatform = (typeof SupportSourcePlatform)[keyof typeof SupportSourcePlatform]
+
+
+export const SupportSettlementStatus = {
+  PENDING: 'PENDING',
+  AVAILABLE: 'AVAILABLE',
+  RESERVED: 'RESERVED',
+  PAID_OUT: 'PAID_OUT',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type SupportSettlementStatus = (typeof SupportSettlementStatus)[keyof typeof SupportSettlementStatus]
+
+
+export const VerificationDocumentType = {
+  NATIONAL_ID: 'NATIONAL_ID',
+  PASSPORT: 'PASSPORT',
+  DRIVERS_LICENSE: 'DRIVERS_LICENSE',
+  BUSINESS_LICENSE: 'BUSINESS_LICENSE'
+} as const
+
+export type VerificationDocumentType = (typeof VerificationDocumentType)[keyof typeof VerificationDocumentType]

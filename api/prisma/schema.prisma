@@ -3,7 +3,6 @@ generator client {
   output       = "../generated/prisma"
   moduleFormat = "cjs"
 }
-
 datasource db {
   provider = "postgresql"
 }
@@ -19,6 +18,10 @@ enum PaymentStatus {
   COMPLETED
   FAILED
   REFUNDED
+}
+
+enum PaymentProvider {
+  CHAPA
 }
 
 enum WithdrawalStatus {
@@ -48,10 +51,45 @@ enum TransactionType {
 
 enum TransactionReason {
   SUPPORT_RECEIVED
+  SUPPORT_PENDING
+  SUPPORT_SETTLED
   WITHDRAWAL
+  WITHDRAWAL_RESERVED
+  WITHDRAWAL_COMPLETED
+  WITHDRAWAL_RELEASED
   WITHDRAWAL_FAILED
   REFUND
   ADJUSTMENT
+}
+
+enum LedgerEntryDirection {
+  DEBIT
+  CREDIT
+}
+
+enum LedgerAccountCode {
+  PROCESSOR_CLEARING
+  CREATOR_PENDING
+  CREATOR_AVAILABLE
+  CREATOR_LOCKED
+  PLATFORM_REVENUE
+  WITHDRAWAL_CLEARING
+}
+
+enum PostingBatchType {
+  SUPPORT_CAPTURE
+  SUPPORT_SETTLEMENT
+  WITHDRAWAL_RESERVE
+  WITHDRAWAL_PAYOUT
+  WITHDRAWAL_RELEASE
+}
+
+enum ProviderTransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+  MISMATCHED
 }
 
 enum NotificationType {
@@ -81,6 +119,14 @@ enum FanBadgeType {
   TOP_FAN
 }
 
+enum CreatorVerificationStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
 enum OtpPurpose {
   EMAIL_VERIFICATION
   PHONE_VERIFICATION
@@ -108,6 +154,46 @@ enum AuditAction {
   ADJUSTMENT_MADE
 }
 
+enum CampaignStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+enum CampaignContentType {
+  VIDEO
+  LIVE
+  SERIES
+  CLIP
+  COLLABORATION
+}
+
+enum SupportSourcePlatform {
+  DIRECT
+  TIKTOK
+  TELEGRAM
+  INSTAGRAM
+  YOUTUBE
+  X
+  OTHER
+}
+
+enum SupportSettlementStatus {
+  PENDING
+  AVAILABLE
+  RESERVED
+  PAID_OUT
+  REFUNDED
+}
+
+enum VerificationDocumentType {
+  NATIONAL_ID
+  PASSPORT
+  DRIVERS_LICENSE
+  BUSINESS_LICENSE
+}
+
 model User {
   id               String    @id @default(cuid())
   username         String    @unique
@@ -124,6 +210,7 @@ model User {
   role             Role      @default(USER)
   isVerified       Boolean   @default(false)
   onboardingDone   Boolean   @default(false)
+  defaultFinancialAccountId String?
   deletedAt        DateTime?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
@@ -131,7 +218,9 @@ model User {
   sessions          Session[]
   wallet            Wallet?
   creatorProfile    CreatorProfile?
-  financialAccounts FinancialAccount[]
+  reviewedCreatorVerifications CreatorVerification[] @relation("VerificationReviewer")
+  financialAccounts FinancialAccount[] @relation("UserFinancialAccounts")
+  defaultFinancialAccount FinancialAccount? @relation("UserDefaultFinancialAccount", fields: [defaultFinancialAccountId, id], references: [id, userId], onDelete: Restrict)
   withdrawals       Withdrawal[]
   notifications     Notification[]
   otpCodes          OtpVerification[]
@@ -147,6 +236,8 @@ model User {
   @@index([telegramId])
   @@index([deletedAt])
   @@index([role])
+  @@index([defaultFinancialAccountId])
+  @@unique([defaultFinancialAccountId, id])
   @@map("users")
 }
 
@@ -194,6 +285,7 @@ model Wallet {
   updatedAt        DateTime @updatedAt
 
   transactions WalletTransaction[]
+  accountingEntries AccountingEntry[]
 
   @@index([userId])
   @@map("wallets")
@@ -205,36 +297,52 @@ model WalletTransaction {
   wallet        Wallet            @relation(fields: [walletId], references: [id], onDelete: Cascade)
   type          TransactionType
   reason        TransactionReason
+  supportId     String?
+  support       Support?          @relation(fields: [supportId], references: [id], onDelete: SetNull)
+  withdrawalId  String?
+  withdrawal    Withdrawal?       @relation(fields: [withdrawalId], references: [id], onDelete: SetNull)
   amount        Decimal           @db.Decimal(18, 2)
-  balanceAfter  Decimal           @db.Decimal(18, 2)
+  availableBalanceAfter Decimal   @db.Decimal(18, 2)
+  pendingBalanceAfter   Decimal   @db.Decimal(18, 2)
+  lockedBalanceAfter    Decimal   @db.Decimal(18, 2)
   referenceId   String?
   referenceType String?
   note          String?
   createdAt     DateTime          @default(now())
 
   @@index([walletId])
+  @@index([supportId])
+  @@index([withdrawalId])
   @@index([referenceId])
   @@index([createdAt])
+  @@unique([supportId, reason])
+  @@unique([withdrawalId, reason])
   @@map("wallet_transactions")
 }
 
 model FinancialAccount {
   id            String               @id @default(cuid())
   userId        String
-  user          User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User                 @relation("UserFinancialAccounts", fields: [userId], references: [id], onDelete: Cascade)
   type          FinancialAccountType
   provider      String
   accountName   String
   accountNumber String
+  countryCode   String               @default("ET")
+  bankCode      String?
+  branchName    String?
+  mobileNumber  String?
   label         String?
-  isDefault     Boolean              @default(false)
   isActive      Boolean              @default(true)
+  metadata      Json?
   createdAt     DateTime             @default(now())
   updatedAt     DateTime             @updatedAt
 
   withdrawals Withdrawal[]
+  defaultForUser User?               @relation("UserDefaultFinancialAccount")
 
   @@index([userId])
+  @@unique([id, userId])
   @@map("financial_accounts")
 }
 
@@ -246,7 +354,13 @@ model CreatorProfile {
   pageTitle       String   @default("Buy me a coffee ☕")
   thankYouMessage String?  @db.Text
   coverImage      String?
+  category        String?
+  tagline         String?
   coffeePrice     Decimal  @default(50) @db.Decimal(18, 2)
+  minSupportAmount Decimal? @db.Decimal(18, 2)
+  preferredCurrency String @default("ETB")
+  payoutHoldDays  Int      @default(3)
+  platformFeeRate Decimal  @default(0.05) @db.Decimal(5, 4)
   socialLinks     Json?
   isPublished     Boolean  @default(true)
 
@@ -263,6 +377,7 @@ model CreatorProfile {
   polls    Poll[]
   featureRequests FeatureRequest[]
   fanBadges FanBadge[]
+  verification CreatorVerification?
 
   @@index([userId])
   @@index([slug])
@@ -291,6 +406,7 @@ model CreatorGoal {
 
   @@index([creatorProfileId])
   @@index([isActive])
+  @@unique([id, creatorProfileId])
   @@map("creator_goals")
 }
 
@@ -303,6 +419,7 @@ model Reward {
   type             RewardType
   price            Decimal        @db.Decimal(18, 2)
   contentUrl       String?
+  fileName         String?
   telegramLink     String?
   maxQuantity      Int?
   claimedCount     Int            @default(0)
@@ -317,6 +434,7 @@ model Reward {
   @@index([creatorProfileId])
   @@index([creatorProfileId, isActive])
   @@index([creatorProfileId, isFeatured])
+  @@unique([id, creatorProfileId])
   @@map("rewards")
 }
 
@@ -325,40 +443,50 @@ model Support {
   creatorProfileId String
   creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id])
   goalId           String?
-  goal             CreatorGoal? @relation(fields: [goalId], references: [id], onDelete: SetNull)
+  goal             CreatorGoal?   @relation(fields: [goalId, creatorProfileId], references: [id, creatorProfileId], onDelete: Restrict)
   rewardId         String?
-  reward           Reward?        @relation(fields: [rewardId], references: [id], onDelete: SetNull)
+  reward           Reward?        @relation(fields: [rewardId, creatorProfileId], references: [id, creatorProfileId], onDelete: Restrict)
   campaignId       String?
-  campaign         TikTokCampaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  campaign         TikTokCampaign? @relation(fields: [campaignId, creatorProfileId], references: [id, creatorProfileId], onDelete: Restrict)
   deepLinkId       String?
-  deepLink         DeepLink?      @relation(fields: [deepLinkId], references: [id], onDelete: SetNull)
+  deepLink         DeepLink?      @relation(fields: [deepLinkId, creatorProfileId], references: [id, creatorProfileId], onDelete: Restrict)
   pollId           String?
-  poll             Poll?          @relation(fields: [pollId], references: [id], onDelete: SetNull)
+  poll             Poll?          @relation(fields: [pollId, creatorProfileId], references: [id, creatorProfileId], onDelete: Restrict)
   pollOptionId     String?
-  pollOption       PollOption?    @relation(fields: [pollOptionId], references: [id], onDelete: SetNull)
+  pollOption       PollOption?    @relation(fields: [pollOptionId, pollId], references: [id, pollId], onDelete: SetNull)
   supporterId      String?
-  supporter        User?        @relation("SupporterSupports", fields: [supporterId], references: [id], onDelete: SetNull)
+  supporter        User?          @relation("SupporterSupports", fields: [supporterId], references: [id], onDelete: SetNull)
   supporterName    String
   supporterEmail   String?
-  message          String?      @db.Text
-  isFeatureRequest Boolean      @default(false)
-  coffeeCount      Int          @default(1)
-  amount           Decimal      @db.Decimal(18, 2)
-  customAmount     Decimal?     @db.Decimal(18, 2)
-  platformFee      Decimal      @default(0) @db.Decimal(18, 2)
-  netAmount        Decimal      @db.Decimal(18, 2)
-  currency         String       @default("ETB")
-  chapaRef         String       @unique
-  chapaCheckoutUrl String?
+  supporterCountry String?
+  sourcePlatform   SupportSourcePlatform @default(DIRECT)
+  message          String?        @db.Text
+  metadata         Json?
+  isFeatureRequest Boolean        @default(false)
+  coffeeCount      Int            @default(1)
+  amount           Decimal        @db.Decimal(18, 2)
+  customAmount     Decimal?       @db.Decimal(18, 2)
+  platformFee      Decimal        @default(0) @db.Decimal(18, 2)
+  netAmount        Decimal        @db.Decimal(18, 2)
+  settlementStatus SupportSettlementStatus @default(PENDING)
+  availableAt      DateTime?
+  refundedAt       DateTime?
+  currency         String         @default("ETB")
   status           PaymentStatus @default(PENDING)
   paidAt           DateTime?
+  paymentAppliedAt DateTime?
   walletCredited   Boolean      @default(false)
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
 
+  paymentIntent  PaymentIntent?
+  platformEarning PlatformEarning?
   unlockedReward UnlockedReward?
   featureRequest FeatureRequest?
   paidVote       PaidVote?
+  walletTransactions WalletTransaction[]
+  outboxEvents   SupportEventOutbox[]
+  postingBatches AccountingPostingBatch[]
 
   @@index([creatorProfileId])
   @@index([goalId])
@@ -368,11 +496,118 @@ model Support {
   @@index([pollId])
   @@index([pollOptionId])
   @@index([supporterId])
-  @@index([chapaRef])
+  @@index([sourcePlatform])
   @@index([status])
+  @@index([settlementStatus])
+  @@index([walletCredited])
+  @@index([paymentAppliedAt])
   @@index([createdAt])
   @@index([creatorProfileId, status])
+  @@unique([id, creatorProfileId])
   @@map("supports")
+}
+
+model SupportEventOutbox {
+  id                String    @id @default(cuid())
+  supportId         String
+  support           Support   @relation(fields: [supportId], references: [id], onDelete: Cascade)
+  eventType         String
+  payload           Json?
+  attemptCount      Int       @default(0)
+  lastError         String?
+  processedAt       DateTime?
+  processingStartedAt DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([supportId, eventType])
+  @@index([processedAt, createdAt])
+  @@index([processingStartedAt])
+  @@map("support_event_outbox")
+}
+
+model PlatformEarning {
+  id        String   @id @default(cuid())
+  supportId String   @unique
+  support   Support  @relation(fields: [supportId], references: [id], onDelete: Cascade)
+  amount    Decimal  @db.Decimal(18, 2)
+  currency  String   @default("ETB")
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("platform_earnings")
+}
+
+model PaymentIntent {
+  id          String          @id @default(cuid())
+  supportId   String          @unique
+  support     Support         @relation(fields: [supportId], references: [id], onDelete: Cascade)
+  provider    PaymentProvider
+  amount      Decimal         @db.Decimal(18, 2)
+  currency    String          @default("ETB")
+  status      PaymentStatus   @default(PENDING)
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  attempts PaymentAttempt[]
+  providerTransactions PaymentProviderTransaction[]
+
+  @@index([status])
+  @@index([provider])
+  @@map("payment_intents")
+}
+
+model PaymentAttempt {
+  id               String        @id @default(cuid())
+  paymentIntentId  String
+  paymentIntent    PaymentIntent @relation(fields: [paymentIntentId], references: [id], onDelete: Cascade)
+  attemptNumber    Int
+  status           PaymentStatus @default(PENDING)
+  providerRef      String?
+  checkoutUrl      String?
+  idempotencyKey   String?       @unique
+  failureReason    String?
+  payload          Json?
+  initiatedAt      DateTime      @default(now())
+  completedAt      DateTime?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  providerTransactions PaymentProviderTransaction[]
+
+  @@unique([paymentIntentId, attemptNumber])
+  @@index([paymentIntentId, status])
+  @@index([providerRef])
+  @@map("payment_attempts")
+}
+
+model PaymentProviderTransaction {
+  id               String                    @id @default(cuid())
+  paymentIntentId  String
+  paymentIntent    PaymentIntent             @relation(fields: [paymentIntentId], references: [id], onDelete: Cascade)
+  paymentAttemptId String?
+  paymentAttempt   PaymentAttempt?           @relation(fields: [paymentAttemptId], references: [id], onDelete: SetNull)
+  provider         PaymentProvider
+  providerRef      String
+  status           ProviderTransactionStatus @default(PENDING)
+  eventType        String?
+  amount           Decimal                   @db.Decimal(18, 2)
+  feeAmount        Decimal                   @default(0) @db.Decimal(18, 2)
+  netAmount        Decimal?                  @db.Decimal(18, 2)
+  currency         String                    @default("ETB")
+  rawPayload       Json?
+  verifiedAt       DateTime?
+  recordedAt       DateTime                  @default(now())
+  updatedAt        DateTime                  @updatedAt
+
+  postingBatches AccountingPostingBatch[]
+
+  @@unique([provider, providerRef])
+  @@index([paymentIntentId])
+  @@index([paymentAttemptId])
+  @@index([status])
+  @@map("payment_provider_transactions")
 }
 
 model TikTokCampaign {
@@ -381,15 +616,27 @@ model TikTokCampaign {
   creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id], onDelete: Cascade)
   videoId          String
   title            String?
+  status           CampaignStatus @default(ACTIVE)
+  contentType      CampaignContentType @default(VIDEO)
+  tiktokUsername   String?
+  tiktokUrl        String?
+  thumbnailUrl     String?
+  ctaLabel         String?
   clicks           Int            @default(0)
+  conversions      Int            @default(0)
   revenue          Decimal        @default(0) @db.Decimal(18, 2)
+  postedAt         DateTime?
+  lastSyncedAt     DateTime?
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
 
   supports Support[]
+  dailyMetrics CampaignDailyMetric[]
 
   @@unique([creatorProfileId, videoId])
+  @@unique([id, creatorProfileId])
   @@index([creatorProfileId])
+  @@index([creatorProfileId, status])
   @@index([creatorProfileId, createdAt])
   @@map("tiktok_campaigns")
 }
@@ -400,18 +647,22 @@ model DeepLink {
   creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id], onDelete: Cascade)
   slug             String         @unique
   source           String
+  destinationUrl   String?
+  isActive         Boolean        @default(true)
   clicks           Int            @default(0)
   uniqueClicks     Int            @default(0)
   conversions      Int            @default(0)
   revenue          Decimal        @default(0) @db.Decimal(18, 2)
   campaignTag      String?
   videoId          String?
+  lastClickedAt    DateTime?
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
 
   supports Support[]
   visits   DeepLinkVisit[]
 
+  @@unique([id, creatorProfileId])
   @@index([creatorProfileId])
   @@index([slug])
   @@index([creatorProfileId, source])
@@ -441,6 +692,7 @@ model UnlockedReward {
   unlockedAt DateTime @default(now())
 
   @@unique([userId, rewardId])
+  @@unique([supportId, rewardId])
   @@index([userId])
   @@index([rewardId])
   @@map("unlocked_rewards")
@@ -449,7 +701,7 @@ model UnlockedReward {
 model FeatureRequest {
   id               String         @id @default(cuid())
   supportId        String         @unique
-  support          Support        @relation(fields: [supportId], references: [id], onDelete: Cascade)
+  support          Support        @relation(fields: [supportId, creatorProfileId], references: [id, creatorProfileId], onDelete: Cascade)
   creatorProfileId String
   creatorProfile   CreatorProfile @relation(fields: [creatorProfileId], references: [id], onDelete: Cascade)
   message          String?        @db.Text
@@ -457,8 +709,35 @@ model FeatureRequest {
   usedAt           DateTime?
   createdAt        DateTime       @default(now())
 
+  @@unique([supportId, creatorProfileId])
   @@index([creatorProfileId, isUsed])
   @@map("feature_requests")
+}
+
+model CreatorVerification {
+  id               String                    @id @default(cuid())
+  creatorProfileId String                    @unique
+  creatorProfile   CreatorProfile            @relation(fields: [creatorProfileId], references: [id], onDelete: Cascade)
+  status           CreatorVerificationStatus @default(PENDING)
+  documentType     VerificationDocumentType
+  legalName        String
+  documentNumber   String
+  documentFrontUrl String?
+  documentBackUrl  String?
+  selfieUrl        String?
+  businessName     String?
+  taxId            String?
+  submittedAt      DateTime                  @default(now())
+  reviewedAt       DateTime?
+  rejectionReason  String?                   @db.Text
+  reviewerId       String?
+  reviewer         User?                     @relation("VerificationReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+  createdAt        DateTime                  @default(now())
+  updatedAt        DateTime                  @updatedAt
+
+  @@index([status])
+  @@index([reviewerId])
+  @@map("creator_verifications")
 }
 
 model Poll {
@@ -475,6 +754,7 @@ model Poll {
   supports Support[]
   paidVotes PaidVote[]
 
+  @@unique([id, creatorProfileId])
   @@index([creatorProfileId, isActive])
   @@map("polls")
 }
@@ -490,6 +770,7 @@ model PollOption {
   supports Support[]
   paidVotes PaidVote[]
 
+  @@unique([id, pollId])
   @@index([pollId])
   @@map("poll_options")
 }
@@ -499,13 +780,14 @@ model PaidVote {
   pollId       String
   poll         Poll     @relation(fields: [pollId], references: [id], onDelete: Cascade)
   optionId     String
-  option       PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  option       PollOption @relation(fields: [optionId, pollId], references: [id, pollId], onDelete: Cascade)
   userId       String
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   supportId    String   @unique
   support      Support  @relation(fields: [supportId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now())
 
+  @@unique([supportId, pollId, optionId])
   @@index([pollId])
   @@index([optionId])
   @@index([userId])
@@ -527,11 +809,29 @@ model FanBadge {
   @@map("fan_badges")
 }
 
+model CampaignDailyMetric {
+  id           String         @id @default(cuid())
+  campaignId   String
+  campaign     TikTokCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  date         DateTime
+  clicks       Int            @default(0)
+  conversions  Int            @default(0)
+  supportCount Int            @default(0)
+  revenue      Decimal        @default(0) @db.Decimal(18, 2)
+  createdAt    DateTime       @default(now())
+
+  @@unique([campaignId, date])
+  @@index([date])
+  @@map("campaign_daily_metrics")
+}
+
 model PayoutBatch {
   id          String            @id @default(cuid())
+  batchRef    String?           @unique
   status      PayoutBatchStatus @default(OPEN)
   totalAmount Decimal           @db.Decimal(18, 2)
   currency    String            @default("ETB")
+  note        String?
   processedAt DateTime?
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
@@ -547,24 +847,36 @@ model Withdrawal {
   userId             String
   user               User             @relation(fields: [userId], references: [id], onDelete: Restrict)
   financialAccountId String
-  financialAccount   FinancialAccount @relation(fields: [financialAccountId], references: [id], onDelete: Restrict)
+  financialAccount   FinancialAccount @relation(fields: [financialAccountId, userId], references: [id, userId], onDelete: Restrict)
   payoutBatchId      String?
   payoutBatch        PayoutBatch?     @relation(fields: [payoutBatchId], references: [id])
   amount             Decimal          @db.Decimal(18, 2)
+  feeAmount          Decimal          @default(0) @db.Decimal(18, 2)
+  netAmount          Decimal          @default(0) @db.Decimal(18, 2)
   currency           String           @default("ETB")
   method             WithdrawalMethod
   status             WithdrawalStatus @default(PENDING)
+  idempotencyKey     String?
   referenceId        String?
   note               String?
   adminNote          String?
+  processingStartedAt DateTime?
+  approvedAt         DateTime?
+  rejectedAt         DateTime?
   processedAt        DateTime?
   createdAt          DateTime         @default(now())
   updatedAt          DateTime         @updatedAt
 
+  walletTransactions WalletTransaction[]
+  postingBatches     AccountingPostingBatch[]
+
   @@index([userId])
   @@index([status])
   @@index([payoutBatchId])
+  @@index([idempotencyKey])
+  @@index([processingStartedAt])
   @@index([userId, status])
+  @@unique([userId, idempotencyKey])
   @@map("withdrawals")
 }
 
@@ -587,13 +899,14 @@ model Notification {
 model WebhookEvent {
   id          String        @id @default(cuid())
   source      WebhookSource
-  externalId  String        @unique
+  externalId  String
   eventType   String
   payload     Json
   processedAt DateTime?
   error       String?
   createdAt   DateTime      @default(now())
 
+  @@unique([source, externalId])
   @@index([externalId])
   @@index([processedAt])
   @@map("webhook_events")
@@ -610,12 +923,58 @@ model AuditLog {
   entityId     String
   before       Json?
   after        Json?
+  reasonCode   String?
+  correlationId String?
+  metadata     Json?
   ipAddress    String?
   createdAt    DateTime    @default(now())
 
   @@index([actorId])
   @@index([targetUserId])
   @@index([entityType, entityId])
+  @@index([correlationId])
   @@index([createdAt])
   @@map("audit_logs")
+}
+
+model AccountingPostingBatch {
+  id                    String                     @id @default(cuid())
+  batchType             PostingBatchType
+  currency              String                     @default("ETB")
+  description           String?
+  idempotencyKey        String                     @unique
+  supportId             String?
+  support               Support?                   @relation(fields: [supportId], references: [id], onDelete: SetNull)
+  withdrawalId          String?
+  withdrawal            Withdrawal?                @relation(fields: [withdrawalId], references: [id], onDelete: SetNull)
+  providerTransactionId String?
+  providerTransaction   PaymentProviderTransaction? @relation(fields: [providerTransactionId], references: [id], onDelete: SetNull)
+  createdAt             DateTime                   @default(now())
+
+  entries AccountingEntry[]
+
+  @@index([batchType, createdAt])
+  @@index([supportId])
+  @@index([withdrawalId])
+  @@index([providerTransactionId])
+  @@map("accounting_posting_batches")
+}
+
+model AccountingEntry {
+  id          String               @id @default(cuid())
+  batchId     String
+  batch       AccountingPostingBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  walletId     String?
+  wallet       Wallet?              @relation(fields: [walletId], references: [id], onDelete: SetNull)
+  accountCode  LedgerAccountCode
+  direction    LedgerEntryDirection
+  amount       Decimal              @db.Decimal(18, 2)
+  currency     String               @default("ETB")
+  metadata     Json?
+  createdAt    DateTime             @default(now())
+
+  @@index([batchId])
+  @@index([walletId, accountCode, createdAt])
+  @@index([accountCode, createdAt])
+  @@map("accounting_entries")
 }

@@ -35,14 +35,13 @@ const financialAccountSelect = {
   // accountNumber intentionally excluded — never returned in auth responses
   // use GET /financial-accounts for masked display
   label: true,
-  isDefault: true,
   isActive: true,
   createdAt: true,
   updatedAt: true,
 } as const;
 
 const financialAccountOrderBy: Prisma.FinancialAccountOrderByWithRelationInput[] =
-  [{ isDefault: 'desc' }, { createdAt: 'asc' }];
+  [{ createdAt: 'asc' }];
 
 const userSelect = {
   id: true,
@@ -58,6 +57,7 @@ const userSelect = {
   role: true,
   isVerified: true,
   onboardingDone: true,
+  defaultFinancialAccountId: true,
   createdAt: true,
   financialAccounts: {
     where: { isActive: true },
@@ -67,6 +67,15 @@ const userSelect = {
 } as const;
 
 type SafeUser = Prisma.UserGetPayload<{ select: typeof userSelect }>;
+type SafeFinancialAccount = SafeUser['financialAccounts'][number] & {
+  isDefault: boolean;
+};
+type SafeUserResponse = Omit<
+  SafeUser,
+  'financialAccounts' | 'defaultFinancialAccountId'
+> & {
+  financialAccounts: SafeFinancialAccount[];
+};
 
 type TelegramMiniAppUser = {
   id: number;
@@ -114,7 +123,16 @@ export class AuthService {
             ...userData,
             password: hashedPassword,
             avatar: userAvatar,
+            phone: userData.phone ?? null,
+            bio: null,
+            telegramId: null,
+            telegramUsername: null,
+            telegramPhotoUrl: null,
+            role: Role.USER,
             isVerified: false,
+            onboardingDone: false,
+            defaultFinancialAccountId: null,
+            deletedAt: null,
           },
           select: userSelect,
         });
@@ -220,11 +238,17 @@ export class AuthService {
               password,
               firstName: telegramUser.first_name,
               lastName: telegramUser.last_name?.trim() || 'Telegram',
-              avatar: telegramUser.photo_url,
+              phone: null,
+              avatar: telegramUser.photo_url ?? null,
+              bio: null,
               telegramId,
               telegramUsername: telegramUser.username ?? null,
               telegramPhotoUrl: telegramUser.photo_url ?? null,
+              role: Role.USER,
               isVerified: true,
+              onboardingDone: false,
+              defaultFinancialAccountId: null,
+              deletedAt: null,
             },
             select: userSelect,
           });
@@ -600,10 +624,22 @@ export class AuthService {
     }
   }
 
-  private toSafeUser(user: SafeUser): SafeUser {
+  private toSafeUser(user: SafeUser): SafeUserResponse {
+    const { defaultFinancialAccountId, ...safeUser } = user;
+
     return {
-      ...user,
+      ...safeUser,
       avatar: this.toPublicAssetUrl(user.avatar),
+      financialAccounts: [...user.financialAccounts]
+        .map((account) => ({
+          ...account,
+          isDefault: account.id === defaultFinancialAccountId,
+        }))
+        .sort(
+          (a, b) =>
+            Number(b.isDefault) - Number(a.isDefault) ||
+            a.createdAt.getTime() - b.createdAt.getTime(),
+        ),
     };
   }
 
